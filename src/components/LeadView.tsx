@@ -417,7 +417,7 @@ export const LeadView: React.FC<LeadViewProps> = ({
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 no-print">
         <div className="p-3.5 rounded-xl bg-white border border-gray-200/80 shadow-2xs space-y-1">
           <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider block">Total Leads</span>
           <p className="text-2xl font-extrabold text-gray-900">{leads.length + 8500}</p>
@@ -523,9 +523,11 @@ export const LeadView: React.FC<LeadViewProps> = ({
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100 text-xs font-medium text-gray-700">
-              {filteredLeads.map((l, i) => (
-                <tr key={l.id} className="hover:bg-amber-50/20 transition-colors">
-                  <td className="py-3 px-4 font-bold text-gray-400">{l.sl || `0${i+1}`}</td>
+              {filteredLeads.map((l, i) => {
+                const slVal = i < 9 ? `0${i + 1}` : `${i + 1}`;
+                return (
+                  <tr key={l.id} className="hover:bg-amber-50/20 transition-colors">
+                    <td className="py-3 px-4 font-bold text-gray-400">{slVal}</td>
                   <td className="py-3 px-4">
                     <p className="font-bold text-gray-900">{l.name}</p>
                     <p className="text-[10px] text-gray-500">{l.phone}</p>
@@ -558,7 +560,8 @@ export const LeadView: React.FC<LeadViewProps> = ({
                     </button>
                   </td>
                 </tr>
-              ))}
+              );
+            })}
             </tbody>
           </table>
         </div>

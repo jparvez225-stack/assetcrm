@@ -346,7 +346,7 @@ export const ReportView: React.FC<ReportViewProps> = ({ reportRows }) => {
       </div>
 
       {/* Top Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 no-print">
         <div className="p-4 rounded-xl bg-white border border-gray-200/80 shadow-2xs space-y-1">
           <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Total Inquiries Tracked</p>
           <p className="text-2xl font-extrabold text-gray-900">{totalLeadsSum}</p>
@@ -416,9 +416,10 @@ export const ReportView: React.FC<ReportViewProps> = ({ reportRows }) => {
               <tr className="bg-gray-100/70 text-[10px] font-bold text-gray-600 uppercase tracking-wider border-b border-gray-200">
                 <th className="py-2.5 px-4">SL</th>
                 <th className="py-2.5 px-4">Project / Campaign Name</th>
-                <th className="py-2.5 px-4">Branch</th>
+                <th className="py-2.5 px-4">Branch Location</th>
                 <th className="py-2.5 px-4">Assigned Consultant</th>
-                <th className="py-2.5 px-4 text-center">Total Inquiries</th>
+                <th className="py-2.5 px-4 text-center">Inquiries</th>
+                <th className="py-2.5 px-4 text-center">Contacted</th>
                 <th className="py-2.5 px-4 text-center">Bookings</th>
                 <th className="py-2.5 px-4 text-center">Conversion %</th>
                 <th className="py-2.5 px-4 text-center no-print">Action</th>
@@ -427,20 +428,22 @@ export const ReportView: React.FC<ReportViewProps> = ({ reportRows }) => {
             <tbody className="divide-y divide-gray-100 text-xs font-medium text-gray-700">
               {filteredRows.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="py-8 text-center text-gray-500 font-semibold">
+                  <td colSpan={9} className="py-8 text-center text-gray-500 font-semibold">
                     No lead reports found matching your criteria.
                   </td>
                 </tr>
               ) : (
                 filteredRows.map((r, i) => {
                   const rate = r.totalLeads > 0 ? Math.round((r.enrolled / r.totalLeads) * 100) : 0;
+                  const slNum = i < 9 ? `0${i + 1}` : `${i + 1}`;
                   return (
                     <tr key={r.id} className="hover:bg-amber-50/20 transition-colors">
-                      <td className="py-3 px-4 font-bold text-gray-400">0{i + 1}</td>
+                      <td className="py-3 px-4 font-bold text-gray-400">{slNum}</td>
                       <td className="py-3 px-4 font-bold text-gray-900">{r.projectName}</td>
                       <td className="py-3 px-4 text-gray-600 font-medium">{r.branch}</td>
                       <td className="py-3 px-4 font-semibold text-gray-800">{r.consultant}</td>
                       <td className="py-3 px-4 text-center font-bold text-gray-900">{r.totalLeads}</td>
+                      <td className="py-3 px-4 text-center text-gray-700">{r.contacted}</td>
                       <td className="py-3 px-4 text-center font-extrabold text-emerald-600">{r.enrolled}</td>
                       <td className="py-3 px-4 text-center font-extrabold text-amber-800">{rate}%</td>
                       <td className="py-3 px-4 text-center no-print">
