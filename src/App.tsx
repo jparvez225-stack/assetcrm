@@ -14,8 +14,10 @@ import { Header } from './components/Header';
 import { DashboardView } from './components/DashboardView';
 import { AddLeadView } from './components/AddLeadView';
 import { LeadView } from './components/LeadView';
+import { LeadActivityView } from './components/LeadActivityView';
 import { CallHistoryView } from './components/CallHistoryView';
 import { CategoryView } from './components/CategoryView';
+import { LeadSourceView } from './components/LeadSourceView';
 import { SalesmanPerformanceView } from './components/SalesmanPerformanceView';
 import { ReferralView } from './components/ReferralView';
 import { NotificationView } from './components/NotificationView';
@@ -29,9 +31,14 @@ export default function App() {
   const [categories, setCategories] = useState<LeadCategoryItem[]>(mockCategories);
   const [notifications, setNotifications] = useState<NotificationItem[]>(initialNotifications);
   const [selectedLead, setSelectedLead] = useState<Lead | undefined>(initialLeads[0]);
+  const [editingLead, setEditingLead] = useState<Lead | null>(null);
 
   const handleAddLead = (newLead: Lead) => {
     setLeads(prev => [newLead, ...prev]);
+  };
+
+  const handleUpdateLead = (updatedLead: Lead) => {
+    setLeads(prev => prev.map(l => l.id === updatedLead.id ? updatedLead : l));
   };
 
   const handleAddReferral = (newRef: ReferralItem) => {
@@ -71,16 +78,25 @@ export default function App() {
             currentNav === 'lead' ? 'Lead Management' :
             currentNav === 'add-lead' ? 'Add New Lead' :
             currentNav === 'lead-activity' ? 'Lead Activity' :
-            currentNav === 'call-history' ? 'Call History & Timeline' :
+            currentNav === 'call-history' ? 'Lead Activity & Call Logs' :
             currentNav === 'lead-category' ? 'Lead Category' :
-            currentNav === 'salesman-performance' ? 'Salesman Performance' :
-            currentNav === 'referral' ? 'Referral' :
-            currentNav === 'notification' ? 'Notification' :
-            'Lead Report'
+            currentNav === 'lead-source' ? 'Lead Sources' :
+            currentNav === 'salesman-performance' ? 'Salesman Performance Report' :
+            currentNav === 'referral' ? 'Referral Management' :
+            currentNav === 'notification' ? 'Notification Center' :
+            'Lead Report & Analytics'
           }
           subtitle="Promise Assets Limited - Real Estate CRM"
           showBack={currentNav !== 'dashboard'}
-          onBack={() => setCurrentNav('dashboard')}
+          onBack={() => {
+            if (currentNav === 'call-history') {
+              setCurrentNav('lead-activity');
+            } else if (currentNav === 'add-lead') {
+              setCurrentNav('lead');
+            } else {
+              setCurrentNav('dashboard');
+            }
+          }}
         />
 
         {/* View Switcher with 32px padding */}
@@ -91,8 +107,13 @@ export default function App() {
 
           {currentNav === 'add-lead' && (
             <AddLeadView 
-              onBack={() => setCurrentNav('lead')} 
+              editingLead={editingLead}
+              onBack={() => {
+                setEditingLead(null);
+                setCurrentNav('lead');
+              }} 
               onAddLead={handleAddLead} 
+              onUpdateLead={handleUpdateLead}
             />
           )}
 
@@ -101,16 +122,24 @@ export default function App() {
               leads={leads}
               onNavigate={(nav) => setCurrentNav(nav)}
               onSelectLead={(lead) => setSelectedLead(lead)}
+              onEditLead={(lead) => setEditingLead(lead)}
               onAssignSalesman={handleAssignSalesman}
-              onAddLead={handleAddLead}
             />
           )}
 
-          {(currentNav === 'lead-activity' || currentNav === 'call-history') && (
+          {currentNav === 'lead-activity' && (
+            <LeadActivityView 
+              leads={leads}
+              onNavigate={(nav) => setCurrentNav(nav)}
+              onSelectLead={(lead) => setSelectedLead(lead)}
+            />
+          )}
+
+          {currentNav === 'call-history' && (
             <CallHistoryView 
               selectedLead={selectedLead}
               callLogs={callLogs}
-              onBack={() => setCurrentNav('lead')}
+              onBack={() => setCurrentNav('lead-activity')}
               onAddCallLog={handleAddCallLog}
             />
           )}
@@ -120,6 +149,10 @@ export default function App() {
               categories={categories}
               onAddCategory={handleAddCategory}
             />
+          )}
+
+          {currentNav === 'lead-source' && (
+            <LeadSourceView />
           )}
 
           {currentNav === 'salesman-performance' && (

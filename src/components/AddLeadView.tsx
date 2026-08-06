@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Lead } from '../types';
+import { Lead, LEAD_STATUS_LIST } from '../types';
 import { 
   ArrowLeft, 
   Save, 
@@ -21,23 +21,31 @@ import {
 interface AddLeadViewProps {
   onBack: () => void;
   onAddLead: (lead: Lead) => void;
+  editingLead?: Lead | null;
+  onUpdateLead?: (lead: Lead) => void;
 }
 
-export const AddLeadView: React.FC<AddLeadViewProps> = ({ onBack, onAddLead }) => {
+export const AddLeadView: React.FC<AddLeadViewProps> = ({ 
+  onBack, 
+  onAddLead, 
+  editingLead, 
+  onUpdateLead 
+}) => {
   const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    email: '',
-    occupation: '',
-    nid: '',
-    address: '',
-    projectName: 'Purbachal Green Valley Project',
-    requiredPlotSize: '5 Katha',
-    facingPreference: 'South' as Lead['facingPreference'],
-    budgetLimit: '৳ 1.5 Crore',
-    assignedSalesman: 'Siddique Rahman',
-    source: 'Facebook' as Lead['source'],
-    note: '',
+    name: editingLead?.name || '',
+    phone: editingLead?.phone || '',
+    email: editingLead?.email || '',
+    occupation: editingLead?.occupation || '',
+    nid: editingLead?.nid || '',
+    address: editingLead?.address || '',
+    projectName: editingLead?.projectName || 'Purbachal Green Valley Project',
+    requiredPlotSize: editingLead?.requiredPlotSize || '5 Katha',
+    facingPreference: editingLead?.facingPreference || ('South' as Lead['facingPreference']),
+    budgetLimit: editingLead?.budgetLimit || '৳ 1.5 Crore',
+    assignedSalesman: editingLead?.assignedSalesman || 'Siddique Rahman',
+    source: editingLead?.source || ('Facebook' as Lead['source']),
+    status: editingLead?.status || 'New Lead',
+    note: editingLead?.note || '',
   });
 
   const [notification, setNotification] = useState<string | null>(null);
@@ -46,6 +54,32 @@ export const AddLeadView: React.FC<AddLeadViewProps> = ({ onBack, onAddLead }) =
     e.preventDefault();
     if (!formData.name || !formData.phone) {
       alert('Please fill in Client Name and Phone Number');
+      return;
+    }
+
+    if (editingLead && onUpdateLead) {
+      const updatedLead: Lead = {
+        ...editingLead,
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email,
+        occupation: formData.occupation,
+        nid: formData.nid,
+        address: formData.address,
+        projectName: formData.projectName,
+        requiredPlotSize: formData.requiredPlotSize,
+        facingPreference: formData.facingPreference,
+        budgetLimit: formData.budgetLimit,
+        assignedSalesman: formData.assignedSalesman,
+        source: formData.source,
+        status: formData.status as Lead['status'],
+        note: formData.note,
+      };
+      onUpdateLead(updatedLead);
+      setNotification('Lead details updated successfully!');
+      setTimeout(() => {
+        onBack();
+      }, 1000);
       return;
     }
 
@@ -65,7 +99,7 @@ export const AddLeadView: React.FC<AddLeadViewProps> = ({ onBack, onAddLead }) =
       budgetLimit: formData.budgetLimit,
       projectType: formData.projectName.includes('Tower') ? 'Commercial' : 'Plot',
       prefTime: 'Morning',
-      status: 'Contacted',
+      status: formData.status as Lead['status'],
       assignedSalesman: formData.assignedSalesman,
       source: formData.source,
       lastCallDate: new Date().toISOString().split('T')[0],
@@ -90,25 +124,11 @@ export const AddLeadView: React.FC<AddLeadViewProps> = ({ onBack, onAddLead }) =
 
   return (
     <div className="space-y-5 max-w-full font-sans">
-      {/* Top Header Bar matching PDF Page 16 & 17 with 'Go Back' pill + 'Add CRM Lead' Title */}
-      <div className="flex items-center justify-between pb-2 border-b border-gray-200/60">
-        <div className="flex items-center gap-3">
-          <button
-            onClick={onBack}
-            className="px-3.5 py-1.5 text-xs font-bold text-white bg-slate-800 hover:bg-slate-900 rounded-md shadow-xs transition-colors flex items-center gap-1.5"
-          >
-            <ArrowLeft size={14} />
-            <span>Go Back</span>
-          </button>
-          <h1 className="text-xl font-extrabold text-gray-900 tracking-tight">Add CRM Lead</h1>
+      {notification && (
+        <div className="px-4 py-2 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-md animate-pulse text-center">
+          {notification}
         </div>
-
-        {notification && (
-          <div className="px-4 py-1.5 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-md animate-pulse">
-            {notification}
-          </div>
-        )}
-      </div>
+      )}
 
       <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-gray-200/80 shadow-xs p-6 space-y-6">
         {/* Photo Upload Box matching Page 2 & 12 in PDF */}
@@ -254,12 +274,15 @@ export const AddLeadView: React.FC<AddLeadViewProps> = ({ onBack, onAddLead }) =
           <div>
             <label className="block text-xs font-semibold text-gray-700 mb-1">Status</label>
             <select
-              className="w-full px-3 py-2 text-xs text-gray-800 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all shadow-2xs"
+              value={formData.status}
+              onChange={(e) => setFormData({ ...formData, status: e.target.value as Lead['status'] })}
+              className="w-full px-3 py-2 text-xs text-gray-800 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all shadow-2xs font-medium"
             >
-              <option value="New">New</option>
-              <option value="Contacted">Contacted</option>
-              <option value="Follow Up">Follow Up</option>
-              <option value="Enrolled">Enrolled / Approved</option>
+              {LEAD_STATUS_LIST.map((st) => (
+                <option key={st} value={st}>
+                  {st}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -279,7 +302,7 @@ export const AddLeadView: React.FC<AddLeadViewProps> = ({ onBack, onAddLead }) =
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-gray-700 mb-1">Assigned Counselor / Salesman</label>
+            <label className="block text-xs font-semibold text-gray-700 mb-1">Assigned Salesman</label>
             <select
               value={formData.assignedSalesman}
               onChange={(e) => setFormData({ ...formData, assignedSalesman: e.target.value })}
@@ -287,7 +310,7 @@ export const AddLeadView: React.FC<AddLeadViewProps> = ({ onBack, onAddLead }) =
             >
               <option value="Siddique Rahman">Siddique Rahman (Sr. Property Advisor)</option>
               <option value="Md. Rahim Sarder">Md. Rahim Sarder (Sr. Real Estate Exec)</option>
-              <option value="Md. Karim Shah">Md. Karim Shah (Senior Councilor)</option>
+              <option value="Md. Karim Shah">Md. Karim Shah (Senior Salesman)</option>
               <option value="Nazma Begum">Nazma Begum (Commercial Lead)</option>
             </select>
           </div>
@@ -327,10 +350,10 @@ export const AddLeadView: React.FC<AddLeadViewProps> = ({ onBack, onAddLead }) =
           <button
             type="submit"
             className="px-6 py-2 text-xs font-bold text-white rounded-md shadow-sm hover:opacity-90 transition-opacity flex items-center gap-1.5"
-            style={{ backgroundColor: '#D4AF37' }}
+            style={{ backgroundColor: '#c7a259' }}
           >
             <Save size={14} />
-            <span>Add CRM Lead</span>
+            <span>{editingLead ? 'Update Lead Details' : 'Add CRM Lead'}</span>
           </button>
         </div>
       </form>

@@ -19,6 +19,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentNav, onNavigate }) => {
     { id: 'lead', label: 'Leads' },
     { id: 'lead-activity', label: 'Lead Activities' },
     { id: 'lead-category', label: 'Lead Categories' },
+    { id: 'lead-source', label: 'Lead Sources' },
     { id: 'salesman-performance', label: 'Salesman Performance' },
     { id: 'referral', label: 'Lead Referrers' },
     { id: 'notification', label: 'All Notifications', badge: '5' },
@@ -26,13 +27,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentNav, onNavigate }) => {
   ];
 
   return (
-    <aside className="w-64 bg-white border-r border-gray-200/80 flex flex-col min-h-screen select-none shrink-0 font-sans text-xs no-print">
+    <aside className="w-64 bg-white border-r border-gray-200/80 flex flex-col min-h-screen select-none shrink-0 font-sans text-xs">
       {/* Top ERP Brand Header Badge - Styled like PDF Header "EL ERP System Enterprise" */}
       <div className="px-4 py-3.5 flex items-center justify-between border-b border-gray-100 bg-gray-50/50">
         <div className="flex items-center gap-2.5">
           <div 
             className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-extrabold text-sm shadow-sm"
-            style={{ backgroundColor: '#D4AF37' }}
+            style={{ backgroundColor: '#c7a259' }}
           >
             P
           </div>
@@ -118,7 +119,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentNav, onNavigate }) => {
         <div className="flex items-center gap-2.5">
           <div 
             className="w-8 h-8 rounded-full text-white font-bold text-xs flex items-center justify-center shrink-0"
-            style={{ backgroundColor: '#D4AF37' }}
+            style={{ backgroundColor: '#c7a259' }}
           >
             SA
           </div>

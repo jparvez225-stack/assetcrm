@@ -5,11 +5,74 @@ export type NavItem =
   | 'lead-activity'
   | 'call-history'
   | 'lead-category'
+  | 'lead-source'
   | 'salesman-performance'
   | 'referral'
   | 'referral-details'
   | 'notification'
   | 'report';
+
+export interface LeadSourceItem {
+  id: string;
+  sl: number;
+  name: string;
+  leadsCount: number;
+  currentWeek: number;
+  lastWeek: number;
+  performancePercent: number;
+  status: 'Active' | 'Inactive';
+}
+
+export type LeadStatus = 
+  | 'New Lead'
+  | 'Assigned'
+  | 'First Contact'
+  | 'Contacted'
+  | 'No Answer'
+  | 'Busy'
+  | 'Callback Requested'
+  | 'Follow-up Scheduled'
+  | 'Brochure & Price Shared'
+  | 'Interested'
+  | 'Highly Interested'
+  | 'Site Visit Scheduled'
+  | 'Site Visit Completed'
+  | 'Negotiation'
+  | 'Booking'
+  | 'Booking Money Pending'
+  | 'Booking Confirmed'
+  | 'Documentation Pending'
+  | 'Agreement Signed'
+  | 'Payment Pending'
+  | 'Payment Completed'
+  | 'Closed Won'
+  | 'Closed Lost';
+
+export const LEAD_STATUS_LIST: LeadStatus[] = [
+  'New Lead',
+  'Assigned',
+  'First Contact',
+  'Contacted',
+  'No Answer',
+  'Busy',
+  'Callback Requested',
+  'Follow-up Scheduled',
+  'Brochure & Price Shared',
+  'Interested',
+  'Highly Interested',
+  'Site Visit Scheduled',
+  'Site Visit Completed',
+  'Negotiation',
+  'Booking',
+  'Booking Money Pending',
+  'Booking Confirmed',
+  'Documentation Pending',
+  'Agreement Signed',
+  'Payment Pending',
+  'Payment Completed',
+  'Closed Won',
+  'Closed Lost',
+];
 
 export interface Lead {
   id: string;
@@ -28,7 +91,7 @@ export interface Lead {
   budgetLimit: string; // e.g. ৳ 1.5 Crore
   projectType: 'Residential' | 'Commercial' | 'Plot' | 'Luxury Villa';
   prefTime: 'Morning' | 'Afternoon' | 'Evening' | 'Night';
-  status: 'Enrolled' | 'Contacted' | 'Follow Up' | 'Interested' | 'Busy' | 'Site Visit' | 'Booked/Sold' | 'Lost';
+  status: LeadStatus;
   assignedSalesman: string;
   source: 'Facebook' | 'WhatsApp' | 'Youtube' | 'Portal' | 'Email';
   lastCallDate: string;
@@ -90,12 +153,15 @@ export interface CallLog {
   projectName: string;
   phone: string;
   email: string;
-  type: 'Enrolled' | 'Call' | 'Interested' | 'Busy' | 'Follow Up' | 'Site Visit' | 'Booked/Sold' | 'Lost';
+  type: string;
   date: string;
   time: string;
   notes: string;
   nextFollowUpDate?: string;
-  callResult?: string;
+  callResult?: LeadStatus | string;
+  duration?: string;
+  executiveName?: string;
+  channel?: 'Phone Call' | 'WhatsApp' | 'Site Visit' | 'Office Meeting' | 'Email' | 'System';
 }
 
 export interface LeadCategoryItem {

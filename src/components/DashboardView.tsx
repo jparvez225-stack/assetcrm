@@ -5,21 +5,19 @@ import {
   PhoneCall, 
   UserCheck, 
   MessageSquare, 
-  Eye, 
-  FileCheck,
-  TrendingUp,
-  ArrowRight,
-  Bell,
-  Building,
-  Target,
+  TrendingUp, 
+  Bell, 
+  Target, 
+  CheckCircle2, 
+  Clock, 
+  Sparkles, 
+  ChevronRight,
+  Zap,
+  Share2,
+  AlertCircle,
+  Star,
   DollarSign,
-  Calendar,
-  CheckCircle2,
-  Clock,
-  Sparkles,
-  Plus,
-  MapPin,
-  ChevronRight
+  Building2
 } from 'lucide-react';
 import { 
   BarChart, 
@@ -38,7 +36,7 @@ interface DashboardProps {
 }
 
 export const DashboardView: React.FC<DashboardProps> = ({ onNavigate }) => {
-  // Bar Chart Data matching CRM Overview (Days vs Contacted, Interested, Site Visit, Lost)
+  // Bar Chart Data
   const barChartData = [
     { day: 'Day 1', Contacted: 18, Interested: 8, 'Site Visit': 5, Lost: 6 },
     { day: 'Day 2', Contacted: 22, Interested: 10, 'Site Visit': 4, Lost: 3 },
@@ -49,30 +47,22 @@ export const DashboardView: React.FC<DashboardProps> = ({ onNavigate }) => {
     { day: 'Day 7', Contacted: 26, Interested: 14, 'Site Visit': 9, Lost: 3 },
   ];
 
-  // Lost Lead By Reason Pie Chart Data - Soft Harmonious Palette
+  // Lost Lead By Reason Pie Chart Data
   const pieData = [
-    { name: 'Unresponsive', value: 35, color: '#F43F5E' },
-    { name: 'Budget Issue', value: 30, color: '#F59E0B' },
-    { name: 'Competitor', value: 20, color: '#6366F1' },
-    { name: 'Location Issue', value: 15, color: '#64748B' },
+    { name: 'Budget Issue', value: 30, color: '#c7a259' },
+    { name: 'Unresponsive', value: 35, color: '#10B981' },
+    { name: 'Competitor', value: 20, color: '#3B82F6' },
+    { name: 'Location Issue', value: 15, color: '#9CA3AF' },
   ];
 
-  // Top Sales Consultants Leaderboard
-  const topSalesmen = [
-    { id: '1', name: 'Md. Rahim Sarder', title: 'Sr. Executive Consultant', leads: 142, booked: 18, rate: 12.6, score: 92 },
-    { id: '2', name: 'Nusrat Jahan', title: 'Property Manager', leads: 128, booked: 15, rate: 11.7, score: 89 },
-    { id: '3', name: 'Tanvir Hossain', title: 'Sales Consultant', leads: 110, booked: 12, rate: 10.9, score: 85 },
-    { id: '4', name: 'Sharmin Akter', title: 'Customer Relations', leads: 95, booked: 9, rate: 9.4, score: 81 },
-  ];
-
-  // Lead Pipeline Stages - Golden Progress Bar Color Palette
+  // Lead Pipeline Stages
   const leadPipeline = [
-    { stage: 'New Inquiries', count: '1,240', percentage: 14.5, color: '#D4AF37' },
-    { stage: 'Initial Contacted', count: '3,820', percentage: 44.6, color: '#C59B27' },
-    { stage: 'Follow Up & Site Visit', count: '974', percentage: 11.4, color: '#E5C158' },
-    { stage: 'Token Deposit Paid', count: '180', percentage: 2.1, color: '#B8860B' },
-    { stage: 'Enrolled / Plot Booked', count: '264', percentage: 3.1, color: '#9A7B1C' },
-    { stage: 'Closed / Inactive', count: '2,080', percentage: 24.3, color: '#A38A40' },
+    { stage: 'New Inquiries', count: '1,240', percentage: 14.5, color: '#c7a259' },
+    { stage: 'Initial Contacted', count: '3,820', percentage: 44.6, color: '#3B82F6' },
+    { stage: 'Follow Up & Site Visit', count: '993', percentage: 11.6, color: '#F59E0B' },
+    { stage: 'Token Deposit Paid', count: '180', percentage: 2.1, color: '#8B5CF6' },
+    { stage: 'Plot Booked', count: '271', percentage: 3.2, color: '#10B981' },
+    { stage: 'Closed / Inactive', count: '2,080', percentage: 24.3, color: '#6B7280' },
   ];
 
   // Project Inventory Overview
@@ -84,258 +74,257 @@ export const DashboardView: React.FC<DashboardProps> = ({ onNavigate }) => {
   ];
 
   return (
-    <div className="space-y-6 max-w-full font-sans">
-      {/* Top Banner & Welcome Card - Minimal White & Gold */}
-      <div className="bg-white p-5 rounded-xl border border-gray-200/80 shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div className="space-y-5 max-w-full font-sans select-none">
+      {/* Welcome & Quick Action Bar */}
+      <div className="bg-white p-3.5 px-4 rounded-2xl border border-gray-200/80 shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-3">
         <div>
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full" style={{ backgroundColor: '#D4AF37' }}></span>
-            <span className="text-[10px] font-bold tracking-wider uppercase text-amber-700">Promise Assets Real Estate CRM</span>
-          </div>
-          <h1 className="text-xl font-extrabold text-gray-900 tracking-tight mt-0.5">Dashboard Overview</h1>
+          <h1 className="text-base font-extrabold text-gray-900 tracking-tight">Executive CRM Dashboard</h1>
           <p className="text-xs text-gray-500">
-            Welcome back, <span className="font-semibold text-gray-800">Mehesum Rahman</span>. Here is your real estate sales summary.
+            Welcome back, <span className="font-semibold text-gray-800">Mehesum Rahman</span>. Real estate performance overview.
           </p>
         </div>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2">
           <button 
             onClick={() => onNavigate('add-lead')}
-            className="px-4 py-2 text-xs font-bold text-white rounded-md shadow-2xs hover:opacity-90 transition-opacity flex items-center gap-1.5"
-            style={{ backgroundColor: '#D4AF37' }}
+            className="px-3.5 py-1.5 text-xs font-bold text-white rounded-xl shadow-2xs hover:opacity-90 transition-opacity flex items-center gap-1.5"
+            style={{ backgroundColor: '#c7a259' }}
           >
-            <Plus size={14} />
-            <span>Add New Lead</span>
+            <Sparkles size={14} />
+            <span>+ Add New Lead</span>
           </button>
           <button 
             onClick={() => onNavigate('lead')}
-            className="px-3.5 py-2 text-xs font-bold text-amber-900 bg-white border-2 border-[#D4AF37] rounded-md hover:bg-amber-50 transition-colors shadow-2xs"
+            className="px-3 py-1.5 text-xs font-bold text-gray-700 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors shadow-2xs"
           >
             View All Leads
           </button>
         </div>
       </div>
 
-      {/* SALES & REVENUE OVERVIEW MODULE - Minimal White & Gold */}
-      <div className="bg-white p-5 rounded-xl border border-gray-200/80 shadow-2xs space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gray-100 pb-3">
-          <div>
-            <span className="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200/60 uppercase tracking-wider">
-              Monthly Sales Overview
-            </span>
-            <h2 className="text-sm font-extrabold text-gray-900 mt-1">Real Estate Revenue & Plot Allotment Metrics</h2>
+      {/* Row 1: Top 5 Primary KPI Cards - Reference White Design */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
+        {/* Card 1: Revenue */}
+        <div className="bg-white rounded-2xl p-4 border border-emerald-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all">
+          <div className="flex items-center justify-between mb-3 z-10">
+            <div className="flex items-center gap-2">
+              <div className="p-2 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                <DollarSign size={18} />
+              </div>
+              <span className="font-extrabold text-sm text-gray-900 tracking-wide">Sales Revenue</span>
+            </div>
+            <span className="text-[9px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">+14.2%</span>
           </div>
-          <div className="text-right">
-            <span className="text-xs font-semibold text-gray-500">Monthly Target: ৳50.0M</span>
+          <div className="grid grid-cols-2 gap-2 z-10">
+            <div className="bg-emerald-50/50 rounded-xl p-2.5 text-left border border-emerald-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-emerald-600">TOTAL</span>
+              <span className="text-lg font-extrabold text-gray-900 tracking-tight">৳42.8M</span>
+            </div>
+            <div className="bg-emerald-50/50 rounded-xl p-2.5 text-left border border-emerald-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-emerald-600">TARGET</span>
+              <span className="text-lg font-extrabold text-gray-900 tracking-tight">৳50.0M</span>
+            </div>
           </div>
+          <DollarSign size={85} className="absolute -right-4 -bottom-4 text-emerald-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
         </div>
 
-        {/* 4 Minimal Sales Overview Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-          <div className="p-3.5 rounded-lg border border-gray-100 bg-gray-50/50 space-y-1">
-            <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Total Sales Volume</span>
-            <p className="text-xl font-extrabold text-gray-900">৳42,800,000</p>
-            <p className="text-[10px] text-emerald-600 font-semibold flex items-center gap-1">
-              <TrendingUp size={11} /> +14.2% from last month
-            </p>
+        {/* Card 2: Leads */}
+        <div className="bg-white rounded-2xl p-4 border border-blue-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all">
+          <div className="flex items-center gap-2 mb-3 z-10">
+            <div className="p-2 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+              <Zap size={18} />
+            </div>
+            <span className="font-extrabold text-sm text-gray-900 tracking-wide">Total Leads</span>
           </div>
-
-          <div className="p-3.5 rounded-lg border border-gray-100 bg-gray-50/50 space-y-1">
-            <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Plots Allotted / Sold</span>
-            <p className="text-xl font-extrabold text-gray-900">18 Units</p>
-            <p className="text-[10px] text-gray-500">Avg 4.5 Katha per allotment</p>
+          <div className="grid grid-cols-2 gap-2 z-10">
+            <div className="bg-blue-50/50 rounded-xl p-2.5 text-left border border-blue-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-blue-600">TOTAL</span>
+              <span className="text-xl font-extrabold text-gray-900 tracking-tight">8565</span>
+            </div>
+            <div className="bg-blue-50/50 rounded-xl p-2.5 text-left border border-blue-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-blue-600">TODAY</span>
+              <span className="text-xl font-extrabold text-gray-900 tracking-tight">0</span>
+            </div>
           </div>
-
-          <div className="p-3.5 rounded-lg border border-gray-100 bg-gray-50/50 space-y-1">
-            <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Avg Deal Value</span>
-            <p className="text-xl font-extrabold text-gray-900">৳2,380,000</p>
-            <p className="text-[10px] text-amber-700 font-semibold">Residential & Commercial</p>
-          </div>
-
-          <div className="p-3.5 rounded-lg border border-gray-100 bg-gray-50/50 space-y-1">
-            <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Lead Conversion Rate</span>
-            <p className="text-xl font-extrabold text-emerald-600">3.08%</p>
-            <p className="text-[10px] text-gray-500">264 Total Enrolled Bookings</p>
-          </div>
+          <Zap size={85} className="absolute -right-4 -bottom-4 text-blue-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
         </div>
 
-        {/* Monthly Target Progress Bar */}
-        <div className="space-y-1.5 pt-1">
-          <div className="flex justify-between items-center text-xs">
-            <span className="font-bold text-gray-700">Monthly Revenue Goal Progress</span>
-            <span className="font-extrabold text-gray-900">৳42.8M / ৳50.0M (85.6%)</span>
+        {/* Card 3: Plot Bookings */}
+        <div className="bg-white rounded-2xl p-4 border border-purple-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all">
+          <div className="flex items-center gap-2 mb-3 z-10">
+            <div className="p-2 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
+              <UserCheck size={18} />
+            </div>
+            <span className="font-extrabold text-sm text-gray-900 tracking-wide">Enrolment</span>
           </div>
-          <div className="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
-            <div 
-              className="h-full rounded-full transition-all duration-500" 
-              style={{ width: '85.6%', backgroundColor: '#D4AF37' }}
-            ></div>
+          <div className="grid grid-cols-2 gap-2 z-10">
+            <div className="bg-purple-50/50 rounded-xl p-2.5 text-left border border-purple-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-purple-600">TOTAL</span>
+              <span className="text-xl font-extrabold text-gray-900 tracking-tight">271</span>
+            </div>
+            <div className="bg-purple-50/50 rounded-xl p-2.5 text-left border border-purple-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-purple-600">TODAY</span>
+              <span className="text-xl font-extrabold text-gray-900 tracking-tight">7</span>
+            </div>
           </div>
+          <UserCheck size={85} className="absolute -right-4 -bottom-4 text-purple-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
         </div>
-      </div>
 
-      {/* SINGLE MINIMAL KPI CARDS SECTION (Individual cards, no grouped color blocks) */}
-      <div className="space-y-3">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xs font-bold text-gray-500 uppercase tracking-wider">Core CRM Metrics & Channel Performance</h2>
-          <span className="text-[11px] text-gray-400">All cards individual & minimal</span>
+        {/* Card 4: Follow Up */}
+        <div className="bg-white rounded-2xl p-4 border border-orange-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all">
+          <div className="flex items-center gap-2 mb-3 z-10">
+            <div className="p-2 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center">
+              <Share2 size={18} />
+            </div>
+            <span className="font-extrabold text-sm text-gray-900 tracking-wide truncate">Follow Up</span>
+          </div>
+          <div className="grid grid-cols-2 gap-2 z-10">
+            <div className="bg-orange-50/50 rounded-xl p-2.5 text-left border border-orange-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-orange-600">TOTAL</span>
+              <span className="text-xl font-extrabold text-gray-900 tracking-tight">993</span>
+            </div>
+            <div className="bg-orange-50/50 rounded-xl p-2.5 text-left border border-orange-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-orange-600">TODAY</span>
+              <span className="text-xl font-extrabold text-gray-900 tracking-tight">19</span>
+            </div>
+          </div>
+          <Share2 size={85} className="absolute -right-4 -bottom-4 text-orange-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-          {/* Card 1: Facebook Leads */}
-          <div className="p-4 bg-white rounded-xl border border-gray-200/80 shadow-2xs hover:border-amber-400/80 transition-colors space-y-1.5">
-            <div className="flex items-center justify-between">
-              <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Facebook Leads</span>
-              <div className="w-6 h-6 rounded-md bg-amber-50 flex items-center justify-center text-amber-700">
-                <Users size={13} />
-              </div>
+        {/* Card 5: Status */}
+        <div className="bg-white rounded-2xl p-4 border border-cyan-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all">
+          <div className="flex items-center gap-2 mb-3 z-10">
+            <div className="p-2 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center">
+              <Star size={18} />
             </div>
-            <p className="text-2xl font-extrabold text-gray-900">1,000</p>
-            <p className="text-[10px] text-emerald-600 font-semibold">+12% new this week</p>
+            <span className="font-extrabold text-sm text-gray-900 tracking-wide">Status</span>
           </div>
-
-          {/* Card 2: WhatsApp Leads */}
-          <div className="p-4 bg-white rounded-xl border border-gray-200/80 shadow-2xs hover:border-amber-400/80 transition-colors space-y-1.5">
-            <div className="flex items-center justify-between">
-              <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">WhatsApp Leads</span>
-              <div className="w-6 h-6 rounded-md bg-amber-50 flex items-center justify-center text-amber-700">
-                <MessageSquare size={13} />
-              </div>
+          <div className="z-10">
+            <div className="bg-cyan-50/50 rounded-xl p-2.5 text-left border border-cyan-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-cyan-600">CONVERSION</span>
+              <span className="text-xl font-extrabold text-gray-900 tracking-tight">3.16%</span>
             </div>
-            <p className="text-2xl font-extrabold text-gray-900">80</p>
-            <p className="text-[10px] text-gray-500">Direct instant chat</p>
           </div>
-
-          {/* Card 3: SMS Campaign */}
-          <div className="p-4 bg-white rounded-xl border border-gray-200/80 shadow-2xs hover:border-amber-400/80 transition-colors space-y-1.5">
-            <div className="flex items-center justify-between">
-              <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">SMS Campaign</span>
-              <div className="w-6 h-6 rounded-md bg-amber-50 flex items-center justify-center text-amber-700">
-                <PhoneCall size={13} />
-              </div>
-            </div>
-            <p className="text-2xl font-extrabold text-gray-900">30</p>
-            <p className="text-[10px] text-gray-500">Bulk SMS responses</p>
-          </div>
-
-          {/* Card 4: Visitor Queries */}
-          <div className="p-4 bg-white rounded-xl border border-gray-200/80 shadow-2xs hover:border-amber-400/80 transition-colors space-y-1.5">
-            <div className="flex items-center justify-between">
-              <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Visitor Queries</span>
-              <div className="w-6 h-6 rounded-md bg-amber-50 flex items-center justify-center text-amber-700">
-                <Eye size={13} />
-              </div>
-            </div>
-            <p className="text-2xl font-extrabold text-gray-900">10</p>
-            <p className="text-[10px] text-gray-500">Web portal visitors</p>
-          </div>
-
-          {/* Card 5: Contacted Leads */}
-          <div className="p-4 bg-white rounded-xl border border-gray-200/80 shadow-2xs hover:border-amber-400/80 transition-colors space-y-1.5">
-            <div className="flex items-center justify-between">
-              <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Contacted Leads</span>
-              <div className="w-6 h-6 rounded-md bg-emerald-50 flex items-center justify-center text-emerald-700">
-                <PhoneCall size={13} />
-              </div>
-            </div>
-            <p className="text-2xl font-extrabold text-gray-900">500</p>
-            <p className="text-[10px] text-emerald-600 font-semibold">Active call logs</p>
-          </div>
-
-          {/* Card 6: Interested Leads */}
-          <div className="p-4 bg-white rounded-xl border border-gray-200/80 shadow-2xs hover:border-amber-400/80 transition-colors space-y-1.5">
-            <div className="flex items-center justify-between">
-              <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Interested Prospects</span>
-              <div className="w-6 h-6 rounded-md bg-amber-50 flex items-center justify-center text-amber-700">
-                <Target size={13} />
-              </div>
-            </div>
-            <p className="text-2xl font-extrabold font-sans text-gray-900">100</p>
-            <p className="text-[10px] text-amber-700 font-semibold">Site visit scheduled</p>
-          </div>
-
-          {/* Card 7: Not Contacted */}
-          <div className="p-4 bg-white rounded-xl border border-gray-200/80 shadow-2xs hover:border-amber-400/80 transition-colors space-y-1.5">
-            <div className="flex items-center justify-between">
-              <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Pending Contact</span>
-              <div className="w-6 h-6 rounded-md bg-gray-100 flex items-center justify-center text-gray-600">
-                <Clock size={13} />
-              </div>
-            </div>
-            <p className="text-2xl font-extrabold text-gray-900">30</p>
-            <p className="text-[10px] text-gray-500">Requires assignment</p>
-          </div>
-
-          {/* Card 8: Lost Leads */}
-          <div className="p-4 bg-white rounded-xl border border-gray-200/80 shadow-2xs hover:border-amber-400/80 transition-colors space-y-1.5">
-            <div className="flex items-center justify-between">
-              <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Lost Leads</span>
-              <div className="w-6 h-6 rounded-md bg-rose-50 flex items-center justify-center text-rose-600">
-                <Bell size={13} />
-              </div>
-            </div>
-            <p className="text-2xl font-extrabold text-gray-900">370</p>
-            <p className="text-[10px] text-rose-500 font-semibold">Archived / Unresponsive</p>
-          </div>
-
-          {/* Card 9: Total Salesmen */}
-          <div className="p-4 bg-white rounded-xl border border-gray-200/80 shadow-2xs hover:border-amber-400/80 transition-colors space-y-1.5">
-            <div className="flex items-center justify-between">
-              <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Total Consultants</span>
-              <div className="w-6 h-6 rounded-md bg-amber-50 flex items-center justify-center text-amber-700">
-                <UserCheck size={13} />
-              </div>
-            </div>
-            <p className="text-2xl font-extrabold text-gray-900">310</p>
-            <p className="text-[10px] text-gray-500">12 Regional branches</p>
-          </div>
-
-          {/* Card 10: Active Salesmen */}
-          <div className="p-4 bg-white rounded-xl border border-gray-200/80 shadow-2xs hover:border-amber-400/80 transition-colors space-y-1.5">
-            <div className="flex items-center justify-between">
-              <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Active Executives</span>
-              <div className="w-6 h-6 rounded-md bg-emerald-50 flex items-center justify-center text-emerald-700">
-                <UserCheck size={13} />
-              </div>
-            </div>
-            <p className="text-2xl font-extrabold text-gray-900">130</p>
-            <p className="text-[10px] text-emerald-600 font-semibold">Handling active leads</p>
-          </div>
-
-          {/* Card 11: Top Performers */}
-          <div className="p-4 bg-white rounded-xl border border-gray-200/80 shadow-2xs hover:border-amber-400/80 transition-colors space-y-1.5">
-            <div className="flex items-center justify-between">
-              <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Top Counselors</span>
-              <div className="w-6 h-6 rounded-md bg-amber-50 flex items-center justify-center text-amber-700">
-                <Sparkles size={13} />
-              </div>
-            </div>
-            <p className="text-2xl font-extrabold text-amber-800">30</p>
-            <p className="text-[10px] text-amber-700 font-semibold">High conversion score</p>
-          </div>
-
-          {/* Card 12: Total Plot Bookings */}
-          <div className="p-4 bg-white rounded-xl border border-gray-200/80 shadow-2xs hover:border-amber-400/80 transition-colors space-y-1.5">
-            <div className="flex items-center justify-between">
-              <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Plot Bookings</span>
-              <div className="w-6 h-6 rounded-md bg-emerald-50 flex items-center justify-center text-emerald-700">
-                <FileCheck size={13} />
-              </div>
-            </div>
-            <p className="text-2xl font-extrabold text-emerald-600">264</p>
-            <p className="text-[10px] text-emerald-700 font-semibold">Confirmed allotments</p>
-          </div>
+          <Star size={85} className="absolute -right-4 -bottom-4 text-cyan-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
         </div>
       </div>
 
-      {/* LEAD PIPELINE & BREAKDOWN SECTION */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {/* Row 2: Secondary Channel & Team Performance KPI Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
+        {/* Card 6: Facebook Leads */}
+        <div className="bg-white rounded-2xl p-4 border border-blue-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all">
+          <div className="flex items-center gap-2 mb-3 z-10">
+            <div className="p-2 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+              <Users size={18} />
+            </div>
+            <span className="font-extrabold text-sm text-gray-900 tracking-wide">Facebook Leads</span>
+          </div>
+          <div className="grid grid-cols-2 gap-2 z-10">
+            <div className="bg-blue-50/50 rounded-xl p-2.5 text-left border border-blue-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-blue-600">TOTAL</span>
+              <span className="text-xl font-extrabold text-gray-900 tracking-tight">1,000</span>
+            </div>
+            <div className="bg-blue-50/50 rounded-xl p-2.5 text-left border border-blue-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-blue-600">WEEK</span>
+              <span className="text-xl font-extrabold text-emerald-600 tracking-tight">+12%</span>
+            </div>
+          </div>
+          <Users size={85} className="absolute -right-4 -bottom-4 text-blue-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
+        </div>
+
+        {/* Card 7: WhatsApp & SMS */}
+        <div className="bg-white rounded-2xl p-4 border border-emerald-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all">
+          <div className="flex items-center gap-2 mb-3 z-10">
+            <div className="p-2 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+              <MessageSquare size={18} />
+            </div>
+            <span className="font-extrabold text-sm text-gray-900 tracking-wide">WhatsApp / SMS</span>
+          </div>
+          <div className="grid grid-cols-2 gap-2 z-10">
+            <div className="bg-emerald-50/50 rounded-xl p-2.5 text-left border border-emerald-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-emerald-600">WHATSAPP</span>
+              <span className="text-xl font-extrabold text-gray-900 tracking-tight">80</span>
+            </div>
+            <div className="bg-emerald-50/50 rounded-xl p-2.5 text-left border border-emerald-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-emerald-600">SMS</span>
+              <span className="text-xl font-extrabold text-gray-900 tracking-tight">30</span>
+            </div>
+          </div>
+          <MessageSquare size={85} className="absolute -right-4 -bottom-4 text-emerald-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
+        </div>
+
+        {/* Card 8: Contacted Leads */}
+        <div className="bg-white rounded-2xl p-4 border border-amber-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all">
+          <div className="flex items-center gap-2 mb-3 z-10">
+            <div className="p-2 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+              <PhoneCall size={18} />
+            </div>
+            <span className="font-extrabold text-sm text-gray-900 tracking-wide">Contacted Leads</span>
+          </div>
+          <div className="grid grid-cols-2 gap-2 z-10">
+            <div className="bg-amber-50/50 rounded-xl p-2.5 text-left border border-amber-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-amber-600">CONTACTED</span>
+              <span className="text-xl font-extrabold text-gray-900 tracking-tight">500</span>
+            </div>
+            <div className="bg-amber-50/50 rounded-xl p-2.5 text-left border border-amber-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-amber-600">PENDING</span>
+              <span className="text-xl font-extrabold text-gray-900 tracking-tight">30</span>
+            </div>
+          </div>
+          <PhoneCall size={85} className="absolute -right-4 -bottom-4 text-amber-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
+        </div>
+
+        {/* Card 9: Sales Consultants */}
+        <div className="bg-white rounded-2xl p-4 border border-indigo-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all">
+          <div className="flex items-center gap-2 mb-3 z-10">
+            <div className="p-2 rounded-xl bg-indigo-50 text-indigo-700 flex items-center justify-center">
+              <Building2 size={18} />
+            </div>
+            <span className="font-extrabold text-sm text-gray-900 tracking-wide">Consultants</span>
+          </div>
+          <div className="grid grid-cols-2 gap-2 z-10">
+            <div className="bg-indigo-50/50 rounded-xl p-2.5 text-left border border-indigo-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-indigo-700">TOTAL</span>
+              <span className="text-xl font-extrabold text-gray-900 tracking-tight">310</span>
+            </div>
+            <div className="bg-indigo-50/50 rounded-xl p-2.5 text-left border border-indigo-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-indigo-700">ACTIVE</span>
+              <span className="text-xl font-extrabold text-gray-900 tracking-tight">130</span>
+            </div>
+          </div>
+          <Building2 size={85} className="absolute -right-4 -bottom-4 text-indigo-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
+        </div>
+
+        {/* Card 10: Lost Leads */}
+        <div className="bg-white rounded-2xl p-4 border border-indigo-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all">
+          <div className="flex items-center gap-2 mb-3 z-10">
+            <div className="p-2 rounded-xl bg-indigo-50 text-indigo-700 flex items-center justify-center">
+              <AlertCircle size={18} />
+            </div>
+            <span className="font-extrabold text-sm text-gray-900 tracking-wide">Lost Leads</span>
+          </div>
+          <div className="grid grid-cols-2 gap-2 z-10">
+            <div className="bg-indigo-50/50 rounded-xl p-2.5 text-left border border-indigo-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-indigo-700">TOTAL</span>
+              <span className="text-xl font-extrabold text-gray-900 tracking-tight">1,658</span>
+            </div>
+            <div className="bg-indigo-50/50 rounded-xl p-2.5 text-left border border-indigo-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-indigo-700">TODAY</span>
+              <span className="text-xl font-extrabold text-gray-900 tracking-tight">0</span>
+            </div>
+          </div>
+          <AlertCircle size={85} className="absolute -right-4 -bottom-4 text-indigo-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
+        </div>
+      </div>
+
+      {/* LEAD PIPELINE & INVENTORY MODULE */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         {/* Pipeline Status Breakdown (Left 2 Cols) */}
-        <div className="lg:col-span-2 bg-white p-5 rounded-xl border border-gray-200/80 shadow-2xs space-y-4">
-          <div className="flex items-center justify-between border-b border-gray-100 pb-3">
+        <div className="lg:col-span-2 bg-white p-4.5 rounded-2xl border border-gray-200/80 shadow-2xs space-y-3.5">
+          <div className="flex items-center justify-between border-b border-gray-100 pb-2.5">
             <div>
-              <h3 className="font-extrabold text-gray-900 text-sm">Lead Status & Pipeline Distribution</h3>
-              <p className="text-[11px] text-gray-500">Breakdown of 8,558 lifetime leads by stage</p>
+              <h3 className="font-extrabold text-gray-900 text-sm tracking-tight">Lead Status & Pipeline Distribution</h3>
+              <p className="text-[11px] text-gray-500">Breakdown of 8,565 lifetime leads by stage</p>
             </div>
             <button 
               onClick={() => onNavigate('lead')}
@@ -346,13 +335,13 @@ export const DashboardView: React.FC<DashboardProps> = ({ onNavigate }) => {
             </button>
           </div>
 
-          <div className="space-y-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2.5">
             {leadPipeline.map((p, i) => (
               <div key={i} className="space-y-1">
                 <div className="flex justify-between items-center text-xs">
                   <span className="font-bold text-gray-800">{p.stage}</span>
-                  <div className="flex items-center gap-2">
-                    <span className="font-extrabold text-gray-900">{p.count} Leads</span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-extrabold text-gray-900">{p.count}</span>
                     <span className="text-[10px] font-semibold text-gray-400">({p.percentage}%)</span>
                   </div>
                 </div>
@@ -365,30 +354,44 @@ export const DashboardView: React.FC<DashboardProps> = ({ onNavigate }) => {
               </div>
             ))}
           </div>
+
+          {/* Revenue Progress */}
+          <div className="pt-2 border-t border-gray-100 space-y-1.5">
+            <div className="flex justify-between items-center text-xs">
+              <span className="font-extrabold text-gray-800">Monthly Revenue Progress</span>
+              <span className="font-extrabold text-emerald-600">৳42.8M / ৳50.0M (85.6%)</span>
+            </div>
+            <div className="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
+              <div 
+                className="h-full rounded-full transition-all duration-500" 
+                style={{ width: '85.6%', backgroundColor: '#c7a259' }}
+              ></div>
+            </div>
+          </div>
         </div>
 
         {/* Project Plot Inventory Summary (Right Col) */}
-        <div className="bg-white p-5 rounded-xl border border-gray-200/80 shadow-2xs space-y-4">
-          <div className="flex items-center justify-between border-b border-gray-100 pb-3">
-            <h3 className="font-extrabold text-gray-900 text-sm">Project Holdings & Plots</h3>
-            <span className="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded">Inventory</span>
+        <div className="bg-white p-4.5 rounded-2xl border border-gray-200/80 shadow-2xs space-y-3">
+          <div className="flex items-center justify-between border-b border-gray-100 pb-2.5">
+            <h3 className="font-extrabold text-gray-900 text-sm tracking-tight">Project Holdings</h3>
+            <span className="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200/60">Inventory</span>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-2.5">
             {projectsSummary.map((proj, idx) => (
-              <div key={idx} className="p-3 bg-gray-50/70 rounded-lg border border-gray-100 space-y-1.5">
+              <div key={idx} className="p-2.5 bg-gray-50/70 rounded-xl border border-gray-100 space-y-1">
                 <div className="flex justify-between items-start">
                   <h4 className="font-bold text-gray-900 text-xs">{proj.name}</h4>
                   <span className="text-[10px] font-bold text-amber-700">{proj.price}</span>
                 </div>
-                <div className="flex items-center justify-between text-[11px] text-gray-600">
-                  <span>Sold: <strong className="text-amber-800">{proj.sold}</strong> / {proj.totalPlots}</span>
-                  <span>Available: <strong className="text-amber-900">{proj.available} Plots</strong></span>
+                <div className="flex items-center justify-between text-[10px] text-gray-600">
+                  <span>Sold: <strong className="text-emerald-700">{proj.sold}</strong> / {proj.totalPlots}</span>
+                  <span>Avail: <strong className="text-amber-800">{proj.available} Plots</strong></span>
                 </div>
                 <div className="w-full bg-gray-200 h-1.5 rounded-full overflow-hidden">
                   <div 
-                    className="h-full rounded-full transition-all duration-300"
-                    style={{ width: `${(proj.sold / proj.totalPlots) * 100}%`, backgroundColor: '#D4AF37' }}
+                    className="bg-emerald-600 h-full rounded-full"
+                    style={{ width: `${(proj.sold / proj.totalPlots) * 100}%` }}
                   ></div>
                 </div>
               </div>
@@ -398,20 +401,20 @@ export const DashboardView: React.FC<DashboardProps> = ({ onNavigate }) => {
       </div>
 
       {/* ANALYTICS & CHARTS SECTION */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         {/* Left 2 Cols: CRM Bar Chart */}
-        <div className="lg:col-span-2 bg-white p-5 rounded-xl border border-gray-200/80 shadow-2xs space-y-4">
+        <div className="lg:col-span-2 bg-white p-4.5 rounded-2xl border border-gray-200/80 shadow-2xs space-y-3">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="font-extrabold text-gray-900 text-sm">7-Day CRM Call & Site Visit Trend</h3>
+              <h3 className="font-extrabold text-gray-900 text-sm tracking-tight">7-Day CRM Call & Site Visit Trend</h3>
               <p className="text-[11px] text-gray-500">Contacted, Interested, Site Visits & Lost Leads</p>
             </div>
-            <span className="text-[10px] text-gray-600 bg-gray-100 px-2.5 py-1 rounded-md font-bold">
+            <span className="text-[10px] text-gray-600 bg-gray-100 px-2.5 py-1 rounded-lg font-bold">
               Last 7 Days
             </span>
           </div>
 
-          <div className="h-64 w-full">
+          <div className="h-52 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={barChartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                 <XAxis dataKey="day" stroke="#9CA3AF" fontSize={11} tickLine={false} />
@@ -420,7 +423,7 @@ export const DashboardView: React.FC<DashboardProps> = ({ onNavigate }) => {
                   contentStyle={{ backgroundColor: '#1F2937', borderRadius: '8px', color: '#FFF', border: 'none', fontSize: '11px' }}
                 />
                 <Bar dataKey="Contacted" fill="#10B981" radius={[3, 3, 0, 0]} />
-                <Bar dataKey="Interested" fill="#D4AF37" radius={[3, 3, 0, 0]} />
+                <Bar dataKey="Interested" fill="#c7a259" radius={[3, 3, 0, 0]} />
                 <Bar dataKey="Site Visit" fill="#3B82F6" radius={[3, 3, 0, 0]} />
                 <Bar dataKey="Lost" fill="#F43F5E" radius={[3, 3, 0, 0]} />
               </BarChart>
@@ -429,37 +432,37 @@ export const DashboardView: React.FC<DashboardProps> = ({ onNavigate }) => {
 
           <div className="flex flex-wrap items-center justify-center gap-5 pt-2 text-xs font-semibold text-gray-600 border-t border-gray-100">
             <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: '#10B981' }}></span>
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
               <span>Contacted</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: '#D4AF37' }}></span>
+              <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: '#c7a259' }}></span>
               <span>Interested</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: '#3B82F6' }}></span>
+              <span className="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
               <span>Site Visit</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: '#F43F5E' }}></span>
+              <span className="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
               <span>Lost</span>
             </div>
           </div>
         </div>
 
         {/* Right Col: Lost Lead Reasons & Important Alerts */}
-        <div className="space-y-6">
+        <div className="space-y-4">
           {/* Donut Chart Card */}
-          <div className="bg-white p-5 rounded-xl border border-gray-200/80 shadow-2xs space-y-3">
-            <h3 className="font-extrabold text-gray-900 text-xs">Lost Lead Analysis by Reason</h3>
+          <div className="bg-white p-4 rounded-2xl border border-gray-200/80 shadow-2xs space-y-2.5">
+            <h3 className="font-extrabold text-gray-900 text-xs tracking-tight">Lost Lead Analysis by Reason</h3>
             <div className="flex items-center justify-between gap-2">
-              <div className="h-32 w-32 relative shrink-0">
+              <div className="h-28 w-28 relative shrink-0">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
                       data={pieData}
-                      innerRadius={32}
-                      outerRadius={48}
+                      innerRadius={28}
+                      outerRadius={42}
                       paddingAngle={3}
                       dataKey="value"
                     >
@@ -470,36 +473,36 @@ export const DashboardView: React.FC<DashboardProps> = ({ onNavigate }) => {
                   </PieChart>
                 </ResponsiveContainer>
                 <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                  <span className="text-[10px] text-gray-400 font-medium">Top Cause</span>
-                  <span className="text-xs font-extrabold text-gray-800">Unresponsive</span>
+                  <span className="text-[9px] text-gray-400 font-medium">Top Cause</span>
+                  <span className="text-[11px] font-extrabold text-gray-800">Unresponsive</span>
                 </div>
               </div>
 
               <div className="space-y-1.5 text-[11px] font-medium text-gray-600 flex-1">
                 <div className="flex items-center justify-between">
                   <span className="flex items-center gap-1">
-                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: '#F43F5E' }}></span>
-                    <span>Unresponsive</span>
-                  </span>
-                  <span className="font-bold text-gray-900">35%</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="flex items-center gap-1">
-                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: '#F59E0B' }}></span>
+                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: '#c7a259' }}></span>
                     <span>Budget Issue</span>
                   </span>
                   <span className="font-bold text-gray-900">30%</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="flex items-center gap-1">
-                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: '#6366F1' }}></span>
+                    <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                    <span>Unresponsive</span>
+                  </span>
+                  <span className="font-bold text-gray-900">35%</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="flex items-center gap-1">
+                    <span className="w-2 h-2 rounded-full bg-blue-500"></span>
                     <span>Competitor</span>
                   </span>
                   <span className="font-bold text-gray-900">20%</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="flex items-center gap-1">
-                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: '#64748B' }}></span>
+                    <span className="w-2 h-2 rounded-full bg-gray-400"></span>
                     <span>Location</span>
                   </span>
                   <span className="font-bold text-gray-900">15%</span>
@@ -508,132 +511,29 @@ export const DashboardView: React.FC<DashboardProps> = ({ onNavigate }) => {
             </div>
           </div>
 
-          {/* Important Notices */}
-          <div className="bg-white p-5 rounded-xl border border-gray-200/80 shadow-2xs space-y-3">
+          {/* Action Alerts */}
+          <div className="bg-white p-4 rounded-2xl border border-gray-200/80 shadow-2xs space-y-2">
             <div className="flex items-center justify-between border-b border-gray-100 pb-2">
-              <h3 className="font-extrabold text-gray-900 text-xs">Action Alerts & Notices</h3>
-              <span className="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded">Live</span>
+              <h3 className="font-extrabold text-gray-900 text-xs tracking-tight">Action Alerts & Notices</h3>
+              <span className="text-[9px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200/60">Live</span>
             </div>
 
             <div className="space-y-2 text-xs">
-              <div className="p-2.5 bg-amber-50/60 rounded-lg border border-amber-200/60 flex items-start gap-2">
+              <div className="p-2 bg-amber-50/60 rounded-xl border border-amber-200/60 flex items-start gap-2">
                 <Bell size={14} className="text-amber-700 mt-0.5 shrink-0" />
                 <div>
                   <p className="font-bold text-amber-900 text-[11px]">Pending Plot Approvals</p>
-                  <p className="text-[10px] text-amber-700">08 Plot Allotments Pending Final Signoff</p>
+                  <p className="text-[10px] text-amber-700">08 Plot Allotments Pending Signoff</p>
                 </div>
               </div>
 
-              <div className="p-2.5 bg-emerald-50/60 rounded-lg border border-emerald-200/60 flex items-start gap-2">
+              <div className="p-2 bg-emerald-50/60 rounded-xl border border-emerald-200/60 flex items-start gap-2">
                 <CheckCircle2 size={14} className="text-emerald-700 mt-0.5 shrink-0" />
                 <div>
                   <p className="font-bold text-emerald-900 text-[11px]">Weekend Site Visit Tour</p>
-                  <p className="text-[10px] text-emerald-700">Purbachal Sector 4 Rally Scheduled Saturday</p>
+                  <p className="text-[10px] text-emerald-700">Purbachal Rally Scheduled Saturday</p>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* SALESMAN PERFORMANCE & LEADERBOARD MODULE - TWO COLUMN LAYOUT */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left 2 Cols: Top Consultant Performance Leaderboard */}
-        <div className="lg:col-span-2 bg-white rounded-xl border border-gray-200/80 shadow-2xs overflow-hidden flex flex-col">
-          <div className="px-5 py-3 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
-            <div>
-              <h3 className="font-extrabold text-gray-900 text-xs">Top Property Consultant Performance</h3>
-              <p className="text-[10px] text-gray-500">Executives ranked by lead conversions and plot allotments</p>
-            </div>
-            <button 
-              onClick={() => onNavigate('salesman-performance')}
-              className="text-xs font-bold text-amber-700 hover:text-amber-800 flex items-center gap-1"
-            >
-              <span>Full Salesman Report</span>
-              <ChevronRight size={13} />
-            </button>
-          </div>
-
-          <div className="overflow-x-auto flex-1">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-gray-100/70 text-[10px] font-bold text-gray-600 uppercase border-b border-gray-200 tracking-wider">
-                  <th className="py-2.5 px-4">Counselor Name</th>
-                  <th className="py-2.5 px-3 text-center">Assigned</th>
-                  <th className="py-2.5 px-3 text-center">Plots Booked</th>
-                  <th className="py-2.5 px-3 text-center">Conversion %</th>
-                  <th className="py-2.5 px-4 text-center">Score</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100 text-xs font-medium text-gray-700">
-                {topSalesmen.map((s) => (
-                  <tr key={s.id} className="hover:bg-amber-50/20 transition-colors">
-                    <td className="py-3 px-4">
-                      <p className="font-bold text-gray-900">{s.name}</p>
-                      <p className="text-[10px] text-gray-500">{s.title}</p>
-                    </td>
-                    <td className="py-3 px-3 text-center font-bold text-gray-800">{s.leads}</td>
-                    <td className="py-3 px-3 text-center font-extrabold text-emerald-600">{s.booked} Units</td>
-                    <td className="py-3 px-3 text-center font-bold text-blue-600">{s.rate}%</td>
-                    <td className="py-3 px-4 text-center">
-                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-100 text-amber-900 border border-amber-300">
-                        {s.score} / 100
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        {/* Right 1 Col: Recent Lead Activities & Follow-ups */}
-        <div className="bg-white rounded-xl border border-gray-200/80 shadow-2xs overflow-hidden flex flex-col">
-          <div className="px-5 py-3 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
-            <div>
-              <h3 className="font-extrabold text-gray-900 text-xs">Recent Lead Inquiries</h3>
-              <p className="text-[10px] text-gray-500">Latest active client interactions</p>
-            </div>
-            <button 
-              onClick={() => onNavigate('lead')}
-              className="text-xs font-bold text-amber-700 hover:text-amber-800 flex items-center gap-1"
-            >
-              <span>View All</span>
-              <ChevronRight size={13} />
-            </button>
-          </div>
-
-          <div className="p-4 space-y-3 divide-y divide-gray-100 text-xs flex-1">
-            <div className="pt-2 first:pt-0 flex items-center justify-between gap-2">
-              <div>
-                <p className="font-bold text-gray-900">Md. Tanvir Ahmed</p>
-                <p className="text-[10px] text-gray-500">Purbachal Green Valley • 5 Katha</p>
-              </div>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-900">Follow Up</span>
-            </div>
-
-            <div className="pt-2 flex items-center justify-between gap-2">
-              <div>
-                <p className="font-bold text-gray-900">Dr. Sharmin Sultana</p>
-                <p className="text-[10px] text-gray-500">Bashundhara Heights • 10 Katha</p>
-              </div>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">Site Visit</span>
-            </div>
-
-            <div className="pt-2 flex items-center justify-between gap-2">
-              <div>
-                <p className="font-bold text-gray-900">Kazi Rafiqul Islam</p>
-                <p className="text-[10px] text-gray-500">Gulshan Avenue Plaza • Commercial</p>
-              </div>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-800">Booked</span>
-            </div>
-
-            <div className="pt-2 flex items-center justify-between gap-2">
-              <div>
-                <p className="font-bold text-gray-900">Engineeer Anisur Rahman</p>
-                <p className="text-[10px] text-gray-500">Uttara Sector 14 • 3 Katha</p>
-              </div>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-gray-100 text-gray-700">New Inquiry</span>
             </div>
           </div>
         </div>
@@ -641,3 +541,4 @@ export const DashboardView: React.FC<DashboardProps> = ({ onNavigate }) => {
     </div>
   );
 };
+

@@ -21,7 +21,7 @@ export const Header: React.FC<HeaderProps> = ({
   showBack = false 
 }) => {
   return (
-    <header className="bg-white border-b border-gray-100 px-6 py-4 flex items-center justify-between sticky top-0 z-10 no-print">
+    <header className="bg-white border-b border-gray-100 px-6 py-4 flex items-center justify-between sticky top-0 z-10">
       <div className="flex items-center gap-4">
         {showBack && onBack && (
           <button 
