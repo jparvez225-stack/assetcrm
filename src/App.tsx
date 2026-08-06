@@ -102,6 +102,7 @@ export default function App() {
               onNavigate={(nav) => setCurrentNav(nav)}
               onSelectLead={(lead) => setSelectedLead(lead)}
               onAssignSalesman={handleAssignSalesman}
+              onAddLead={handleAddLead}
             />
           )}
 

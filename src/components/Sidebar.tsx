@@ -17,7 +17,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentNav, onNavigate }) => {
 
   const crmSubItems: { id: NavItem; label: string; badge?: string }[] = [
     { id: 'lead', label: 'Leads' },
-    { id: 'add-lead', label: 'Add CRM Lead' },
     { id: 'lead-activity', label: 'Lead Activities' },
     { id: 'lead-category', label: 'Lead Categories' },
     { id: 'salesman-performance', label: 'Salesman Performance' },

@@ -1,1 +1,76 @@
 @import "tailwindcss";
+
+@media print {
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    font-size: 10pt !important;
+  }
+
+  /* Hide navigation, top headers, search inputs, pagination, action buttons */
+  aside, 
+  header,
+  .no-print,
+  button,
+  input,
+  select {
+    display: none !important;
+  }
+
+  /* Ensure main container takes 100% width and removes unnecessary paddings */
+  main, .flex-1, div {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+  }
+
+  /* B&W tables */
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin-top: 10px !important;
+    margin-bottom: 20px !important;
+    color: #000000 !important;
+  }
+
+  th, td {
+    border: 1px solid #000000 !important;
+    padding: 6px 8px !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  th {
+    font-weight: bold !important;
+    background-color: #e5e5e5 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Force cards & stats to B&W outline boxes */
+  .bg-white, .bg-gray-50, .bg-amber-50, .bg-emerald-50, .bg-gray-100 {
+    background: #ffffff !important;
+    border: 1px solid #000000 !important;
+    color: #000000 !important;
+  }
+
+  .text-gray-900, .text-gray-800, .text-gray-700, .text-gray-600, .text-emerald-600, .text-emerald-700, .text-amber-800, .text-amber-900 {
+    color: #000000 !important;
+  }
+
+  /* Dedicated Printable Header */
+  .print-only-header {
+    display: block !important;
+    text-align: center;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #000000;
+    padding-bottom: 8px;
+  }
+}
+
+.print-only-header {
+  display: none;
+}

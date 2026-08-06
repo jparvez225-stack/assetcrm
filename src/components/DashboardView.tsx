@@ -536,52 +536,106 @@ export const DashboardView: React.FC<DashboardProps> = ({ onNavigate }) => {
         </div>
       </div>
 
-      {/* SALESMAN PERFORMANCE & LEADERBOARD MODULE */}
-      <div className="bg-white rounded-xl border border-gray-200/80 shadow-2xs overflow-hidden">
-        <div className="px-5 py-3 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
-          <div>
-            <h3 className="font-extrabold text-gray-900 text-xs">Top Property Consultant Performance</h3>
-            <p className="text-[10px] text-gray-500">Executives ranked by lead conversions and plot allotments</p>
+      {/* SALESMAN PERFORMANCE & LEADERBOARD MODULE - TWO COLUMN LAYOUT */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Left 2 Cols: Top Consultant Performance Leaderboard */}
+        <div className="lg:col-span-2 bg-white rounded-xl border border-gray-200/80 shadow-2xs overflow-hidden flex flex-col">
+          <div className="px-5 py-3 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
+            <div>
+              <h3 className="font-extrabold text-gray-900 text-xs">Top Property Consultant Performance</h3>
+              <p className="text-[10px] text-gray-500">Executives ranked by lead conversions and plot allotments</p>
+            </div>
+            <button 
+              onClick={() => onNavigate('salesman-performance')}
+              className="text-xs font-bold text-amber-700 hover:text-amber-800 flex items-center gap-1"
+            >
+              <span>Full Salesman Report</span>
+              <ChevronRight size={13} />
+            </button>
           </div>
-          <button 
-            onClick={() => onNavigate('salesman-performance')}
-            className="text-xs font-bold text-amber-700 hover:text-amber-800 flex items-center gap-1"
-          >
-            <span>Full Salesman Report</span>
-            <ChevronRight size={13} />
-          </button>
+
+          <div className="overflow-x-auto flex-1">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-gray-100/70 text-[10px] font-bold text-gray-600 uppercase border-b border-gray-200 tracking-wider">
+                  <th className="py-2.5 px-4">Counselor Name</th>
+                  <th className="py-2.5 px-3 text-center">Assigned</th>
+                  <th className="py-2.5 px-3 text-center">Plots Booked</th>
+                  <th className="py-2.5 px-3 text-center">Conversion %</th>
+                  <th className="py-2.5 px-4 text-center">Score</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100 text-xs font-medium text-gray-700">
+                {topSalesmen.map((s) => (
+                  <tr key={s.id} className="hover:bg-amber-50/20 transition-colors">
+                    <td className="py-3 px-4">
+                      <p className="font-bold text-gray-900">{s.name}</p>
+                      <p className="text-[10px] text-gray-500">{s.title}</p>
+                    </td>
+                    <td className="py-3 px-3 text-center font-bold text-gray-800">{s.leads}</td>
+                    <td className="py-3 px-3 text-center font-extrabold text-emerald-600">{s.booked} Units</td>
+                    <td className="py-3 px-3 text-center font-bold text-blue-600">{s.rate}%</td>
+                    <td className="py-3 px-4 text-center">
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-100 text-amber-900 border border-amber-300">
+                        {s.score} / 100
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-gray-100/70 text-[10px] font-bold text-gray-600 uppercase border-b border-gray-200 tracking-wider">
-                <th className="py-2.5 px-4">Counselor Name</th>
-                <th className="py-2.5 px-3 text-center">Assigned Leads</th>
-                <th className="py-2.5 px-3 text-center">Plots Booked</th>
-                <th className="py-2.5 px-3 text-center">Conversion %</th>
-                <th className="py-2.5 px-4 text-center">Performance Score</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100 text-xs font-medium text-gray-700">
-              {topSalesmen.map((s) => (
-                <tr key={s.id} className="hover:bg-amber-50/20 transition-colors">
-                  <td className="py-3 px-4">
-                    <p className="font-bold text-gray-900">{s.name}</p>
-                    <p className="text-[10px] text-gray-500">{s.title}</p>
-                  </td>
-                  <td className="py-3 px-3 text-center font-bold text-gray-800">{s.leads}</td>
-                  <td className="py-3 px-3 text-center font-extrabold text-emerald-600">{s.booked} Units</td>
-                  <td className="py-3 px-3 text-center font-bold text-blue-600">{s.rate}%</td>
-                  <td className="py-3 px-4 text-center">
-                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-100 text-amber-900 border border-amber-300">
-                      {s.score} / 100
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        {/* Right 1 Col: Recent Lead Activities & Follow-ups */}
+        <div className="bg-white rounded-xl border border-gray-200/80 shadow-2xs overflow-hidden flex flex-col">
+          <div className="px-5 py-3 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
+            <div>
+              <h3 className="font-extrabold text-gray-900 text-xs">Recent Lead Inquiries</h3>
+              <p className="text-[10px] text-gray-500">Latest active client interactions</p>
+            </div>
+            <button 
+              onClick={() => onNavigate('lead')}
+              className="text-xs font-bold text-amber-700 hover:text-amber-800 flex items-center gap-1"
+            >
+              <span>View All</span>
+              <ChevronRight size={13} />
+            </button>
+          </div>
+
+          <div className="p-4 space-y-3 divide-y divide-gray-100 text-xs flex-1">
+            <div className="pt-2 first:pt-0 flex items-center justify-between gap-2">
+              <div>
+                <p className="font-bold text-gray-900">Md. Tanvir Ahmed</p>
+                <p className="text-[10px] text-gray-500">Purbachal Green Valley • 5 Katha</p>
+              </div>
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-900">Follow Up</span>
+            </div>
+
+            <div className="pt-2 flex items-center justify-between gap-2">
+              <div>
+                <p className="font-bold text-gray-900">Dr. Sharmin Sultana</p>
+                <p className="text-[10px] text-gray-500">Bashundhara Heights • 10 Katha</p>
+              </div>
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">Site Visit</span>
+            </div>
+
+            <div className="pt-2 flex items-center justify-between gap-2">
+              <div>
+                <p className="font-bold text-gray-900">Kazi Rafiqul Islam</p>
+                <p className="text-[10px] text-gray-500">Gulshan Avenue Plaza • Commercial</p>
+              </div>
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-800">Booked</span>
+            </div>
+
+            <div className="pt-2 flex items-center justify-between gap-2">
+              <div>
+                <p className="font-bold text-gray-900">Engineeer Anisur Rahman</p>
+                <p className="text-[10px] text-gray-500">Uttara Sector 14 • 3 Katha</p>
+              </div>
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-gray-100 text-gray-700">New Inquiry</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
