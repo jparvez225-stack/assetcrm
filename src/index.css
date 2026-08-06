@@ -3,29 +3,19 @@
 @media print {
   @page {
     size: A4 portrait;
-    margin: 10mm 10mm 10mm 10mm;
+    margin: 12mm 10mm 12mm 10mm;
   }
 
+  /* Reset all color adjustments to force pure monochrome B&W printing */
   *, *::before, *::after {
     box-shadow: none !important;
     text-shadow: none !important;
+    filter: none !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
 
-  html, body {
-    background-color: #ffffff !important;
-    background: #ffffff !important;
-    color: #000000 !important;
-    font-size: 9pt !important;
-    line-height: 1.3 !important;
-    width: 100% !important;
-    height: auto !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  /* Hide navigation, headers, interactive controls, buttons, filters */
+  /* Hide navigation, sidebar, header, buttons, inputs, interactive widgets completely */
   aside,
   header,
   nav,
@@ -33,27 +23,54 @@
   button,
   input,
   select,
-  textarea {
+  textarea,
+  svg {
+    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Allow print icons inside print header if needed, but hide button SVGs */
+  .print-only-header svg {
     display: none !important;
   }
 
-  /* Root layout container reset */
-  #root, main, .flex-1 {
-    max-width: 100% !important;
+  /* Root & Layout container resets - ensure no overflow clips or fixed heights */
+  html, 
+  body, 
+  #root, 
+  #root > div, 
+  div.flex, 
+  .flex-1, 
+  main {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 9pt !important;
+    line-height: 1.3 !important;
     width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
     margin: 0 !important;
     padding: 0 !important;
     overflow: visible !important;
+    position: static !important;
     display: block !important;
+    box-shadow: none !important;
   }
 
   /* Dedicated Printable Header */
   .print-only-header {
     display: block !important;
-    text-align: center;
-    margin-bottom: 12px;
+    text-align: center !important;
+    margin-bottom: 14px !important;
+    padding-bottom: 8px !important;
     border-bottom: 2px solid #000000 !important;
-    padding-bottom: 6px;
   }
 
   .print-only-header h2 {
@@ -70,104 +87,106 @@
     margin: 2px 0 0 0 !important;
   }
 
-  /* Force all text colors to pure black - NO GOLD OR COLOR ACCENTS */
-  p, span, h1, h2, h3, h4, h5, h6, label, div, td, th, a, strong, b {
+  /* STRICT PURE BLACK TEXT FOR ALL TEXT ELEMENTS - ZERO GOLD, GREEN, OR BLUE ACCENTS */
+  p, span, h1, h2, h3, h4, h5, h6, label, div, td, th, a, strong, b, small {
     color: #000000 !important;
     overflow-wrap: break-word !important;
     word-break: break-word !important;
+    text-transform: none;
   }
 
-  /* Force all borders to crisp black / grayscale - NO GOLD BORDERS */
-  div, section, article, table, tr, th, td, header, footer {
+  /* CRISP BLACK BORDERS EVERYWHERE - NO GOLD OR COLOR BORDERS */
+  div, section, article, table, tr, th, td, header, footer, hr {
     border-color: #000000 !important;
   }
 
-  /* All background colored cards, badges, chips convert to clean white or light gray */
+  /* ALL BACKGROUNDS TO PURE WHITE - OVERRIDE TAILWIND & INLINE GOLD STYLES */
   .bg-white, 
   .bg-gray-50, 
   .bg-gray-100, 
   .bg-amber-50, 
   .bg-amber-100, 
-  .bg-amber-50\/80,
-  .bg-amber-50\/40,
   .bg-emerald-50, 
   .bg-emerald-100, 
   .bg-blue-50, 
   .bg-blue-100,
-  [class*="bg-amber"],
-  [class*="bg-emerald"],
-  [class*="bg-blue"],
-  [class*="bg-gray"] {
+  [class*="bg-"],
+  [style*="backgroundColor"],
+  [style*="background"] {
     background-color: #ffffff !important;
     background: #ffffff !important;
     color: #000000 !important;
   }
 
-  /* Give table headers light gray background for readability */
-  th, .bg-gray-100\/70 {
+  /* Clean contrast light gray (#f0f0f0) for table headers only */
+  th, 
+  thead tr,
+  .bg-gray-100\/70,
+  .bg-gray-50\/50 {
     background-color: #f0f0f0 !important;
+    background: #f0f0f0 !important;
     color: #000000 !important;
     font-weight: bold !important;
   }
 
-  /* Remove all gold styling, badges, fills */
+  /* OVERRIDE ALL GOLD TEXT, GOLD ACCENTS, GREEN/BLUE BADGES */
   [class*="text-amber"],
   [class*="border-amber"],
   [class*="text-emerald"],
   [class*="border-emerald"],
+  [class*="text-blue"],
   [style*="#D4AF37"] {
     color: #000000 !important;
     border-color: #000000 !important;
     background-color: #ffffff !important;
   }
 
-  /* Card and Box Layouts in Print */
-  .border, .border-b, .border-t, .border-l, .border-r {
-    border-color: #000000 !important;
+  /* PREVENT TEXT CLIPPING OR OVERFLOW ON A4 */
+  table {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-collapse: collapse !important;
+    margin-top: 8px !important;
+    margin-bottom: 12px !important;
+    table-layout: auto !important;
+    word-wrap: break-word !important;
   }
 
-  /* Prevent awkward page breaks inside cards, rows, tables */
+  th, td {
+    border: 1px solid #000000 !important;
+    padding: 5px 6px !important;
+    font-size: 8.5pt !important;
+    line-height: 1.25 !important;
+    text-align: left !important;
+    vertical-align: top !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+    white-space: normal !important;
+  }
+
+  /* Prevent row splitting across pages */
   tr, .rounded-xl, .bg-white, .p-4, .p-6, .grid {
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }
 
-  /* Grid layout fixes for print so 2-column or 3-column elements fit A4 without clipping */
+  /* Grid layout fixes for print */
   .grid {
     display: grid !important;
     gap: 8px !important;
   }
 
-  /* Flex fixes */
   .flex {
     display: flex !important;
   }
 
-  /* Table styling for clean A4 fit without text clipping */
-  table {
-    width: 100% !important;
-    max-width: 100% !important;
-    border-collapse: collapse !important;
-    margin-top: 6px !important;
-    margin-bottom: 10px !important;
-    table-layout: auto !important;
-  }
-
-  th, td {
-    border: 1px solid #000000 !important;
-    padding: 4px 6px !important;
-    font-size: 8.5pt !important;
-    line-height: 1.25 !important;
-    text-align: left !important;
-    vertical-align: top !important;
-  }
-
-  /* Badges inside tables / cards */
+  /* Badges & Pills in print: pure black border, white fill */
   .rounded-full, .rounded, .rounded-md, .rounded-xl {
     box-shadow: none !important;
+    border-radius: 4px !important;
   }
 
-  /* Ensure container paddings are preserved and text doesn't clip */
+  /* Spacing and Padding resets for A4 fit */
   .p-6 {
     padding: 10px !important;
   }

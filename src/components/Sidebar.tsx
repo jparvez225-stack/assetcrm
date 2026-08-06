@@ -26,7 +26,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentNav, onNavigate }) => {
   ];
 
   return (
-    <aside className="w-64 bg-white border-r border-gray-200/80 flex flex-col min-h-screen select-none shrink-0 font-sans text-xs">
+    <aside className="w-64 bg-white border-r border-gray-200/80 flex flex-col min-h-screen select-none shrink-0 font-sans text-xs no-print">
       {/* Top ERP Brand Header Badge - Styled like PDF Header "EL ERP System Enterprise" */}
       <div className="px-4 py-3.5 flex items-center justify-between border-b border-gray-100 bg-gray-50/50">
         <div className="flex items-center gap-2.5">
