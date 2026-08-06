@@ -1,0 +1,6 @@
+{
+  "name": "Real Estate CRM Panel",
+  "description": "Comprehensive Real Estate CRM panel for property lead tracking, consultant performance, referrals, call logs, property categories, and analytics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
