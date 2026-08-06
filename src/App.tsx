@@ -83,8 +83,8 @@ export default function App() {
           onBack={() => setCurrentNav('dashboard')}
         />
 
-        {/* View Switcher */}
-        <main className="flex-1 overflow-y-auto">
+        {/* View Switcher with 32px padding */}
+        <main className="flex-1 overflow-y-auto px-8 py-6">
           {currentNav === 'dashboard' && (
             <DashboardView onNavigate={(nav) => setCurrentNav(nav)} />
           )}

@@ -47,60 +47,60 @@ export const LeadView: React.FC<LeadViewProps> = ({
   });
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-5 font-sans">
-      {/* Top Title & Add Lead Action Bar matching PDF Page 18 */}
+    <div className="space-y-5 max-w-full font-sans">
+      {/* Top Title & Add Lead Action Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <h1 className="text-xl font-extrabold text-gray-900 tracking-tight">Leads Overview</h1>
 
         <div className="flex items-center gap-2">
           <button 
             onClick={() => alert('Exporting leads data...')}
-            className="px-3.5 py-1.5 text-xs font-semibold text-gray-700 bg-white border border-gray-200 rounded-md hover:bg-gray-50 transition-colors shadow-2xs flex items-center gap-1.5"
+            className="px-3.5 py-1.5 text-xs font-bold text-amber-900 bg-white border-2 border-[#D4AF37] rounded-md hover:bg-amber-50 transition-colors shadow-2xs flex items-center gap-1.5"
           >
             <Download size={14} />
             <span>Import / Export</span>
           </button>
           <button 
             onClick={() => onNavigate('add-lead')}
-            className="px-4 py-1.5 text-xs font-bold text-white rounded-md shadow-xs hover:opacity-90 transition-opacity flex items-center gap-1.5"
+            className="px-4 py-1.5 text-xs font-bold text-white rounded-md shadow-2xs hover:opacity-90 transition-opacity flex items-center gap-1.5"
             style={{ backgroundColor: '#D4AF37' }}
           >
             <Plus size={14} />
-            <span>+ Add Lead</span>
+            <span>Add Lead</span>
           </button>
         </div>
       </div>
 
-      {/* Hero Stat Badges matching PDF Pages 7, 15, 18 */}
+      {/* Hero Minimal White & Gold KPI Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-        <div className="p-3.5 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-2xs">
-          <p className="text-[10px] text-blue-100 font-bold uppercase tracking-wider">Leads</p>
-          <p className="text-2xl font-extrabold mt-0.5">8,558</p>
-          <p className="text-[9px] text-blue-200 mt-1">TOTAL: 8,558 | TODAY: 0</p>
+        <div className="p-3.5 rounded-xl bg-white border border-gray-200/80 shadow-2xs space-y-1">
+          <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider block">Total Leads</span>
+          <p className="text-2xl font-extrabold text-gray-900">8,558</p>
+          <p className="text-[9px] text-amber-700 font-bold">TOTAL: 8,558 | TODAY: 0</p>
         </div>
 
-        <div className="p-3.5 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-700 text-white shadow-2xs">
-          <p className="text-[10px] text-purple-100 font-bold uppercase tracking-wider">Enrolment</p>
-          <p className="text-2xl font-extrabold mt-0.5">264</p>
-          <p className="text-[9px] text-purple-200 mt-1">TOTAL: 264 | TODAY: 0</p>
+        <div className="p-3.5 rounded-xl bg-white border border-gray-200/80 shadow-2xs space-y-1">
+          <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider block">Plot Bookings</span>
+          <p className="text-2xl font-extrabold text-amber-800">264</p>
+          <p className="text-[9px] text-amber-700 font-bold">CONFIRMED ALLOTMENTS</p>
         </div>
 
-        <div className="p-3.5 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 text-white shadow-2xs">
-          <p className="text-[10px] text-amber-100 font-bold uppercase tracking-wider">Follow Up & Interested</p>
-          <p className="text-2xl font-extrabold mt-0.5">974</p>
-          <p className="text-[9px] text-amber-200 mt-1">TOTAL: 974 | TODAY: 10</p>
+        <div className="p-3.5 rounded-xl bg-white border border-gray-200/80 shadow-2xs space-y-1">
+          <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider block">Follow Up & Interested</span>
+          <p className="text-2xl font-extrabold text-gray-900">974</p>
+          <p className="text-[9px] text-amber-700 font-bold">TOTAL: 974 | TODAY: 10</p>
         </div>
 
-        <div className="p-3.5 rounded-xl bg-gradient-to-br from-purple-800 to-slate-900 text-white shadow-2xs">
-          <p className="text-[10px] text-gray-300 font-bold uppercase tracking-wider">Lost Leads</p>
-          <p className="text-2xl font-extrabold mt-0.5">1,642</p>
-          <p className="text-[9px] text-gray-400 mt-1">TOTAL: 1,642 | TODAY: 0</p>
+        <div className="p-3.5 rounded-xl bg-white border border-gray-200/80 shadow-2xs space-y-1">
+          <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider block">Lost / Inactive</span>
+          <p className="text-2xl font-extrabold text-gray-900">1,642</p>
+          <p className="text-[9px] text-gray-400">UNRESPONSIVE</p>
         </div>
 
-        <div className="p-3.5 rounded-xl bg-gradient-to-br from-teal-500 to-cyan-600 text-white shadow-2xs col-span-2 sm:col-span-1">
-          <p className="text-[10px] text-teal-100 font-bold uppercase tracking-wider">Conversion Status</p>
-          <p className="text-2xl font-extrabold mt-0.5">3.08%</p>
-          <p className="text-[9px] text-teal-200 mt-1">CONVERSION RATE</p>
+        <div className="p-3.5 rounded-xl bg-white border border-gray-200/80 shadow-2xs space-y-1 col-span-2 sm:col-span-1">
+          <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider block">Conversion Rate</span>
+          <p className="text-2xl font-extrabold text-emerald-600">3.08%</p>
+          <p className="text-[9px] text-amber-700 font-bold">SALES EFFICIENCY</p>
         </div>
       </div>
 

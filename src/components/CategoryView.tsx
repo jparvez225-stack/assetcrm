@@ -38,7 +38,7 @@ export const CategoryView: React.FC<CategoryViewProps> = ({ categories, onAddCat
   );
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-5 font-sans">
+    <div className="space-y-5 max-w-full font-sans">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-extrabold text-gray-900 tracking-tight">Lead Category</h1>
@@ -51,7 +51,7 @@ export const CategoryView: React.FC<CategoryViewProps> = ({ categories, onAddCat
           style={{ backgroundColor: '#D4AF37' }}
         >
           <Plus size={14} />
-          <span>+ Add Lead Category</span>
+          <span>Add Lead Category</span>
         </button>
       </div>
 

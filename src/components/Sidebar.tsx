@@ -3,19 +3,8 @@ import { NavItem } from '../types';
 import { 
   LayoutDashboard, 
   Users, 
-  Activity, 
-  Layers, 
-  UserCheck, 
-  Share2, 
-  Bell, 
-  FileText,
-  UserPlus,
   ChevronDown,
-  ChevronRight,
-  Briefcase,
-  Settings,
-  Database,
-  Building2
+  ChevronRight
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -121,36 +110,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentNav, onNavigate }) => {
                 })}
               </div>
             )}
-          </div>
-        </div>
-
-        {/* Additional ERP Modules (Read-only nav indicators matching PDF) */}
-        <div>
-          <div className="px-3 pb-1.5 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
-            Inventory & Operations
-          </div>
-          <div className="space-y-0.5 text-gray-500">
-            <div className="flex items-center justify-between px-3 py-1.5 rounded-md hover:bg-gray-50 cursor-pointer">
-              <div className="flex items-center gap-2.5">
-                <Building2 size={15} className="text-gray-400" />
-                <span>Property Holdings</span>
-              </div>
-              <ChevronRight size={13} className="text-gray-300" />
-            </div>
-            <div className="flex items-center justify-between px-3 py-1.5 rounded-md hover:bg-gray-50 cursor-pointer">
-              <div className="flex items-center gap-2.5">
-                <Database size={15} className="text-gray-400" />
-                <span>Plot Allocation</span>
-              </div>
-              <ChevronRight size={13} className="text-gray-300" />
-            </div>
-            <div className="flex items-center justify-between px-3 py-1.5 rounded-md hover:bg-gray-50 cursor-pointer">
-              <div className="flex items-center gap-2.5">
-                <Settings size={15} className="text-gray-400" />
-                <span>System Settings</span>
-              </div>
-              <ChevronRight size={13} className="text-gray-300" />
-            </div>
           </div>
         </div>
       </div>

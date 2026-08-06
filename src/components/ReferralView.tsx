@@ -91,7 +91,7 @@ export const ReferralView: React.FC<ReferralViewProps> = ({
   // VIEW 1: ADD NEW REFERRAL FORM
   if (subView === 'add') {
     return (
-      <div className="p-6 max-w-5xl mx-auto space-y-5 font-sans">
+      <div className="space-y-5 max-w-full font-sans">
         <div className="flex items-center justify-between pb-2 border-b border-gray-200/60">
           <button 
             onClick={() => setSubView('list')}
@@ -230,7 +230,7 @@ export const ReferralView: React.FC<ReferralViewProps> = ({
   // VIEW 2: REFERRAL DETAILS
   if (subView === 'details' && selectedReferral) {
     return (
-      <div className="p-6 max-w-6xl mx-auto space-y-5 font-sans">
+      <div className="space-y-5 max-w-full font-sans">
         <div className="flex items-center justify-between pb-2 border-b border-gray-200/60">
           <button 
             onClick={() => setSubView('list')}
@@ -240,23 +240,29 @@ export const ReferralView: React.FC<ReferralViewProps> = ({
             <span>Referral Details</span>
           </button>
 
-          <button className="px-3.5 py-1.5 text-xs font-bold text-white bg-emerald-600 rounded-md hover:bg-emerald-700 shadow-2xs">
+          <button 
+            className="px-3.5 py-1.5 text-xs font-bold text-white rounded-md hover:opacity-90 transition-opacity shadow-2xs"
+            style={{ backgroundColor: '#D4AF37' }}
+          >
             Withdraw Commission
           </button>
         </div>
 
-        {/* Top Banner Card */}
-        <div className="bg-gradient-to-r from-emerald-600 to-teal-700 text-white p-5 rounded-xl flex items-center justify-between shadow-2xs">
+        {/* Top Minimal White & Gold Banner Card */}
+        <div className="bg-white border border-gray-200/80 p-5 rounded-xl flex items-center justify-between shadow-2xs">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center text-white font-extrabold text-xl border border-white/30">
+            <div 
+              className="w-12 h-12 rounded-full text-white font-extrabold text-xl flex items-center justify-center border border-amber-300"
+              style={{ backgroundColor: '#D4AF37' }}
+            >
               {selectedReferral.name.slice(0, 2).toUpperCase()}
             </div>
             <div>
-              <h2 className="text-lg font-bold">{selectedReferral.name}</h2>
-              <p className="text-xs text-emerald-100">Mobile: {selectedReferral.phone}</p>
+              <h2 className="text-lg font-extrabold text-gray-900">{selectedReferral.name}</h2>
+              <p className="text-xs text-gray-500">Mobile: {selectedReferral.phone}</p>
             </div>
           </div>
-          <span className="px-3 py-1 text-xs font-bold bg-white/20 rounded-full border border-white/30">
+          <span className="px-3 py-1 text-xs font-bold text-amber-900 bg-amber-50 rounded-full border border-amber-200">
             Active Partner
           </span>
         </div>
@@ -299,7 +305,7 @@ export const ReferralView: React.FC<ReferralViewProps> = ({
 
   // VIEW 3: REFERRAL TABLE LIST
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-5 font-sans">
+    <div className="space-y-5 max-w-full font-sans">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-extrabold text-gray-900 tracking-tight">Referral Management</h1>
@@ -312,7 +318,7 @@ export const ReferralView: React.FC<ReferralViewProps> = ({
           style={{ backgroundColor: '#D4AF37' }}
         >
           <Plus size={14} />
-          <span>+ Add Referral</span>
+          <span>Add Referral</span>
         </button>
       </div>
 

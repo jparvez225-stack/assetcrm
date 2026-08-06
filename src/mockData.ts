@@ -393,31 +393,31 @@ export const initialNotifications: NotificationItem[] = [
   {
     id: 'n1',
     title: 'Lead Follow-up Reminder',
-    message: 'Follow up with Emma Wilson regarding her course inquiry',
+    message: 'Follow up with Md. Rahim Mia regarding his Purbachal 5 Katha plot inquiry',
     timeAgo: '15 minutes ago',
     isRead: false,
     type: 'lead-reminder'
   },
   {
     id: 'n2',
-    title: 'Lead Follow-up Reminder',
-    message: 'Follow up with Emma Wilson regarding her course inquiry',
-    timeAgo: '15 minutes ago',
+    title: 'Site Visit Confirmation',
+    message: 'Confirm Saturday site visit with Raja Jisan Khan for Bashundhara Block-I',
+    timeAgo: '30 minutes ago',
     isRead: false,
     type: 'lead-reminder'
   },
   {
     id: 'n3',
-    title: 'Lead Follow-up Reminder',
-    message: 'Follow up with Emma Wilson regarding her course inquiry',
-    timeAgo: '15 minutes ago',
+    title: 'Commercial Quote Requested',
+    message: 'Send updated floorplan & pricing to Karim Khandokar for Gulshan Plaza',
+    timeAgo: '45 minutes ago',
     isRead: false,
     type: 'lead-reminder'
   },
   {
     id: 'n4',
     title: 'New Support Tickets',
-    message: '15 Items Pendings',
+    message: '15 Items Pending Plot Allotment Verification',
     timeAgo: '1 hour ago',
     isRead: true,
     type: 'support'
@@ -425,7 +425,7 @@ export const initialNotifications: NotificationItem[] = [
   {
     id: 'n5',
     title: 'Pending Plot Bookings',
-    message: '08 Items Pending Manager Signature',
+    message: '08 Items Pending Manager Signature & Allotment Deed',
     timeAgo: '2 hours ago',
     isRead: false,
     type: 'approval'

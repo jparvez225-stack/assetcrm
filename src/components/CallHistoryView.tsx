@@ -73,7 +73,7 @@ export const CallHistoryView: React.FC<CallHistoryViewProps> = ({
   };
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-5 font-sans">
+    <div className="space-y-5 max-w-full font-sans">
       {/* Header with Back button matching Page 14 */}
       <div className="flex items-center gap-3 pb-2 border-b border-gray-200/60">
         <button 
@@ -210,7 +210,7 @@ export const CallHistoryView: React.FC<CallHistoryViewProps> = ({
 
           {/* + Add Activity Log Form matching Page 14 */}
           <div className="bg-white p-4 rounded-xl border border-gray-200/80 shadow-2xs space-y-3">
-            <h3 className="font-extrabold text-sm text-gray-900">+ Add Activity Log</h3>
+            <h3 className="font-extrabold text-sm text-gray-900">Add Activity Log</h3>
 
             <form onSubmit={handleSaveLog} className="space-y-3">
               <div>
@@ -247,7 +247,8 @@ export const CallHistoryView: React.FC<CallHistoryViewProps> = ({
                   <button
                     type="button"
                     onClick={() => setIsTimerRunning(!isTimerRunning)}
-                    className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-md text-xs font-bold flex items-center gap-1 transition-colors"
+                    className="px-3 py-1.5 text-white rounded-md text-xs font-bold flex items-center gap-1 transition-opacity hover:opacity-90 shadow-2xs"
+                    style={{ backgroundColor: '#D4AF37' }}
                   >
                     <Play size={12} />
                     <span>Start</span>

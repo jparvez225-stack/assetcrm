@@ -21,7 +21,7 @@ export const NotificationView: React.FC<NotificationViewProps> = ({
   const filteredItems = items.filter(n => filter === 'all' ? true : !n.isRead);
 
   return (
-    <div className="p-6 max-w-5xl mx-auto space-y-5 font-sans">
+    <div className="space-y-5 max-w-full font-sans">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
@@ -42,22 +42,26 @@ export const NotificationView: React.FC<NotificationViewProps> = ({
         </button>
       </div>
 
-      {/* Top Cards */}
+      {/* Top Minimal White & Gold KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <div className="p-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-700 text-white shadow-2xs flex justify-between items-center">
+        <div className="p-4 rounded-xl bg-white border border-gray-200/80 shadow-2xs flex justify-between items-center">
           <div>
-            <p className="text-[10px] text-emerald-100 font-bold uppercase tracking-wider">Total Notifications</p>
-            <p className="text-2xl font-extrabold mt-0.5">500</p>
+            <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Total Notifications</p>
+            <p className="text-2xl font-extrabold text-gray-900 mt-0.5">500</p>
           </div>
-          <Bell size={24} className="text-emerald-200/60" />
+          <div className="w-9 h-9 rounded-md bg-amber-50 flex items-center justify-center text-amber-700">
+            <Bell size={18} />
+          </div>
         </div>
 
-        <div className="p-4 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-2xs flex justify-between items-center">
+        <div className="p-4 rounded-xl bg-white border border-gray-200/80 shadow-2xs flex justify-between items-center">
           <div>
-            <p className="text-[10px] text-blue-100 font-bold uppercase tracking-wider">Unread Alerts</p>
-            <p className="text-2xl font-extrabold mt-0.5">200</p>
+            <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Unread Alerts</p>
+            <p className="text-2xl font-extrabold text-amber-800 mt-0.5">200</p>
           </div>
-          <Bell size={24} className="text-blue-200/60" />
+          <div className="w-9 h-9 rounded-md bg-amber-100/70 flex items-center justify-center text-amber-800">
+            <Bell size={18} />
+          </div>
         </div>
       </div>
 

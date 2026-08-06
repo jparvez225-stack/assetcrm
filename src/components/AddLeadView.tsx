@@ -89,7 +89,7 @@ export const AddLeadView: React.FC<AddLeadViewProps> = ({ onBack, onAddLead }) =
   };
 
   return (
-    <div className="p-6 max-w-6xl mx-auto space-y-5 font-sans">
+    <div className="space-y-5 max-w-full font-sans">
       {/* Top Header Bar matching PDF Page 16 & 17 with 'Go Back' pill + 'Add CRM Lead' Title */}
       <div className="flex items-center justify-between pb-2 border-b border-gray-200/60">
         <div className="flex items-center gap-3">

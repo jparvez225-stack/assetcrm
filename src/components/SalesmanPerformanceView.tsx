@@ -38,8 +38,8 @@ export const SalesmanPerformanceView: React.FC<SalesmanPerformanceProps> = ({ sa
   };
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-5 font-sans">
-      {/* Page Header & CTA Buttons matching PDF Page 13 */}
+    <div className="space-y-5 max-w-full font-sans">
+      {/* Page Header & CTA Buttons */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-extrabold text-gray-900 tracking-tight">Counselor Performance Report</h1>
@@ -49,7 +49,7 @@ export const SalesmanPerformanceView: React.FC<SalesmanPerformanceProps> = ({ sa
         <div className="flex items-center gap-2">
           <button 
             onClick={handlePrint}
-            className="px-3.5 py-1.5 text-xs font-semibold text-gray-700 bg-white border border-gray-200 rounded-md hover:bg-gray-50 transition-colors shadow-2xs flex items-center gap-1.5"
+            className="px-3.5 py-1.5 text-xs font-bold text-amber-900 bg-white border-2 border-[#D4AF37] rounded-md hover:bg-amber-50 transition-colors shadow-2xs flex items-center gap-1.5"
           >
             <Printer size={14} />
             <span>Print Report</span>
@@ -65,23 +65,23 @@ export const SalesmanPerformanceView: React.FC<SalesmanPerformanceProps> = ({ sa
         </div>
       </div>
 
-      {/* Overview Stat Badges */}
+      {/* Minimal White & Gold Overview Stat Badges */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-4 rounded-xl shadow-2xs space-y-1">
-          <p className="text-[10px] text-blue-100 font-bold uppercase tracking-wider">Total Consultants</p>
-          <p className="text-2xl font-extrabold">310</p>
-          <p className="text-[10px] text-blue-200">Across 12 Regional Branches</p>
+        <div className="bg-white p-4 rounded-xl border border-gray-200/80 shadow-2xs space-y-1">
+          <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Total Consultants</p>
+          <p className="text-2xl font-extrabold text-gray-900">310</p>
+          <p className="text-[10px] text-amber-700 font-semibold">Across 12 Regional Branches</p>
         </div>
 
-        <div className="bg-gradient-to-r from-emerald-600 to-teal-700 text-white p-4 rounded-xl shadow-2xs space-y-1">
-          <p className="text-[10px] text-emerald-100 font-bold uppercase tracking-wider">Active Executives</p>
-          <p className="text-2xl font-extrabold">130</p>
-          <p className="text-[10px] text-emerald-200">Handling Active Inquiries</p>
+        <div className="bg-white p-4 rounded-xl border border-gray-200/80 shadow-2xs space-y-1">
+          <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Active Executives</p>
+          <p className="text-2xl font-extrabold text-gray-900">130</p>
+          <p className="text-[10px] text-emerald-700 font-semibold">Handling Active Inquiries</p>
         </div>
 
-        <div className="bg-white p-3.5 rounded-xl border border-gray-200/80 shadow-2xs flex items-center justify-between">
+        <div className="bg-white p-4 rounded-xl border border-gray-200/80 shadow-2xs flex items-center justify-between">
           <div className="space-y-0.5">
-            <span className="text-[10px] font-extrabold text-amber-700 bg-amber-50 px-2 py-0.5 rounded">Top Performer</span>
+            <span className="text-[10px] font-extrabold text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200/60">Top Performer</span>
             <p className="text-xs font-bold text-gray-900">Md. Rahim Sarder</p>
             <p className="text-[10px] text-gray-500">Sr. Executive Consultant</p>
           </div>
@@ -198,8 +198,8 @@ export const SalesmanPerformanceView: React.FC<SalesmanPerformanceProps> = ({ sa
                       </span>
                       <div className="w-20 bg-gray-200 h-1.5 rounded-full overflow-hidden">
                         <div 
-                          className="bg-emerald-500 h-full rounded-full"
-                          style={{ width: `${s.performanceRate}%` }}
+                          className="h-full rounded-full transition-all duration-300"
+                          style={{ width: `${s.performanceRate}%`, backgroundColor: '#D4AF37' }}
                         ></div>
                       </div>
                     </div>

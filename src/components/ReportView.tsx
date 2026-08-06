@@ -8,7 +8,7 @@ interface ReportViewProps {
 
 export const ReportView: React.FC<ReportViewProps> = ({ reportRows }) => {
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-5 font-sans">
+    <div className="space-y-5 max-w-full font-sans">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-extrabold text-gray-900 tracking-tight">Lead & Performance Reports</h1>
@@ -18,7 +18,7 @@ export const ReportView: React.FC<ReportViewProps> = ({ reportRows }) => {
         <div className="flex items-center gap-2">
           <button 
             onClick={() => window.print()}
-            className="px-3.5 py-1.5 text-xs font-semibold text-gray-700 bg-white border border-gray-200 rounded-md hover:bg-gray-50 transition-colors shadow-2xs flex items-center gap-1.5"
+            className="px-3.5 py-1.5 text-xs font-bold text-amber-900 bg-white border-2 border-[#D4AF37] rounded-md hover:bg-amber-50 transition-colors shadow-2xs flex items-center gap-1.5"
           >
             <Printer size={14} />
             <span>Print Report</span>
@@ -36,28 +36,28 @@ export const ReportView: React.FC<ReportViewProps> = ({ reportRows }) => {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        <div className="p-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-700 text-white shadow-2xs">
-          <p className="text-[10px] text-emerald-100 font-bold uppercase tracking-wider">Lifetime Leads</p>
-          <p className="text-2xl font-extrabold mt-0.5">500</p>
-          <p className="text-[10px] text-emerald-200 mt-1">Active Property Inquiries</p>
+        <div className="p-4 rounded-xl bg-white border border-gray-200/80 shadow-2xs space-y-1">
+          <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Lifetime Leads</p>
+          <p className="text-2xl font-extrabold text-gray-900">500</p>
+          <p className="text-[10px] text-amber-700 font-semibold">Active Property Inquiries</p>
         </div>
 
-        <div className="p-4 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-2xs">
-          <p className="text-[10px] text-blue-100 font-bold uppercase tracking-wider">Plots Booked</p>
-          <p className="text-2xl font-extrabold mt-0.5">500</p>
-          <p className="text-[10px] text-blue-200 mt-1">Confirmed Allotments</p>
+        <div className="p-4 rounded-xl bg-white border border-gray-200/80 shadow-2xs space-y-1">
+          <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Plots Booked</p>
+          <p className="text-2xl font-extrabold text-emerald-600">500</p>
+          <p className="text-[10px] text-emerald-700 font-semibold">Confirmed Allotments</p>
         </div>
 
-        <div className="p-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-800 text-white shadow-2xs">
-          <p className="text-[10px] text-purple-100 font-bold uppercase tracking-wider">Overall Conversion</p>
-          <p className="text-2xl font-extrabold mt-0.5">23%</p>
-          <p className="text-[10px] text-purple-200 mt-1">Sales Efficiency Rate</p>
+        <div className="p-4 rounded-xl bg-white border border-gray-200/80 shadow-2xs space-y-1">
+          <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Overall Conversion</p>
+          <p className="text-2xl font-extrabold text-gray-900">23%</p>
+          <p className="text-[10px] text-amber-700 font-semibold">Sales Efficiency Rate</p>
         </div>
 
-        <div className="p-4 rounded-xl bg-gradient-to-r from-amber-600 to-orange-700 text-white shadow-2xs">
-          <p className="text-[10px] text-amber-100 font-bold uppercase tracking-wider">Closed / Lost</p>
-          <p className="text-2xl font-extrabold mt-0.5">200</p>
-          <p className="text-[10px] text-amber-200 mt-1">Unresponsive Leads</p>
+        <div className="p-4 rounded-xl bg-white border border-gray-200/80 shadow-2xs space-y-1">
+          <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Closed / Lost</p>
+          <p className="text-2xl font-extrabold text-gray-900">200</p>
+          <p className="text-[10px] text-gray-400">Unresponsive Leads</p>
         </div>
       </div>
 
