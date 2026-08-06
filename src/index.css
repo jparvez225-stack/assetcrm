@@ -3,7 +3,7 @@
 @media print {
   @page {
     size: A4 portrait;
-    margin: 12mm 10mm 12mm 10mm;
+    margin: 6mm 8mm 6mm 8mm;
   }
 
   /* Reset all color adjustments to force pure monochrome B&W printing */
@@ -15,7 +15,7 @@
     print-color-adjust: exact !important;
   }
 
-  /* Hide navigation, sidebar, header, buttons, inputs, interactive widgets completely */
+  /* Absolute removal of non-printable elements so they consume ZERO layout height/space */
   aside,
   header,
   nav,
@@ -31,26 +31,31 @@
     height: 0 !important;
     margin: 0 !important;
     padding: 0 !important;
+    border: none !important;
+    position: absolute !important;
+    overflow: hidden !important;
   }
 
-  /* Allow print icons inside print header if needed, but hide button SVGs */
+  /* Allow print header text, but hide any SVG inside print-only-header */
   .print-only-header svg {
     display: none !important;
   }
 
-  /* Root & Layout container resets - ensure no overflow clips or fixed heights */
+  /* Completely reset flexbox and min-h-screen wrappers to standard block layout */
   html, 
   body, 
   #root, 
   #root > div, 
   div.flex, 
+  div.flex-col,
   .flex-1, 
-  main {
+  main,
+  .min-h-screen {
     background-color: #ffffff !important;
     background: #ffffff !important;
     color: #000000 !important;
-    font-size: 9pt !important;
-    line-height: 1.3 !important;
+    font-size: 8.5pt !important;
+    line-height: 1.2 !important;
     width: 100% !important;
     max-width: 100% !important;
     height: auto !important;
@@ -62,45 +67,46 @@
     position: static !important;
     display: block !important;
     box-shadow: none !important;
+    float: none !important;
   }
 
-  /* Dedicated Printable Header */
+  /* Dedicated Printable Header - Single Compact Box at Top */
   .print-only-header {
     display: block !important;
     text-align: center !important;
-    margin-bottom: 14px !important;
-    padding-bottom: 8px !important;
+    margin: 0 0 8px 0 !important;
+    padding: 0 0 6px 0 !important;
     border-bottom: 2px solid #000000 !important;
   }
 
   .print-only-header h2 {
-    font-size: 14pt !important;
+    font-size: 13pt !important;
     font-weight: 800 !important;
     color: #000000 !important;
     margin: 0 !important;
     text-transform: uppercase !important;
+    line-height: 1.1 !important;
   }
 
   .print-only-header p {
-    font-size: 9pt !important;
+    font-size: 8.5pt !important;
     color: #000000 !important;
     margin: 2px 0 0 0 !important;
   }
 
-  /* STRICT PURE BLACK TEXT FOR ALL TEXT ELEMENTS - ZERO GOLD, GREEN, OR BLUE ACCENTS */
+  /* PURE BLACK TEXT FOR EVERYTHING - NO COLOR ACCENTS */
   p, span, h1, h2, h3, h4, h5, h6, label, div, td, th, a, strong, b, small {
     color: #000000 !important;
     overflow-wrap: break-word !important;
     word-break: break-word !important;
-    text-transform: none;
   }
 
-  /* CRISP BLACK BORDERS EVERYWHERE - NO GOLD OR COLOR BORDERS */
+  /* CRISP BLACK BORDERS EVERYWHERE */
   div, section, article, table, tr, th, td, header, footer, hr {
     border-color: #000000 !important;
   }
 
-  /* ALL BACKGROUNDS TO PURE WHITE - OVERRIDE TAILWIND & INLINE GOLD STYLES */
+  /* ALL BACKGROUNDS PURE WHITE */
   .bg-white, 
   .bg-gray-50, 
   .bg-gray-100, 
@@ -118,7 +124,7 @@
     color: #000000 !important;
   }
 
-  /* Clean contrast light gray (#f0f0f0) for table headers only */
+  /* Clean contrast light gray (#f0f0f0) for table headers */
   th, 
   thead tr,
   .bg-gray-100\/70,
@@ -129,7 +135,7 @@
     font-weight: bold !important;
   }
 
-  /* OVERRIDE ALL GOLD TEXT, GOLD ACCENTS, GREEN/BLUE BADGES */
+  /* OVERRIDE ALL GOLD TEXT, ACCENTS, BADGES TO CRISP BLACK */
   [class*="text-amber"],
   [class*="border-amber"],
   [class*="text-emerald"],
@@ -141,74 +147,89 @@
     background-color: #ffffff !important;
   }
 
-  /* PREVENT TEXT CLIPPING OR OVERFLOW ON A4 */
+  /* COMPACT SINGLE-PAGE TABLE FIT */
   table {
     width: 100% !important;
     max-width: 100% !important;
     border-collapse: collapse !important;
-    margin-top: 8px !important;
-    margin-bottom: 12px !important;
+    margin-top: 4px !important;
+    margin-bottom: 6px !important;
     table-layout: auto !important;
     word-wrap: break-word !important;
   }
 
   th, td {
     border: 1px solid #000000 !important;
-    padding: 5px 6px !important;
-    font-size: 8.5pt !important;
-    line-height: 1.25 !important;
+    padding: 3px 5px !important;
+    font-size: 8pt !important;
+    line-height: 1.15 !important;
     text-align: left !important;
-    vertical-align: top !important;
+    vertical-align: middle !important;
     word-break: break-word !important;
     overflow-wrap: break-word !important;
     white-space: normal !important;
   }
 
-  /* Prevent row splitting across pages */
+  /* Page Break avoidance to force 1-page document fit */
+  body, #root, main, .space-y-6, .space-y-5, .space-y-4 {
+    page-break-before: avoid !important;
+    break-before: avoid !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
   tr, .rounded-xl, .bg-white, .p-4, .p-6, .grid {
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }
 
-  /* Grid layout fixes for print */
+  /* Grid & Flex layout fixes for 1-page print fit */
   .grid {
     display: grid !important;
-    gap: 8px !important;
+    gap: 6px !important;
   }
 
   .flex {
     display: flex !important;
   }
 
-  /* Badges & Pills in print: pure black border, white fill */
+  /* Badges & Pills in print */
   .rounded-full, .rounded, .rounded-md, .rounded-xl {
     box-shadow: none !important;
-    border-radius: 4px !important;
+    border-radius: 2px !important;
   }
 
-  /* Spacing and Padding resets for A4 fit */
-  .p-6 {
-    padding: 10px !important;
-  }
-
-  .p-4 {
-    padding: 8px !important;
-  }
-
-  .p-3.5, .p-3 {
+  /* Compact spacing and padding resets to fit single A4 page cleanly */
+  .p-6, .p-5 {
     padding: 6px !important;
   }
 
-  .space-y-6 > * + * {
-    margin-top: 10px !important;
+  .p-4, .p-3.5, .p-3 {
+    padding: 4px 6px !important;
   }
 
-  .space-y-5 > * + * {
-    margin-top: 8px !important;
-  }
-
-  .space-y-4 > * + * {
+  .space-y-6 > * + *, .space-y-5 > * + *, .space-y-4 > * + * {
     margin-top: 6px !important;
+  }
+
+  .space-y-3 > * + *, .space-y-2 > * + * {
+    margin-top: 4px !important;
+  }
+
+  .gap-6, .gap-5, .gap-4 {
+    gap: 6px !important;
+  }
+
+  .text-2xl {
+    font-size: 14pt !important;
+  }
+
+  .text-xl {
+    font-size: 12pt !important;
+  }
+
+  .text-lg {
+    font-size: 11pt !important;
   }
 }
 
