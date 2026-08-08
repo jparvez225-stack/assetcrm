@@ -168,13 +168,13 @@ export const ReportView: React.FC<ReportViewProps> = () => {
           <Zap size={85} className="absolute -right-4 -bottom-4 text-blue-500/10 pointer-events-none group-hover:scale-110 transition-transform" />
         </div>
 
-        {/* Card 2: Enrolment / Booking */}
+        {/* Card 2: Bookings */}
         <div className="bg-white rounded-2xl p-4 border border-purple-100/90 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all">
           <div className="flex items-center gap-2 mb-3 z-10">
             <div className="p-2 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
               <UserCheck size={18} />
             </div>
-            <span className="font-extrabold text-sm text-gray-900 tracking-wide">Enrolment</span>
+            <span className="font-extrabold text-sm text-gray-900 tracking-wide">Bookings</span>
           </div>
           <div className="grid grid-cols-2 gap-2 z-10">
             <div className="bg-purple-50/60 rounded-xl p-2.5 text-left border border-purple-100/80">
@@ -307,7 +307,7 @@ export const ReportView: React.FC<ReportViewProps> = () => {
                 <option value="All">Status</option>
                 <option value="Active">Active</option>
                 <option value="Interested">Interested</option>
-                <option value="Enrolled">Enrolled</option>
+                <option value="Booked">Booked</option>
               </select>
               <ChevronDown className="absolute right-3 top-2.5 text-gray-400 pointer-events-none" size={15} />
             </div>

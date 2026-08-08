@@ -150,13 +150,13 @@ export const LeadView: React.FC<LeadViewProps> = ({
           <Zap size={85} className="absolute -right-4 -bottom-4 text-blue-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
         </div>
 
-        {/* Card 2: Enrolment */}
+        {/* Card 2: Bookings */}
         <div className="bg-white rounded-2xl p-4 border border-purple-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all">
           <div className="flex items-center gap-2 mb-3 z-10">
             <div className="p-2 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
               <UserCheck size={18} />
             </div>
-            <span className="font-extrabold text-sm text-gray-900 tracking-wide">Enrolment</span>
+            <span className="font-extrabold text-sm text-gray-900 tracking-wide">Bookings</span>
           </div>
           <div className="grid grid-cols-2 gap-2 z-10">
             <div className="bg-purple-50/50 rounded-xl p-2.5 text-left border border-purple-100/70">

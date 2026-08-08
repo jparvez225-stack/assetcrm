@@ -155,7 +155,7 @@ export const DashboardView: React.FC<DashboardProps> = ({ onNavigate }) => {
             <div className="p-2 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
               <UserCheck size={18} />
             </div>
-            <span className="font-extrabold text-sm text-gray-900 tracking-wide">Enrolment</span>
+            <span className="font-extrabold text-sm text-gray-900 tracking-wide">Bookings</span>
           </div>
           <div className="grid grid-cols-2 gap-2 z-10">
             <div className="bg-purple-50/50 rounded-xl p-2.5 text-left border border-purple-100/70">
