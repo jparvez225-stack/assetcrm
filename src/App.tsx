@@ -22,9 +22,14 @@ import { SalesmanPerformanceView } from './components/SalesmanPerformanceView';
 import { ReferralView } from './components/ReferralView';
 import { NotificationView } from './components/NotificationView';
 import { ReportView } from './components/ReportView';
+import { InventoryAllProjectsView } from './components/InventoryAllProjectsView';
+import { AccountsAllProjectsView } from './components/AccountsAllProjectsView';
+import { ProjectHistoryView } from './components/ProjectHistoryView';
+import { InventoryBuyersStakeholdersView } from './components/InventoryBuyersStakeholdersView';
+import { InventoryFlatsPlotStockView } from './components/InventoryFlatsPlotStockView';
 
 export default function App() {
-  const [currentNav, setCurrentNav] = useState<NavItem>('dashboard');
+  const [currentNav, setCurrentNav] = useState<NavItem>('inventory-all-projects');
   const [leads, setLeads] = useState<Lead[]>(initialLeads);
   const [referrals, setReferrals] = useState<ReferralItem[]>(initialReferrals);
   const [callLogs, setCallLogs] = useState<CallLog[]>(initialCallLogs);
@@ -32,6 +37,12 @@ export default function App() {
   const [notifications, setNotifications] = useState<NotificationItem[]>(initialNotifications);
   const [selectedLead, setSelectedLead] = useState<Lead | undefined>(initialLeads[0]);
   const [editingLead, setEditingLead] = useState<Lead | null>(null);
+  const [selectedProjectIdForHistory, setSelectedProjectIdForHistory] = useState<string>('proj_1');
+  const [bookingPrefill, setBookingPrefill] = useState<{
+    isOpen: boolean;
+    projectName?: string;
+    unitDetails?: string;
+  }>({ isOpen: false });
 
   const handleAddLead = (newLead: Lead) => {
     setLeads(prev => [newLead, ...prev]);
@@ -82,6 +93,11 @@ export default function App() {
             currentNav === 'lead-category' ? 'Lead Category' :
             currentNav === 'lead-source' ? 'Lead Sources' :
             currentNav === 'salesman-performance' ? 'Salesman Performance Report' :
+            currentNav === 'inventory-all-projects' ? 'Inventory Management - All Projects' :
+            currentNav === 'inventory-project-history' ? 'Inventory Management - Project History' :
+            currentNav === 'inventory-buyers-stakeholders' ? 'Inventory Management - All Buyers' :
+            currentNav === 'inventory-flats-plot-stock' ? 'Inventory Management - Flats & Plot Stock' :
+            currentNav === 'accounts-all-projects' ? 'Accounts Management - All Projects' :
             currentNav === 'referral' ? 'Referral Management' :
             currentNav === 'notification' ? 'Notification Center' :
             'Lead Report & Analytics'
@@ -158,6 +174,49 @@ export default function App() {
           {currentNav === 'salesman-performance' && (
             <SalesmanPerformanceView 
               salesmen={mockSalesmen}
+            />
+          )}
+
+          {currentNav === 'inventory-all-projects' && (
+            <InventoryAllProjectsView 
+              onSelectProjectHistory={(projectId) => {
+                setSelectedProjectIdForHistory(projectId);
+                setCurrentNav('inventory-project-history');
+              }}
+            />
+          )}
+
+          {currentNav === 'inventory-project-history' && (
+            <ProjectHistoryView 
+              initialProjectId={selectedProjectIdForHistory}
+              onBackToAllProjects={() => setCurrentNav('inventory-all-projects')}
+              onBookUnit={(projectName, unitDetails) => {
+                setBookingPrefill({
+                  isOpen: true,
+                  projectName,
+                  unitDetails
+                });
+                setCurrentNav('accounts-all-projects');
+              }}
+            />
+          )}
+
+          {currentNav === 'inventory-buyers-stakeholders' && (
+            <InventoryBuyersStakeholdersView />
+          )}
+
+          {currentNav === 'inventory-flats-plot-stock' && (
+            <InventoryFlatsPlotStockView />
+          )}
+
+          {currentNav === 'accounts-all-projects' && (
+            <AccountsAllProjectsView 
+              autoOpenBookModal={bookingPrefill.isOpen}
+              initialBookingData={{
+                projectName: bookingPrefill.projectName,
+                unitDetails: bookingPrefill.unitDetails
+              }}
+              onCloseAutoBookModal={() => setBookingPrefill({ isOpen: false })}
             />
           )}
 

@@ -123,7 +123,7 @@ export const LeadView: React.FC<LeadViewProps> = ({
           style={{ backgroundColor: '#c7a259' }}
         >
           <Plus size={14} />
-          <span>+ Add Lead</span>
+          <span>Add New</span>
         </button>
       </div>
 

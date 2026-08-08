@@ -64,12 +64,12 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="flex items-center gap-2 pl-2 border-l border-gray-200">
           <img
             src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=120"
-            alt="Ahmed Karim"
-            className="w-8 h-8 rounded-full object-cover"
+            alt="Jahid Parvez"
+            className="w-8 h-8 rounded-full object-cover border border-amber-300"
           />
           <div className="hidden sm:block text-left">
-            <p className="text-xs font-semibold text-gray-800 leading-none">Ahmed Karim</p>
-            <p className="text-[10px] text-gray-500 mt-0.5">ahmed@gmail.com</p>
+            <p className="text-xs font-semibold text-gray-800 leading-none">Jahid Parvez</p>
+            <p className="text-[10px] text-gray-500 mt-0.5">jahid@promiseassets.com</p>
           </div>
           <ChevronDown size={14} className="text-gray-400" />
         </div>

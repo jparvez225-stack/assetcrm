@@ -3,6 +3,8 @@ import { NavItem } from '../types';
 import { 
   LayoutDashboard, 
   Users, 
+  Building2,
+  WalletCards,
   ChevronDown,
   ChevronRight
 } from 'lucide-react';
@@ -14,6 +16,8 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ currentNav, onNavigate }) => {
   const [crmExpanded, setCrmExpanded] = useState(true);
+  const [inventoryExpanded, setInventoryExpanded] = useState(true);
+  const [accountsExpanded, setAccountsExpanded] = useState(true);
 
   const crmSubItems: { id: NavItem; label: string; badge?: string }[] = [
     { id: 'lead', label: 'Leads' },
@@ -28,7 +32,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentNav, onNavigate }) => {
 
   return (
     <aside className="w-64 bg-white border-r border-gray-200/80 flex flex-col min-h-screen select-none shrink-0 font-sans text-xs">
-      {/* Top ERP Brand Header Badge - Styled like PDF Header "EL ERP System Enterprise" */}
+      {/* Top ERP Brand Header Badge */}
       <div className="px-4 py-3.5 flex items-center justify-between border-b border-gray-100 bg-gray-50/50">
         <div className="flex items-center gap-2.5">
           <div 
@@ -48,8 +52,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentNav, onNavigate }) => {
         </div>
       </div>
 
-      {/* Grouped Sidebar Navigation matching PDF Pages 1-18 */}
-      <div className="py-3 px-2 flex-1 overflow-y-auto space-y-4">
+      {/* Grouped Sidebar Navigation */}
+      <div className="py-3 px-2 flex-1 overflow-y-auto space-y-3">
         {/* Main Dashboard */}
         <div>
           <button
@@ -65,10 +69,102 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentNav, onNavigate }) => {
           </button>
         </div>
 
+        {/* INVENTORY MANAGEMENT Group */}
+        <div>
+          <div className="px-3 pb-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+            <span>INVENTORY MANAGEMENT</span>
+          </div>
+          
+          <div className="space-y-0.5">
+            <button
+              onClick={() => setInventoryExpanded(!inventoryExpanded)}
+              className="w-full flex items-center justify-between px-3 py-1.5 rounded-md text-gray-700 hover:bg-gray-100/70 font-semibold transition-colors"
+            >
+              <div className="flex items-center gap-2.5">
+                <Building2 size={15} className="text-amber-600" />
+                <span>Inventory Management</span>
+              </div>
+              {inventoryExpanded ? <ChevronDown size={14} className="text-gray-400" /> : <ChevronRight size={14} className="text-gray-400" />}
+            </button>
+
+            {inventoryExpanded && (
+              <div className="ml-3 pl-3 border-l border-amber-200/80 space-y-0.5 my-1">
+                <button
+                  onClick={() => onNavigate('inventory-all-projects')}
+                  className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-md transition-all text-left ${
+                    currentNav === 'inventory-all-projects'
+                      ? 'bg-amber-100/90 text-amber-800 border-l-4 border-amber-500 font-bold shadow-2xs'
+                      : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 font-medium'
+                  }`}
+                >
+                  <span className="truncate">All Project</span>
+                </button>
+
+                <button
+                  onClick={() => onNavigate('inventory-buyers-stakeholders')}
+                  className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-md transition-all text-left ${
+                    currentNav === 'inventory-buyers-stakeholders'
+                      ? 'bg-amber-100/90 text-amber-800 border-l-4 border-amber-500 font-bold shadow-2xs'
+                      : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 font-medium'
+                  }`}
+                >
+                  <span className="truncate">All Buyers</span>
+                </button>
+
+                <button
+                  onClick={() => onNavigate('inventory-flats-plot-stock')}
+                  className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-md transition-all text-left ${
+                    currentNav === 'inventory-flats-plot-stock'
+                      ? 'bg-amber-100/90 text-amber-800 border-l-4 border-amber-500 font-bold shadow-2xs'
+                      : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 font-medium'
+                  }`}
+                >
+                  <span className="truncate">Flats & Plot Stock</span>
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* ACCOUNTS MANAGEMENT Group */}
+        <div>
+          <div className="px-3 pb-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+            <span>ACCOUNTS MANAGEMENT</span>
+          </div>
+          
+          <div className="space-y-0.5">
+            <button
+              onClick={() => setAccountsExpanded(!accountsExpanded)}
+              className="w-full flex items-center justify-between px-3 py-1.5 rounded-md text-gray-700 hover:bg-gray-100/70 font-semibold transition-colors"
+            >
+              <div className="flex items-center gap-2.5">
+                <WalletCards size={15} className="text-amber-600" />
+                <span>Accounts Management</span>
+              </div>
+              {accountsExpanded ? <ChevronDown size={14} className="text-gray-400" /> : <ChevronRight size={14} className="text-gray-400" />}
+            </button>
+
+            {accountsExpanded && (
+              <div className="ml-3 pl-3 border-l border-amber-200/80 space-y-0.5 my-1">
+                <button
+                  onClick={() => onNavigate('accounts-all-projects')}
+                  className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-md transition-all text-left ${
+                    currentNav === 'accounts-all-projects'
+                      ? 'bg-amber-100/90 text-amber-800 border-l-4 border-amber-500 font-bold shadow-2xs'
+                      : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 font-medium'
+                  }`}
+                >
+                  <span className="truncate">All Project Page</span>
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+
         {/* CRM Group */}
         <div>
-          <div className="px-3 pb-1.5 text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center justify-between">
-            <span>CRM Management</span>
+          <div className="px-3 pb-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+            <span>CRM MANAGEMENT</span>
           </div>
           
           <div className="space-y-0.5">
@@ -95,7 +191,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentNav, onNavigate }) => {
                       onClick={() => onNavigate(item.id)}
                       className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-md transition-all text-left ${
                         isActive
-                          ? 'bg-amber-100/70 text-amber-900 font-bold shadow-2xs'
+                          ? 'bg-amber-100/90 text-amber-800 border-l-4 border-amber-500 font-bold shadow-2xs'
                           : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 font-medium'
                       }`}
                     >

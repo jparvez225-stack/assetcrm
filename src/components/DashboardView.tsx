@@ -2,22 +2,20 @@ import React from 'react';
 import { NavItem } from '../types';
 import { 
   Users, 
-  PhoneCall, 
   UserCheck, 
-  MessageSquare, 
   TrendingUp, 
   Bell, 
   Target, 
   CheckCircle2, 
-  Clock, 
   Sparkles, 
   ChevronRight,
-  Zap,
   Share2,
-  AlertCircle,
-  Star,
   DollarSign,
-  Building2
+  Building2,
+  WalletCards,
+  Home,
+  HeartHandshake,
+  Clock
 } from 'lucide-react';
 import { 
   BarChart, 
@@ -38,13 +36,13 @@ interface DashboardProps {
 export const DashboardView: React.FC<DashboardProps> = ({ onNavigate }) => {
   // Bar Chart Data
   const barChartData = [
-    { day: 'Day 1', Contacted: 18, Interested: 8, 'Site Visit': 5, Lost: 6 },
-    { day: 'Day 2', Contacted: 22, Interested: 10, 'Site Visit': 4, Lost: 3 },
-    { day: 'Day 3', Contacted: 16, Interested: 7, 'Site Visit': 6, Lost: 4 },
-    { day: 'Day 4', Contacted: 24, Interested: 12, 'Site Visit': 8, Lost: 5 },
-    { day: 'Day 5', Contacted: 19, Interested: 9, 'Site Visit': 5, Lost: 4 },
-    { day: 'Day 6', Contacted: 21, Interested: 11, 'Site Visit': 6, Lost: 2 },
-    { day: 'Day 7', Contacted: 26, Interested: 14, 'Site Visit': 9, Lost: 3 },
+    { day: 'Day 1', FollowUp: 18, Interested: 8, 'Site Visit': 5, Booked: 2 },
+    { day: 'Day 2', FollowUp: 22, Interested: 10, 'Site Visit': 4, Booked: 3 },
+    { day: 'Day 3', FollowUp: 16, Interested: 7, 'Site Visit': 6, Booked: 1 },
+    { day: 'Day 4', FollowUp: 24, Interested: 12, 'Site Visit': 8, Booked: 4 },
+    { day: 'Day 5', FollowUp: 19, Interested: 9, 'Site Visit': 5, Booked: 2 },
+    { day: 'Day 6', FollowUp: 21, Interested: 11, 'Site Visit': 6, Booked: 3 },
+    { day: 'Day 7', FollowUp: 26, Interested: 14, 'Site Visit': 9, Booked: 5 },
   ];
 
   // Lost Lead By Reason Pie Chart Data
@@ -58,8 +56,8 @@ export const DashboardView: React.FC<DashboardProps> = ({ onNavigate }) => {
   // Lead Pipeline Stages
   const leadPipeline = [
     { stage: 'New Inquiries', count: '1,240', percentage: 14.5, color: '#c7a259' },
-    { stage: 'Initial Contacted', count: '3,820', percentage: 44.6, color: '#3B82F6' },
-    { stage: 'Follow Up & Site Visit', count: '993', percentage: 11.6, color: '#F59E0B' },
+    { stage: 'Follow Up Scheduled', count: '993', percentage: 11.6, color: '#F59E0B' },
+    { stage: 'Interested Prospects', count: '485', percentage: 5.7, color: '#EC4899' },
     { stage: 'Token Deposit Paid', count: '180', percentage: 2.1, color: '#8B5CF6' },
     { stage: 'Plot Booked', count: '271', percentage: 3.2, color: '#10B981' },
     { stage: 'Closed / Inactive', count: '2,080', percentage: 24.3, color: '#6B7280' },
@@ -78,9 +76,9 @@ export const DashboardView: React.FC<DashboardProps> = ({ onNavigate }) => {
       {/* Welcome & Quick Action Bar */}
       <div className="bg-white p-3.5 px-4 rounded-2xl border border-gray-200/80 shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-3">
         <div>
-          <h1 className="text-base font-extrabold text-gray-900 tracking-tight">Executive CRM Dashboard</h1>
+          <h1 className="text-base font-extrabold text-gray-900 tracking-tight">Executive Dashboard Overview</h1>
           <p className="text-xs text-gray-500">
-            Welcome back, <span className="font-semibold text-gray-800">Mehesum Rahman</span>. Real estate performance overview.
+            Welcome back, <span className="font-semibold text-gray-800">Mehesum Rahman</span>. Accounts, Sales, Inventory & CRM Overview.
           </p>
         </div>
 
@@ -91,7 +89,7 @@ export const DashboardView: React.FC<DashboardProps> = ({ onNavigate }) => {
             style={{ backgroundColor: '#c7a259' }}
           >
             <Sparkles size={14} />
-            <span>+ Add New Lead</span>
+            <span>Add New</span>
           </button>
           <button 
             onClick={() => onNavigate('lead')}
@@ -102,16 +100,23 @@ export const DashboardView: React.FC<DashboardProps> = ({ onNavigate }) => {
         </div>
       </div>
 
-      {/* Row 1: Top 5 Primary KPI Cards - Reference White Design */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
-        {/* Card 1: Revenue */}
-        <div className="bg-white rounded-2xl p-4 border border-emerald-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all">
+      {/* Primary Categorized Dashboard KPI Cards Grid (4 Columns x 2 Rows) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+        
+        {/* CARD 1: ACCOUNTS - Sales Revenue */}
+        <div 
+          onClick={() => onNavigate('accounts-all-projects')}
+          className="bg-white rounded-2xl p-4 border border-emerald-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all cursor-pointer"
+        >
           <div className="flex items-center justify-between mb-3 z-10">
             <div className="flex items-center gap-2">
               <div className="p-2 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
                 <DollarSign size={18} />
               </div>
-              <span className="font-extrabold text-sm text-gray-900 tracking-wide">Sales Revenue</span>
+              <div>
+                <span className="font-extrabold text-sm text-gray-900 tracking-wide block">Sales Revenue</span>
+                <span className="text-[10px] text-emerald-700 font-bold uppercase tracking-wider">Accounts</span>
+              </div>
             </div>
             <span className="text-[9px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">+14.2%</span>
           </div>
@@ -128,34 +133,52 @@ export const DashboardView: React.FC<DashboardProps> = ({ onNavigate }) => {
           <DollarSign size={85} className="absolute -right-4 -bottom-4 text-emerald-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
         </div>
 
-        {/* Card 2: Leads */}
-        <div className="bg-white rounded-2xl p-4 border border-blue-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all">
-          <div className="flex items-center gap-2 mb-3 z-10">
-            <div className="p-2 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
-              <Zap size={18} />
+        {/* CARD 2: ACCOUNTS - Financial Ledger */}
+        <div 
+          onClick={() => onNavigate('accounts-all-projects')}
+          className="bg-white rounded-2xl p-4 border border-amber-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all cursor-pointer"
+        >
+          <div className="flex items-center justify-between mb-3 z-10">
+            <div className="flex items-center gap-2">
+              <div className="p-2 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+                <WalletCards size={18} />
+              </div>
+              <div>
+                <span className="font-extrabold text-sm text-gray-900 tracking-wide block">Accounts Ledger</span>
+                <span className="text-[10px] text-amber-700 font-bold uppercase tracking-wider">Accounts</span>
+              </div>
             </div>
-            <span className="font-extrabold text-sm text-gray-900 tracking-wide">Total Leads</span>
+            <span className="text-[9px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-100">Collected</span>
           </div>
           <div className="grid grid-cols-2 gap-2 z-10">
-            <div className="bg-blue-50/50 rounded-xl p-2.5 text-left border border-blue-100/70">
-              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-blue-600">TOTAL</span>
-              <span className="text-xl font-extrabold text-gray-900 tracking-tight">8565</span>
+            <div className="bg-amber-50/50 rounded-xl p-2.5 text-left border border-amber-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-amber-600">RECEIVED</span>
+              <span className="text-lg font-extrabold text-gray-900 tracking-tight">৳30.3M</span>
             </div>
-            <div className="bg-blue-50/50 rounded-xl p-2.5 text-left border border-blue-100/70">
-              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-blue-600">TODAY</span>
-              <span className="text-xl font-extrabold text-gray-900 tracking-tight">0</span>
+            <div className="bg-amber-50/50 rounded-xl p-2.5 text-left border border-amber-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-amber-600">PENDING</span>
+              <span className="text-lg font-extrabold text-gray-900 tracking-tight">৳12.5M</span>
             </div>
           </div>
-          <Zap size={85} className="absolute -right-4 -bottom-4 text-blue-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
+          <WalletCards size={85} className="absolute -right-4 -bottom-4 text-amber-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
         </div>
 
-        {/* Card 3: Plot Bookings */}
-        <div className="bg-white rounded-2xl p-4 border border-purple-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all">
-          <div className="flex items-center gap-2 mb-3 z-10">
-            <div className="p-2 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
-              <UserCheck size={18} />
+        {/* CARD 3: SALES - Plot / Flat Bookings */}
+        <div 
+          onClick={() => onNavigate('inventory-all-projects')}
+          className="bg-white rounded-2xl p-4 border border-purple-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all cursor-pointer"
+        >
+          <div className="flex items-center justify-between mb-3 z-10">
+            <div className="flex items-center gap-2">
+              <div className="p-2 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
+                <UserCheck size={18} />
+              </div>
+              <div>
+                <span className="font-extrabold text-sm text-gray-900 tracking-wide block">Unit Bookings</span>
+                <span className="text-[10px] text-purple-700 font-bold uppercase tracking-wider">Sales</span>
+              </div>
             </div>
-            <span className="font-extrabold text-sm text-gray-900 tracking-wide">Bookings</span>
+            <span className="text-[9px] font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full border border-purple-100">+8.5%</span>
           </div>
           <div className="grid grid-cols-2 gap-2 z-10">
             <div className="bg-purple-50/50 rounded-xl p-2.5 text-left border border-purple-100/70">
@@ -170,13 +193,112 @@ export const DashboardView: React.FC<DashboardProps> = ({ onNavigate }) => {
           <UserCheck size={85} className="absolute -right-4 -bottom-4 text-purple-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
         </div>
 
-        {/* Card 4: Follow Up */}
-        <div className="bg-white rounded-2xl p-4 border border-orange-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all">
-          <div className="flex items-center gap-2 mb-3 z-10">
-            <div className="p-2 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center">
-              <Share2 size={18} />
+        {/* CARD 4: SALES - Performance & Commissions */}
+        <div 
+          onClick={() => onNavigate('salesman-performance')}
+          className="bg-white rounded-2xl p-4 border border-blue-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all cursor-pointer"
+        >
+          <div className="flex items-center justify-between mb-3 z-10">
+            <div className="flex items-center gap-2">
+              <div className="p-2 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                <TrendingUp size={18} />
+              </div>
+              <div>
+                <span className="font-extrabold text-sm text-gray-900 tracking-wide block">Sales Performance</span>
+                <span className="text-[10px] text-blue-700 font-bold uppercase tracking-wider">Sales</span>
+              </div>
             </div>
-            <span className="font-extrabold text-sm text-gray-900 tracking-wide truncate">Follow Up</span>
+            <span className="text-[9px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100">5% Comm.</span>
+          </div>
+          <div className="grid grid-cols-2 gap-2 z-10">
+            <div className="bg-blue-50/50 rounded-xl p-2.5 text-left border border-blue-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-blue-600">SOLD VALUE</span>
+              <span className="text-lg font-extrabold text-gray-900 tracking-tight">৳38.5M</span>
+            </div>
+            <div className="bg-blue-50/50 rounded-xl p-2.5 text-left border border-blue-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-blue-600">COMMISSION</span>
+              <span className="text-lg font-extrabold text-gray-900 tracking-tight">৳1.92M</span>
+            </div>
+          </div>
+          <TrendingUp size={85} className="absolute -right-4 -bottom-4 text-blue-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
+        </div>
+
+        {/* CARD 5: INVENTORY - Stock Overview */}
+        <div 
+          onClick={() => onNavigate('inventory-flats-plot-stock')}
+          className="bg-white rounded-2xl p-4 border border-indigo-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all cursor-pointer"
+        >
+          <div className="flex items-center justify-between mb-3 z-10">
+            <div className="flex items-center gap-2">
+              <div className="p-2 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                <Home size={18} />
+              </div>
+              <div>
+                <span className="font-extrabold text-sm text-gray-900 tracking-wide block">Inventory Stock</span>
+                <span className="text-[10px] text-indigo-700 font-bold uppercase tracking-wider">Inventory</span>
+              </div>
+            </div>
+            <span className="text-[9px] font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-full border border-indigo-100">75% Sold</span>
+          </div>
+          <div className="grid grid-cols-2 gap-2 z-10">
+            <div className="bg-indigo-50/50 rounded-xl p-2.5 text-left border border-indigo-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-indigo-600">TOTAL UNITS</span>
+              <span className="text-xl font-extrabold text-gray-900 tracking-tight">595</span>
+            </div>
+            <div className="bg-indigo-50/50 rounded-xl p-2.5 text-left border border-indigo-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-indigo-600">AVAILABLE</span>
+              <span className="text-xl font-extrabold text-indigo-700 tracking-tight">145</span>
+            </div>
+          </div>
+          <Home size={85} className="absolute -right-4 -bottom-4 text-indigo-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
+        </div>
+
+        {/* CARD 6: INVENTORY - All Projects */}
+        <div 
+          onClick={() => onNavigate('inventory-all-projects')}
+          className="bg-white rounded-2xl p-4 border border-teal-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all cursor-pointer"
+        >
+          <div className="flex items-center justify-between mb-3 z-10">
+            <div className="flex items-center gap-2">
+              <div className="p-2 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center">
+                <Building2 size={18} />
+              </div>
+              <div>
+                <span className="font-extrabold text-sm text-gray-900 tracking-wide block">All Projects</span>
+                <span className="text-[10px] text-teal-700 font-bold uppercase tracking-wider">Inventory</span>
+              </div>
+            </div>
+            <span className="text-[9px] font-bold text-teal-700 bg-teal-50 px-2 py-0.5 rounded-full border border-teal-100">8 Projects</span>
+          </div>
+          <div className="grid grid-cols-2 gap-2 z-10">
+            <div className="bg-teal-50/50 rounded-xl p-2.5 text-left border border-teal-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-teal-600">ONGOING</span>
+              <span className="text-xl font-extrabold text-gray-900 tracking-tight">5</span>
+            </div>
+            <div className="bg-teal-50/50 rounded-xl p-2.5 text-left border border-teal-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-teal-600">UPCOMING</span>
+              <span className="text-xl font-extrabold text-gray-900 tracking-tight">3</span>
+            </div>
+          </div>
+          <Building2 size={85} className="absolute -right-4 -bottom-4 text-teal-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
+        </div>
+
+        {/* CARD 7: CRM - Follow Up Leads */}
+        <div 
+          onClick={() => onNavigate('lead-activity')}
+          className="bg-white rounded-2xl p-4 border border-orange-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all cursor-pointer"
+        >
+          <div className="flex items-center justify-between mb-3 z-10">
+            <div className="flex items-center gap-2">
+              <div className="p-2 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center">
+                <Clock size={18} />
+              </div>
+              <div>
+                <span className="font-extrabold text-sm text-gray-900 tracking-wide block">Follow Up</span>
+                <span className="text-[10px] text-orange-700 font-bold uppercase tracking-wider">CRM</span>
+              </div>
+            </div>
+            <span className="text-[9px] font-bold text-orange-700 bg-orange-50 px-2 py-0.5 rounded-full border border-orange-100">Action Due</span>
           </div>
           <div className="grid grid-cols-2 gap-2 z-10">
             <div className="bg-orange-50/50 rounded-xl p-2.5 text-left border border-orange-100/70">
@@ -188,133 +310,39 @@ export const DashboardView: React.FC<DashboardProps> = ({ onNavigate }) => {
               <span className="text-xl font-extrabold text-gray-900 tracking-tight">19</span>
             </div>
           </div>
-          <Share2 size={85} className="absolute -right-4 -bottom-4 text-orange-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
+          <Clock size={85} className="absolute -right-4 -bottom-4 text-orange-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
         </div>
 
-        {/* Card 5: Status */}
-        <div className="bg-white rounded-2xl p-4 border border-cyan-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all">
-          <div className="flex items-center gap-2 mb-3 z-10">
-            <div className="p-2 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center">
-              <Star size={18} />
+        {/* CARD 8: CRM - Interested Leads */}
+        <div 
+          onClick={() => onNavigate('lead')}
+          className="bg-white rounded-2xl p-4 border border-rose-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all cursor-pointer"
+        >
+          <div className="flex items-center justify-between mb-3 z-10">
+            <div className="flex items-center gap-2">
+              <div className="p-2 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center">
+                <HeartHandshake size={18} />
+              </div>
+              <div>
+                <span className="font-extrabold text-sm text-gray-900 tracking-wide block">Interested Leads</span>
+                <span className="text-[10px] text-rose-700 font-bold uppercase tracking-wider">CRM</span>
+              </div>
             </div>
-            <span className="font-extrabold text-sm text-gray-900 tracking-wide">Status</span>
-          </div>
-          <div className="z-10">
-            <div className="bg-cyan-50/50 rounded-xl p-2.5 text-left border border-cyan-100/70">
-              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-cyan-600">CONVERSION</span>
-              <span className="text-xl font-extrabold text-gray-900 tracking-tight">3.16%</span>
-            </div>
-          </div>
-          <Star size={85} className="absolute -right-4 -bottom-4 text-cyan-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
-        </div>
-      </div>
-
-      {/* Row 2: Secondary Channel & Team Performance KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
-        {/* Card 6: Facebook Leads */}
-        <div className="bg-white rounded-2xl p-4 border border-blue-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all">
-          <div className="flex items-center gap-2 mb-3 z-10">
-            <div className="p-2 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
-              <Users size={18} />
-            </div>
-            <span className="font-extrabold text-sm text-gray-900 tracking-wide">Facebook Leads</span>
+            <span className="text-[9px] font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded-full border border-rose-100">Hot Leads</span>
           </div>
           <div className="grid grid-cols-2 gap-2 z-10">
-            <div className="bg-blue-50/50 rounded-xl p-2.5 text-left border border-blue-100/70">
-              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-blue-600">TOTAL</span>
-              <span className="text-xl font-extrabold text-gray-900 tracking-tight">1,000</span>
+            <div className="bg-rose-50/50 rounded-xl p-2.5 text-left border border-rose-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-rose-600">TOTAL</span>
+              <span className="text-xl font-extrabold text-gray-900 tracking-tight">485</span>
             </div>
-            <div className="bg-blue-50/50 rounded-xl p-2.5 text-left border border-blue-100/70">
-              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-blue-600">WEEK</span>
-              <span className="text-xl font-extrabold text-emerald-600 tracking-tight">+12%</span>
+            <div className="bg-rose-50/50 rounded-xl p-2.5 text-left border border-rose-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-rose-600">HIGH INTEREST</span>
+              <span className="text-xl font-extrabold text-gray-900 tracking-tight">120</span>
             </div>
           </div>
-          <Users size={85} className="absolute -right-4 -bottom-4 text-blue-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
+          <HeartHandshake size={85} className="absolute -right-4 -bottom-4 text-rose-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
         </div>
 
-        {/* Card 7: WhatsApp & SMS */}
-        <div className="bg-white rounded-2xl p-4 border border-emerald-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all">
-          <div className="flex items-center gap-2 mb-3 z-10">
-            <div className="p-2 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-              <MessageSquare size={18} />
-            </div>
-            <span className="font-extrabold text-sm text-gray-900 tracking-wide">WhatsApp / SMS</span>
-          </div>
-          <div className="grid grid-cols-2 gap-2 z-10">
-            <div className="bg-emerald-50/50 rounded-xl p-2.5 text-left border border-emerald-100/70">
-              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-emerald-600">WHATSAPP</span>
-              <span className="text-xl font-extrabold text-gray-900 tracking-tight">80</span>
-            </div>
-            <div className="bg-emerald-50/50 rounded-xl p-2.5 text-left border border-emerald-100/70">
-              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-emerald-600">SMS</span>
-              <span className="text-xl font-extrabold text-gray-900 tracking-tight">30</span>
-            </div>
-          </div>
-          <MessageSquare size={85} className="absolute -right-4 -bottom-4 text-emerald-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
-        </div>
-
-        {/* Card 8: Contacted Leads */}
-        <div className="bg-white rounded-2xl p-4 border border-amber-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all">
-          <div className="flex items-center gap-2 mb-3 z-10">
-            <div className="p-2 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
-              <PhoneCall size={18} />
-            </div>
-            <span className="font-extrabold text-sm text-gray-900 tracking-wide">Contacted Leads</span>
-          </div>
-          <div className="grid grid-cols-2 gap-2 z-10">
-            <div className="bg-amber-50/50 rounded-xl p-2.5 text-left border border-amber-100/70">
-              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-amber-600">CONTACTED</span>
-              <span className="text-xl font-extrabold text-gray-900 tracking-tight">500</span>
-            </div>
-            <div className="bg-amber-50/50 rounded-xl p-2.5 text-left border border-amber-100/70">
-              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-amber-600">PENDING</span>
-              <span className="text-xl font-extrabold text-gray-900 tracking-tight">30</span>
-            </div>
-          </div>
-          <PhoneCall size={85} className="absolute -right-4 -bottom-4 text-amber-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
-        </div>
-
-        {/* Card 9: Sales Consultants */}
-        <div className="bg-white rounded-2xl p-4 border border-indigo-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all">
-          <div className="flex items-center gap-2 mb-3 z-10">
-            <div className="p-2 rounded-xl bg-indigo-50 text-indigo-700 flex items-center justify-center">
-              <Building2 size={18} />
-            </div>
-            <span className="font-extrabold text-sm text-gray-900 tracking-wide">Consultants</span>
-          </div>
-          <div className="grid grid-cols-2 gap-2 z-10">
-            <div className="bg-indigo-50/50 rounded-xl p-2.5 text-left border border-indigo-100/70">
-              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-indigo-700">TOTAL</span>
-              <span className="text-xl font-extrabold text-gray-900 tracking-tight">310</span>
-            </div>
-            <div className="bg-indigo-50/50 rounded-xl p-2.5 text-left border border-indigo-100/70">
-              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-indigo-700">ACTIVE</span>
-              <span className="text-xl font-extrabold text-gray-900 tracking-tight">130</span>
-            </div>
-          </div>
-          <Building2 size={85} className="absolute -right-4 -bottom-4 text-indigo-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
-        </div>
-
-        {/* Card 10: Lost Leads */}
-        <div className="bg-white rounded-2xl p-4 border border-indigo-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all">
-          <div className="flex items-center gap-2 mb-3 z-10">
-            <div className="p-2 rounded-xl bg-indigo-50 text-indigo-700 flex items-center justify-center">
-              <AlertCircle size={18} />
-            </div>
-            <span className="font-extrabold text-sm text-gray-900 tracking-wide">Lost Leads</span>
-          </div>
-          <div className="grid grid-cols-2 gap-2 z-10">
-            <div className="bg-indigo-50/50 rounded-xl p-2.5 text-left border border-indigo-100/70">
-              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-indigo-700">TOTAL</span>
-              <span className="text-xl font-extrabold text-gray-900 tracking-tight">1,658</span>
-            </div>
-            <div className="bg-indigo-50/50 rounded-xl p-2.5 text-left border border-indigo-100/70">
-              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-indigo-700">TODAY</span>
-              <span className="text-xl font-extrabold text-gray-900 tracking-tight">0</span>
-            </div>
-          </div>
-          <AlertCircle size={85} className="absolute -right-4 -bottom-4 text-indigo-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
-        </div>
       </div>
 
       {/* LEAD PIPELINE & INVENTORY MODULE */}
@@ -406,8 +434,8 @@ export const DashboardView: React.FC<DashboardProps> = ({ onNavigate }) => {
         <div className="lg:col-span-2 bg-white p-4.5 rounded-2xl border border-gray-200/80 shadow-2xs space-y-3">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="font-extrabold text-gray-900 text-sm tracking-tight">7-Day CRM Call & Site Visit Trend</h3>
-              <p className="text-[11px] text-gray-500">Contacted, Interested, Site Visits & Lost Leads</p>
+              <h3 className="font-extrabold text-gray-900 text-sm tracking-tight">7-Day Performance & Activity Trend</h3>
+              <p className="text-[11px] text-gray-500">Follow Up, Interested Prospects, Site Visits & Unit Bookings</p>
             </div>
             <span className="text-[10px] text-gray-600 bg-gray-100 px-2.5 py-1 rounded-lg font-bold">
               Last 7 Days
@@ -422,21 +450,21 @@ export const DashboardView: React.FC<DashboardProps> = ({ onNavigate }) => {
                 <Tooltip 
                   contentStyle={{ backgroundColor: '#1F2937', borderRadius: '8px', color: '#FFF', border: 'none', fontSize: '11px' }}
                 />
-                <Bar dataKey="Contacted" fill="#10B981" radius={[3, 3, 0, 0]} />
-                <Bar dataKey="Interested" fill="#c7a259" radius={[3, 3, 0, 0]} />
+                <Bar dataKey="FollowUp" fill="#F97316" radius={[3, 3, 0, 0]} />
+                <Bar dataKey="Interested" fill="#EC4899" radius={[3, 3, 0, 0]} />
                 <Bar dataKey="Site Visit" fill="#3B82F6" radius={[3, 3, 0, 0]} />
-                <Bar dataKey="Lost" fill="#F43F5E" radius={[3, 3, 0, 0]} />
+                <Bar dataKey="Booked" fill="#10B981" radius={[3, 3, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-5 pt-2 text-xs font-semibold text-gray-600 border-t border-gray-100">
             <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-              <span>Contacted</span>
+              <span className="w-2.5 h-2.5 rounded-full bg-orange-500"></span>
+              <span>Follow Up</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: '#c7a259' }}></span>
+              <span className="w-2.5 h-2.5 rounded-full bg-pink-500"></span>
               <span>Interested</span>
             </div>
             <div className="flex items-center gap-1.5">
@@ -444,8 +472,8 @@ export const DashboardView: React.FC<DashboardProps> = ({ onNavigate }) => {
               <span>Site Visit</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
-              <span>Lost</span>
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+              <span>Booked</span>
             </div>
           </div>
         </div>

@@ -153,7 +153,7 @@ export const LeadSourceView: React.FC = () => {
           className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-lg shadow-sm transition-all focus:outline-none"
         >
           <PlusCircle size={15} />
-          <span>Add Source</span>
+          <span>Add New</span>
         </button>
       </div>
 

@@ -27,8 +27,7 @@ export const NotificationView: React.FC<NotificationViewProps> = ({
 
   return (
     <div className="space-y-5 max-w-full font-sans select-none">
-      <div className="flex justify-between items-center">
-        <h2 className="text-base font-extrabold text-gray-900 tracking-tight">Notifications Overview</h2>
+      <div className="flex justify-end items-center">
         <button 
           onClick={() => {
             onMarkAllRead();

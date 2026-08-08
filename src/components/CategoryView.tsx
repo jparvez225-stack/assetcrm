@@ -64,7 +64,7 @@ export const CategoryView: React.FC<CategoryViewProps> = ({ categories, onAddCat
           style={{ backgroundColor: '#c7a259' }}
         >
           <Plus size={14} />
-          <span>+ Add Lead Category</span>
+          <span>Add New</span>
         </button>
       </div>
 

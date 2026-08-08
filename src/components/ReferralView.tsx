@@ -333,7 +333,7 @@ export const ReferralView: React.FC<ReferralViewProps> = ({
           style={{ backgroundColor: '#c7a259' }}
         >
           <Plus size={14} />
-          <span>+ Add Referral</span>
+          <span>Add New</span>
         </button>
       </div>
 
