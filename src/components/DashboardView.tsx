@@ -73,30 +73,13 @@ export const DashboardView: React.FC<DashboardProps> = ({ onNavigate }) => {
 
   return (
     <div className="space-y-5 max-w-full font-sans select-none">
-      {/* Welcome & Quick Action Bar */}
+      {/* Welcome Bar */}
       <div className="bg-white p-3.5 px-4 rounded-2xl border border-gray-200/80 shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-3">
         <div>
           <h1 className="text-base font-extrabold text-gray-900 tracking-tight">Executive Dashboard Overview</h1>
           <p className="text-xs text-gray-500">
             Welcome back, <span className="font-semibold text-gray-800">Mehesum Rahman</span>. Accounts, Sales, Inventory & CRM Overview.
           </p>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <button 
-            onClick={() => onNavigate('add-lead')}
-            className="px-3.5 py-1.5 text-xs font-bold text-white rounded-xl shadow-2xs hover:opacity-90 transition-opacity flex items-center gap-1.5"
-            style={{ backgroundColor: '#c7a259' }}
-          >
-            <Sparkles size={14} />
-            <span>Add New</span>
-          </button>
-          <button 
-            onClick={() => onNavigate('lead')}
-            className="px-3 py-1.5 text-xs font-bold text-gray-700 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors shadow-2xs"
-          >
-            View All Leads
-          </button>
         </div>
       </div>
 

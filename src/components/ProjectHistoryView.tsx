@@ -325,15 +325,6 @@ export const ProjectHistoryView: React.FC<ProjectHistoryViewProps> = ({
       <div className="bg-white rounded-2xl p-6 border border-gray-200/80 shadow-2xs space-y-5">
         <div className="flex flex-wrap items-start justify-between gap-4 border-b border-gray-100 pb-4">
           <div className="flex items-start gap-3">
-            {onBackToAllProjects && (
-              <button
-                onClick={onBackToAllProjects}
-                className="p-2 bg-gray-100 hover:bg-amber-100 text-gray-700 hover:text-amber-800 rounded-xl transition-all border border-gray-200 flex items-center justify-center shrink-0 mt-0.5 cursor-pointer"
-                title="Back to All Projects"
-              >
-                <ArrowLeft size={18} />
-              </button>
-            )}
             <div>
               <div className="flex items-center gap-2">
                 <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-amber-50 text-amber-800 border border-amber-200">
@@ -355,20 +346,6 @@ export const ProjectHistoryView: React.FC<ProjectHistoryViewProps> = ({
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            {/* Project Switcher Selector */}
-            <div className="flex items-center gap-2 bg-gray-50 p-2 rounded-xl border border-gray-200">
-              <label className="text-xs font-bold text-gray-700">Project:</label>
-              <select
-                value={selectedProjectId}
-                onChange={(e) => setSelectedProjectId(e.target.value)}
-                className="text-xs font-extrabold bg-amber-50 border border-amber-300 text-amber-900 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-amber-600 shadow-2xs cursor-pointer"
-              >
-                {projectList.map(p => (
-                  <option key={p.id} value={p.id}>{p.projectName}</option>
-                ))}
-              </select>
-            </div>
-
             <div className="text-right bg-amber-50/80 p-3 rounded-xl border border-amber-200/80 min-w-[180px]">
               <span className="text-[10px] text-amber-800 font-bold uppercase tracking-wider block">Estimated Budget</span>
               <span className="text-lg font-black text-amber-900 font-mono">{currentProject.projectBudget}</span>
@@ -376,93 +353,127 @@ export const ProjectHistoryView: React.FC<ProjectHistoryViewProps> = ({
           </div>
         </div>
 
-        <p className="text-xs text-gray-600 leading-relaxed max-w-3xl font-medium">
-          {currentProject.description}
-        </p>
 
-        {/* Key Metrics Dashboard Row - White / Gray Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 pt-1">
-          {/* 1. Project Launch & Completion Date */}
-          <div className="bg-gray-50 p-3.5 rounded-xl border border-gray-200/80">
-            <div className="flex items-center gap-2 text-amber-700 text-[10px] font-extrabold uppercase tracking-wider">
-              <Calendar size={14} />
-              <span>Project Timeline</span>
+        {/* Key Metrics Dashboard Row - Matching App KPI Card Design */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 pt-1">
+          {/* 1. Project Launch & Completion Date (Amber Theme) */}
+          <div className="bg-white rounded-2xl p-3.5 border border-amber-200/90 shadow-2xs relative overflow-hidden transition-all hover:border-amber-300 flex flex-col justify-between">
+            <div className="flex items-center gap-2 mb-2.5 relative z-10">
+              <div className="p-1.5 rounded-lg bg-amber-100/80 text-amber-700 shrink-0">
+                <Calendar size={16} />
+              </div>
+              <span className="font-extrabold text-gray-900 text-xs tracking-tight">Project Timeline</span>
             </div>
-            <p className="text-xs font-extrabold text-gray-900 mt-2 font-mono">
-              Start: <span className="text-amber-800">{currentProject.startDate}</span>
-            </p>
-            <p className="text-[10px] text-gray-500 font-mono mt-0.5">
-              Target: {currentProject.completionDate}
-            </p>
+
+            <div className="grid grid-cols-2 gap-2 relative z-10">
+              <div className="bg-amber-50/40 border border-amber-100 p-2 rounded-xl flex flex-col justify-between">
+                <span className="text-[10px] font-black tracking-wider text-amber-800 uppercase">START</span>
+                <span className="text-[11px] font-black text-gray-900 mt-1 font-mono">{currentProject.startDate}</span>
+              </div>
+
+              <div className="bg-amber-50/40 border border-amber-100 p-2 rounded-xl flex flex-col justify-between">
+                <span className="text-[10px] font-black tracking-wider text-amber-800 uppercase">TARGET</span>
+                <span className="text-[11px] font-black text-gray-900 mt-1 font-mono">{currentProject.completionDate}</span>
+              </div>
+            </div>
+
+            <Calendar className="absolute -right-3 -bottom-3 text-amber-500/15 w-24 h-24 pointer-events-none z-0" />
           </div>
 
-          {/* 2. Total Customers */}
-          <div className="bg-gray-50 p-3.5 rounded-xl border border-gray-200/80">
-            <div className="flex items-center gap-2 text-blue-700 text-[10px] font-extrabold uppercase tracking-wider">
-              <Users size={14} />
-              <span>Total Customers</span>
+          {/* 2. Total Customers (Blue Theme) */}
+          <div className="bg-white rounded-2xl p-3.5 border border-blue-200/90 shadow-2xs relative overflow-hidden transition-all hover:border-blue-300 flex flex-col justify-between">
+            <div className="flex items-center gap-2 mb-2.5 relative z-10">
+              <div className="p-1.5 rounded-lg bg-blue-100/80 text-blue-700 shrink-0">
+                <Users size={16} />
+              </div>
+              <span className="font-extrabold text-gray-900 text-xs tracking-tight">Total Customers</span>
             </div>
-            <p className="text-xl font-black text-gray-900 mt-1 font-mono">
-              {currentProject.totalCustomers} <span className="text-xs font-semibold text-gray-500">Buyers</span>
-            </p>
-            <p className="text-[10px] text-blue-800 font-medium mt-0.5">
-              Active booking shareholders
-            </p>
+
+            <div className="grid grid-cols-2 gap-2 relative z-10">
+              <div className="bg-blue-50/40 border border-blue-100 p-2.5 rounded-xl flex flex-col justify-between">
+                <span className="text-[10px] font-black tracking-wider text-blue-800 uppercase">BUYERS</span>
+                <span className="text-xl font-black text-gray-900 mt-1 font-mono">{currentProject.totalCustomers}</span>
+              </div>
+
+              <div className="bg-blue-50/40 border border-blue-100 p-2 rounded-xl flex flex-col justify-between">
+                <span className="text-[10px] font-black tracking-wider text-blue-800 uppercase">STATUS</span>
+                <span className="text-[11px] font-bold text-blue-700 mt-1 leading-tight">Active Shareholders</span>
+              </div>
+            </div>
+
+            <Users className="absolute -right-3 -bottom-3 text-blue-500/15 w-24 h-24 pointer-events-none z-0" />
           </div>
 
-          {/* 3. Customer Shares Distribution */}
-          <div className="bg-gray-50 p-3.5 rounded-xl border border-gray-200/80">
-            <div className="flex items-center gap-2 text-purple-700 text-[10px] font-extrabold uppercase tracking-wider">
-              <Share2 size={14} />
-              <span>Shares Distribution</span>
+          {/* 3. Customer Shares Distribution (Purple Theme) */}
+          <div className="bg-white rounded-2xl p-3.5 border border-purple-200/90 shadow-2xs relative overflow-hidden transition-all hover:border-purple-300 flex flex-col justify-between">
+            <div className="flex items-center gap-2 mb-2.5 relative z-10">
+              <div className="p-1.5 rounded-lg bg-purple-100/80 text-purple-700 shrink-0">
+                <Share2 size={16} />
+              </div>
+              <span className="font-extrabold text-gray-900 text-xs tracking-tight">Shares Distribution</span>
             </div>
-            <p className="text-xl font-black text-gray-900 mt-1 font-mono">
-              {currentProject.soldShares} <span className="text-xs font-medium text-gray-400">/ {currentProject.totalShares}</span>
-            </p>
-            <p className="text-[10px] text-purple-900 font-bold mt-0.5">
-              Available: <strong className="text-emerald-700">{currentProject.availableShares} Shares</strong>
-            </p>
+
+            <div className="grid grid-cols-2 gap-2 relative z-10">
+              <div className="bg-purple-50/40 border border-purple-100 p-2.5 rounded-xl flex flex-col justify-between">
+                <span className="text-[10px] font-black tracking-wider text-purple-800 uppercase">SOLD / TOTAL</span>
+                <span className="text-lg font-black text-gray-900 mt-1 font-mono">{currentProject.soldShares} <span className="text-xs text-gray-400 font-normal">/ {currentProject.totalShares}</span></span>
+              </div>
+
+              <div className="bg-purple-50/40 border border-purple-100 p-2.5 rounded-xl flex flex-col justify-between">
+                <span className="text-[10px] font-black tracking-wider text-purple-800 uppercase">AVAILABLE</span>
+                <span className="text-xl font-black text-emerald-600 mt-1 font-mono">{currentProject.availableShares}</span>
+              </div>
+            </div>
+
+            <Share2 className="absolute -right-3 -bottom-3 text-purple-500/15 w-24 h-24 pointer-events-none z-0" />
           </div>
 
-          {/* 4. Vacant Flats / Units Available */}
-          <div className="bg-emerald-50/60 p-3.5 rounded-xl border border-emerald-200/80">
-            <div className="flex items-center gap-2 text-emerald-800 text-[10px] font-extrabold uppercase tracking-wider">
-              <Home size={14} />
-              <span>Flats Available to Sell</span>
+          {/* 4. Vacant Flats / Units Available (Emerald Theme) */}
+          <div className="bg-white rounded-2xl p-3.5 border border-emerald-200/90 shadow-2xs relative overflow-hidden transition-all hover:border-emerald-300 flex flex-col justify-between">
+            <div className="flex items-center gap-2 mb-2.5 relative z-10">
+              <div className="p-1.5 rounded-lg bg-emerald-100/80 text-emerald-700 shrink-0">
+                <Home size={16} />
+              </div>
+              <span className="font-extrabold text-gray-900 text-xs tracking-tight">Flats Available</span>
             </div>
-            <p className="text-xl font-black text-emerald-800 mt-1 font-mono">
-              {currentProject.vacantFlats} <span className="text-xs font-extrabold text-emerald-900">Vacant</span>
-            </p>
-            <p className="text-[10px] text-emerald-700 font-medium mt-0.5">
-              Out of {currentProject.totalFlats} total units
-            </p>
+
+            <div className="grid grid-cols-2 gap-2 relative z-10">
+              <div className="bg-emerald-50/40 border border-emerald-100 p-2.5 rounded-xl flex flex-col justify-between">
+                <span className="text-[10px] font-black tracking-wider text-emerald-800 uppercase">VACANT</span>
+                <span className="text-xl font-black text-emerald-700 mt-1 font-mono">{currentProject.vacantFlats}</span>
+              </div>
+
+              <div className="bg-emerald-50/40 border border-emerald-100 p-2.5 rounded-xl flex flex-col justify-between">
+                <span className="text-[10px] font-black tracking-wider text-emerald-800 uppercase">TOTAL UNITS</span>
+                <span className="text-xl font-black text-gray-900 mt-1 font-mono">{currentProject.totalFlats}</span>
+              </div>
+            </div>
+
+            <Home className="absolute -right-3 -bottom-3 text-emerald-500/15 w-24 h-24 pointer-events-none z-0" />
           </div>
 
-          {/* 5. Sold vs Booked Breakdown */}
-          <div className="bg-gray-50 p-3.5 rounded-xl border border-gray-200/80 col-span-2 md:col-span-1">
-            <div className="flex items-center gap-2 text-orange-700 text-[10px] font-extrabold uppercase tracking-wider">
-              <PieChart size={14} />
-              <span>Sales Breakdown</span>
+          {/* 5. Sold vs Booked Breakdown (Rose Theme) */}
+          <div className="bg-white rounded-2xl p-3.5 border border-rose-200/90 shadow-2xs relative overflow-hidden transition-all hover:border-rose-300 flex flex-col justify-between">
+            <div className="flex items-center gap-2 mb-2.5 relative z-10">
+              <div className="p-1.5 rounded-lg bg-rose-100/80 text-rose-700 shrink-0">
+                <PieChart size={16} />
+              </div>
+              <span className="font-extrabold text-gray-900 text-xs tracking-tight">Sales Breakdown</span>
             </div>
-            <div className="flex items-center gap-2 mt-2 text-xs font-bold font-mono">
-              <span className="text-gray-800">{currentProject.soldFlats} Sold</span>
-              <span className="text-gray-300">•</span>
-              <span className="text-amber-700">{currentProject.bookedFlats} Booked</span>
+
+            <div className="grid grid-cols-2 gap-2 relative z-10">
+              <div className="bg-rose-50/40 border border-rose-100 p-2.5 rounded-xl flex flex-col justify-between">
+                <span className="text-[10px] font-black tracking-wider text-rose-800 uppercase">SOLD</span>
+                <span className="text-xl font-black text-gray-900 mt-1 font-mono">{currentProject.soldFlats}</span>
+              </div>
+
+              <div className="bg-rose-50/40 border border-rose-100 p-2.5 rounded-xl flex flex-col justify-between">
+                <span className="text-[10px] font-black tracking-wider text-rose-800 uppercase">BOOKED</span>
+                <span className="text-xl font-black text-amber-600 mt-1 font-mono">{currentProject.bookedFlats}</span>
+              </div>
             </div>
-            <div className="w-full bg-gray-200 h-1.5 rounded-full mt-2 overflow-hidden flex">
-              <div 
-                className="bg-slate-700 h-full" 
-                style={{ width: `${(currentProject.soldFlats / currentProject.totalFlats) * 100}%` }} 
-              />
-              <div 
-                className="bg-amber-500 h-full" 
-                style={{ width: `${(currentProject.bookedFlats / currentProject.totalFlats) * 100}%` }} 
-              />
-              <div 
-                className="bg-emerald-500 h-full" 
-                style={{ width: `${(currentProject.vacantFlats / currentProject.totalFlats) * 100}%` }} 
-              />
-            </div>
+
+            <PieChart className="absolute -right-3 -bottom-3 text-rose-500/15 w-24 h-24 pointer-events-none z-0" />
           </div>
         </div>
       </div>
@@ -479,7 +490,7 @@ export const ProjectHistoryView: React.FC<ProjectHistoryViewProps> = ({
               <div>
                 <h3 className="text-sm font-black text-gray-900 flex items-center gap-2">
                   <Home size={18} className="text-amber-600" />
-                  <span>Flats & Plot Stock Inventory Grid</span>
+                  <span>Available Assets</span>
                 </h3>
                 <p className="text-xs text-gray-500 mt-0.5 font-medium">
                   Available vacant flats ready to sell vs booked/sold units
@@ -577,7 +588,7 @@ export const ProjectHistoryView: React.FC<ProjectHistoryViewProps> = ({
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-gray-100 pb-3">
               <h3 className="text-sm font-black text-gray-900 flex items-center gap-2">
                 <Users size={18} className="text-amber-600" />
-                <span>Customer Shareholders & Unit Buyers</span>
+                <span>All Buyers</span>
               </h3>
 
               <div className="flex items-center gap-2 flex-wrap">
@@ -658,7 +669,7 @@ export const ProjectHistoryView: React.FC<ProjectHistoryViewProps> = ({
             <div className="flex items-center justify-between border-b border-gray-100 pb-3">
               <h3 className="text-sm font-black text-gray-900 flex items-center gap-2">
                 <Clock size={18} className="text-amber-600" />
-                <span>Project Milestone History</span>
+                <span>Project History</span>
               </h3>
               
               <div className="flex items-center gap-2">
@@ -807,7 +818,7 @@ export const ProjectHistoryView: React.FC<ProjectHistoryViewProps> = ({
             <div className="flex items-center justify-between border-b border-gray-100 pb-3">
               <div className="flex items-center gap-2">
                 <Home className="text-emerald-600" size={20} />
-                <h3 className="font-extrabold text-gray-900 text-base">Add Flat / Plot Stock Unit</h3>
+                <h3 className="font-extrabold text-gray-900 text-base">Add Asset Unit</h3>
               </div>
               <button
                 onClick={() => setIsAddUnitModalOpen(false)}

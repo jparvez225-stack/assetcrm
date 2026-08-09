@@ -69,6 +69,54 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentNav, onNavigate }) => {
           </button>
         </div>
 
+        {/* CRM Group */}
+        <div>
+          <div className="px-3 pb-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+            <span>CRM MANAGEMENT</span>
+          </div>
+          
+          <div className="space-y-0.5">
+            <button
+              onClick={() => setCrmExpanded(!crmExpanded)}
+              className="w-full flex items-center justify-between px-3 py-1.5 rounded-md text-gray-700 hover:bg-gray-100/70 font-semibold transition-colors"
+            >
+              <div className="flex items-center gap-2.5">
+                <Users size={15} className="text-amber-600" />
+                <span>CRM Management</span>
+              </div>
+              {crmExpanded ? <ChevronDown size={14} className="text-gray-400" /> : <ChevronRight size={14} className="text-gray-400" />}
+            </button>
+
+            {crmExpanded && (
+              <div className="ml-3 pl-3 border-l border-amber-200/80 space-y-0.5 my-1">
+                {crmSubItems.map((item) => {
+                  const isActive = currentNav === item.id ||
+                    (item.id === 'lead-activity' && currentNav === 'call-history');
+
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => onNavigate(item.id)}
+                      className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-md transition-all text-left ${
+                        isActive
+                          ? 'bg-amber-100/90 text-amber-800 border-l-4 border-amber-500 font-bold shadow-2xs'
+                          : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 font-medium'
+                      }`}
+                    >
+                      <span className="truncate">{item.label}</span>
+                      {item.badge && (
+                        <span className="px-1.5 py-0.5 text-[10px] font-bold rounded bg-amber-500 text-white shrink-0">
+                          {item.badge}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+
         {/* INVENTORY MANAGEMENT Group */}
         <div>
           <div className="px-3 pb-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
@@ -119,7 +167,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentNav, onNavigate }) => {
                       : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 font-medium'
                   }`}
                 >
-                  <span className="truncate">Flats & Plot Stock</span>
+                  <span className="truncate">All Assets</span>
                 </button>
               </div>
             )}
@@ -156,54 +204,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentNav, onNavigate }) => {
                 >
                   <span className="truncate">All Project Page</span>
                 </button>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* CRM Group */}
-        <div>
-          <div className="px-3 pb-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
-            <span>CRM MANAGEMENT</span>
-          </div>
-          
-          <div className="space-y-0.5">
-            <button
-              onClick={() => setCrmExpanded(!crmExpanded)}
-              className="w-full flex items-center justify-between px-3 py-1.5 rounded-md text-gray-700 hover:bg-gray-100/70 font-semibold transition-colors"
-            >
-              <div className="flex items-center gap-2.5">
-                <Users size={15} className="text-amber-600" />
-                <span>CRM Management</span>
-              </div>
-              {crmExpanded ? <ChevronDown size={14} className="text-gray-400" /> : <ChevronRight size={14} className="text-gray-400" />}
-            </button>
-
-            {crmExpanded && (
-              <div className="ml-3 pl-3 border-l border-amber-200/80 space-y-0.5 my-1">
-                {crmSubItems.map((item) => {
-                  const isActive = currentNav === item.id ||
-                    (item.id === 'lead-activity' && currentNav === 'call-history');
-
-                  return (
-                    <button
-                      key={item.id}
-                      onClick={() => onNavigate(item.id)}
-                      className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-md transition-all text-left ${
-                        isActive
-                          ? 'bg-amber-100/90 text-amber-800 border-l-4 border-amber-500 font-bold shadow-2xs'
-                          : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 font-medium'
-                      }`}
-                    >
-                      <span className="truncate">{item.label}</span>
-                      {item.badge && (
-                        <span className="px-1.5 py-0.5 text-[10px] font-bold rounded bg-amber-500 text-white shrink-0">
-                          {item.badge}
-                        </span>
-                      )}
-                    </button>
-                  );
-                })}
               </div>
             )}
           </div>

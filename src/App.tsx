@@ -96,7 +96,7 @@ export default function App() {
             currentNav === 'inventory-all-projects' ? 'Inventory Management - All Projects' :
             currentNav === 'inventory-project-history' ? 'Inventory Management - Project History' :
             currentNav === 'inventory-buyers-stakeholders' ? 'Inventory Management - All Buyers' :
-            currentNav === 'inventory-flats-plot-stock' ? 'Inventory Management - Flats & Plot Stock' :
+            currentNav === 'inventory-flats-plot-stock' ? 'Inventory Management - All Assets' :
             currentNav === 'accounts-all-projects' ? 'Accounts Management - All Projects' :
             currentNav === 'referral' ? 'Referral Management' :
             currentNav === 'notification' ? 'Notification Center' :

@@ -293,6 +293,17 @@ export const InventoryAllProjectsView: React.FC<InventoryAllProjectsViewProps> =
         </div>
       )}
 
+      {/* Top CTA Button Container */}
+      <div className="bg-white rounded-2xl p-4 border border-gray-200/80 shadow-2xs flex justify-end">
+        <button
+          onClick={() => setIsAddModalOpen(true)}
+          className="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-xl text-xs font-black transition-all shadow-2xs flex items-center gap-2 cursor-pointer"
+        >
+          <Plus size={16} />
+          <span>Add New</span>
+        </button>
+      </div>
+
       {/* KPI Cards Grid (4 Cards with distinct theme colors matching Reference Image) */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Card 1: Projects Overview (Emerald Theme) */}
@@ -504,15 +515,6 @@ export const InventoryAllProjectsView: React.FC<InventoryAllProjectsViewProps> =
           >
             <Printer size={14} className="text-blue-600" />
             <span>Print</span>
-          </button>
-
-          {/* Add New CTA Button */}
-          <button
-            onClick={() => setIsAddModalOpen(true)}
-            className="px-3.5 py-1.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-xs font-black transition-all flex items-center gap-1.5 shadow-2xs cursor-pointer"
-          >
-            <Plus size={15} />
-            <span>Add New</span>
           </button>
         </div>
       </div>

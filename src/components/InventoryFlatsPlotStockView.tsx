@@ -366,6 +366,21 @@ export const InventoryFlatsPlotStockView: React.FC = () => {
         </div>
       )}
 
+      {/* Top Header & CTA Button */}
+      <div className="bg-white rounded-2xl p-4 border border-gray-200/80 shadow-2xs flex justify-end">
+        <button
+          onClick={() => {
+            setEditingItem(null);
+            resetForm();
+            setIsAddModalOpen(true);
+          }}
+          className="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-xl text-xs font-black transition-all shadow-2xs flex items-center gap-2 cursor-pointer"
+        >
+          <Plus size={16} />
+          <span>Add New</span>
+        </button>
+      </div>
+
       {/* KPI Cards Grid (Matching Reference Image Design) */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Card 1: Projects Overview (Green Theme) */}
@@ -582,19 +597,6 @@ export const InventoryFlatsPlotStockView: React.FC = () => {
             <Printer size={14} className="text-blue-600" />
             <span>Print</span>
           </button>
-
-          {/* Add New CTA Button */}
-          <button
-            onClick={() => {
-              setEditingItem(null);
-              resetForm();
-              setIsAddModalOpen(true);
-            }}
-            className="px-3.5 py-1.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-xs font-black transition-all flex items-center gap-1.5 shadow-2xs cursor-pointer"
-          >
-            <Plus size={15} />
-            <span>Add New</span>
-          </button>
         </div>
       </div>
 
@@ -767,7 +769,7 @@ export const InventoryFlatsPlotStockView: React.FC = () => {
               ) : (
                 <tr>
                   <td colSpan={10} className="py-8 text-center text-gray-400 font-semibold">
-                    No flats or plot stock match your criteria.
+                    No assets match your criteria.
                   </td>
                 </tr>
               )}
@@ -847,7 +849,7 @@ export const InventoryFlatsPlotStockView: React.FC = () => {
               <div className="flex items-center gap-2">
                 <Home className="text-emerald-600" size={20} />
                 <h3 className="font-extrabold text-gray-900 text-base">
-                  {editingItem ? 'Edit Flat / Plot Stock' : 'Add New'}
+                  {editingItem ? 'Edit Asset' : 'Add New Asset'}
                 </h3>
               </div>
               <button

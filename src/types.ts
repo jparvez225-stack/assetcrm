@@ -32,6 +32,31 @@ export interface FlatPlotStockItem {
   remarks?: string;
 }
 
+export interface BuyerPaymentRecord {
+  id: string;
+  date: string;
+  voucherNo: string;
+  projectName: string;
+  purpose: string;
+  method: string;
+  amount: string;
+  status: 'Verified' | 'Pending' | 'Rejected';
+}
+
+export interface BuyerProjectPurchase {
+  id: string;
+  projectName: string;
+  unitOrPlotNo: string;
+  sharesOrSize: string;
+  type: 'Unit Buyer' | 'Project Shareholder' | 'Joint Venture Partner' | 'Investor';
+  totalAmount: string;
+  paidAmount: string;
+  dueAmount: string;
+  purchaseDate: string;
+  status: 'Confirmed' | 'Token Paid' | 'Pending Verification' | 'Handover Completed';
+  payments?: BuyerPaymentRecord[];
+}
+
 export interface BuyerStakeholderItem {
   id: string;
   name: string;
@@ -48,6 +73,8 @@ export interface BuyerStakeholderItem {
   joiningDate: string;
   status: 'Confirmed' | 'Token Paid' | 'Pending Verification';
   address?: string;
+  projectPurchases?: BuyerProjectPurchase[];
+  paymentHistory?: BuyerPaymentRecord[];
 }
 
 export interface ProjectUnitStockItem {
