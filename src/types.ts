@@ -15,7 +15,11 @@ export type NavItem =
   | 'inventory-project-history'
   | 'inventory-buyers-stakeholders'
   | 'inventory-flats-plot-stock'
-  | 'accounts-all-projects';
+  | 'accounts-all-projects'
+  | 'accounts-land-purchase'
+  | 'accounts-project-expenses'
+  | 'accounts-agent-commission'
+  | 'accounts-collections';
 
 export interface FlatPlotStockItem {
   id: string;
@@ -267,7 +271,11 @@ export interface Lead {
   prefTime: 'Morning' | 'Afternoon' | 'Evening' | 'Night';
   status: LeadStatus;
   assignedSalesman: string;
-  source: 'Facebook' | 'WhatsApp' | 'Youtube' | 'Portal' | 'Email';
+  source: 'Facebook' | 'WhatsApp' | 'Youtube' | 'Portal' | 'Email' | 'Referral' | 'Direct';
+  referralId?: string;
+  referralName?: string;
+  referralPhone?: string;
+  referralType?: string;
   lastCallDate: string;
   callCount: number;
   messageCount: number;
@@ -374,4 +382,89 @@ export interface ReportRow {
   notReceived: number;
   callRejected: number;
   progress: string;
+}
+
+export interface LandPurchaseRecord {
+  id: string;
+  sl: string;
+  projectName: string;
+  sellerName: string;
+  sellerPhone: string;
+  landArea: string; // e.g. 20 Bigha / 100 Katha
+  deedNo: string;
+  dagKhatianNo: string;
+  purchasePrice: string; // ৳
+  paidAmount: string; // ৳
+  dueAmount: string; // ৳
+  purchaseDate: string;
+  paymentStatus: 'Paid in Full' | 'Partial Paid' | 'Pending Payment';
+  branch: string;
+  notes?: string;
+}
+
+export interface ProjectExpenseRecord {
+  id: string;
+  sl: string;
+  projectName: string;
+  category: 'Registration & Deed (দলিল খরচ)' | 'Site Visit & Transport (সাইট ভিজিট)' | 'Land Development & Earth Filling' | 'Soil Test & Architect' | 'Legal & Government Approval' | 'Utility & Infrastructure' | 'Office & Marketing Overhead';
+  purpose: string;
+  voucherNo: string;
+  paidTo: string;
+  paymentMethod: 'Bank Transfer' | 'Cash' | 'Cheque' | 'bKash / MFS';
+  amount: string;
+  expenseDate: string;
+  approvedBy: string;
+  branch: string;
+}
+
+export interface AgentCommissionDeal {
+  id: string;
+  sl: string;
+  dealDate: string;
+  projectName: string;
+  unitPlotNo: string;
+  buyerName: string;
+  grossSalePrice: string; // ৳
+  landBuyingCost: string; // ৳ (জমির কেনা মূল্য)
+  netProfitBeforeCommission: string; // ৳ (বিক্রয় মূল্য - জমির কেনা মূল্য)
+  commissionRate: string; // e.g. 5% or Fixed per katha
+  earnedCommission: string; // ৳
+  paidCommission: string; // ৳
+  dueCommission: string; // ৳
+  payoutStatus: 'Commission Paid' | 'Partially Paid' | 'Pending';
+  voucherNo?: string;
+}
+
+export interface AgentLedgerProfile {
+  id: string;
+  agentName: string;
+  phone: string;
+  email: string;
+  agentType: 'Sales Executive' | 'Commission Agent' | 'Broker' | 'Media Partner';
+  branch: string;
+  totalDealsCount: number;
+  totalGrossSales: string; // ৳
+  totalLandCostDeducted: string; // ৳ (জমির কেনা মূল্য মোট বাদ)
+  totalNetProfit: string; // ৳
+  totalCommissionEarned: string; // ৳
+  totalCommissionPaid: string; // ৳
+  totalCommissionDue: string; // ৳
+  dealsHistory: AgentCommissionDeal[];
+}
+
+export interface AccountCollectionRecord {
+  id: string;
+  sl: string;
+  voucherNo: string;
+  collectionDate: string;
+  projectName: string;
+  unitPlotNo: string;
+  customerName: string;
+  customerPhone: string;
+  purpose: 'Booking Money' | 'Downpayment' | 'Monthly Installment' | 'Registration / Deed Fee' | 'Utility Charge';
+  paymentMethod: 'Bank Deposit' | 'Cheque' | 'Cash' | 'bKash/MFS' | 'Pay Order';
+  collectedAmount: string;
+  status: 'Verified' | 'Pending Verification' | 'Cancelled';
+  branch: string;
+  receivedBy: string;
 }

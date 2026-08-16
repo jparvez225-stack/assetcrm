@@ -202,7 +202,51 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentNav, onNavigate }) => {
                       : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 font-medium'
                   }`}
                 >
-                  <span className="truncate">All Project Page</span>
+                  <span className="truncate">All Projects Overview</span>
+                </button>
+
+                <button
+                  onClick={() => onNavigate('accounts-land-purchase')}
+                  className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-md transition-all text-left ${
+                    currentNav === 'accounts-land-purchase'
+                      ? 'bg-amber-100/90 text-amber-800 border-l-4 border-amber-500 font-bold shadow-2xs'
+                      : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 font-medium'
+                  }`}
+                >
+                  <span className="truncate">Land Purchase Ledger</span>
+                </button>
+
+                <button
+                  onClick={() => onNavigate('accounts-project-expenses')}
+                  className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-md transition-all text-left ${
+                    currentNav === 'accounts-project-expenses'
+                      ? 'bg-amber-100/90 text-amber-800 border-l-4 border-amber-500 font-bold shadow-2xs'
+                      : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 font-medium'
+                  }`}
+                >
+                  <span className="truncate">Project Expenses & Fees</span>
+                </button>
+
+                <button
+                  onClick={() => onNavigate('accounts-agent-commission')}
+                  className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-md transition-all text-left ${
+                    currentNav === 'accounts-agent-commission'
+                      ? 'bg-amber-100/90 text-amber-800 border-l-4 border-amber-500 font-bold shadow-2xs'
+                      : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 font-medium'
+                  }`}
+                >
+                  <span className="truncate">Agent Commission Ledgers</span>
+                </button>
+
+                <button
+                  onClick={() => onNavigate('accounts-collections')}
+                  className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-md transition-all text-left ${
+                    currentNav === 'accounts-collections'
+                      ? 'bg-amber-100/90 text-amber-800 border-l-4 border-amber-500 font-bold shadow-2xs'
+                      : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 font-medium'
+                  }`}
+                >
+                  <span className="truncate">Income & Collections</span>
                 </button>
               </div>
             )}

@@ -44,7 +44,7 @@ export const LeadView: React.FC<LeadViewProps> = ({
   onEditLead,
   onAssignSalesman 
 }) => {
-  const [activeTab, setActiveTab] = useState<'All' | 'Facebook' | 'WhatsApp' | 'Youtube' | 'Portal'>('All');
+  const [activeTab, setActiveTab] = useState<'All' | 'Facebook' | 'WhatsApp' | 'Youtube' | 'Portal' | 'Referral'>('All');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedStatus, setSelectedSalesStatus] = useState('All');
   const [selectedProject, setSelectedProjectFilter] = useState('All');
@@ -452,13 +452,31 @@ export const LeadView: React.FC<LeadViewProps> = ({
                       <p className="text-[10px] text-emerald-700 font-semibold">WhatsApp: {l.phone}</p>
                       <p className="text-[10px] text-gray-400">{l.email}</p>
                     </td>
-                    <td className="py-3 px-3 text-gray-500">Direct / Self</td>
+                    <td className="py-3 px-3">
+                      {l.referralName ? (
+                        <div className="flex flex-col gap-0.5">
+                          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-900 bg-amber-50 px-2 py-0.5 rounded border border-amber-200/80">
+                            <Share2 size={11} className="text-amber-600 shrink-0" />
+                            <span className="truncate max-w-[120px]" title={l.referralName}>{l.referralName}</span>
+                          </span>
+                          {l.referralType && (
+                            <span className="text-[10px] text-gray-500 font-medium pl-1">{l.referralType}</span>
+                          )}
+                        </div>
+                      ) : (
+                        <span className="text-gray-400 text-[11px]">Direct / Self</span>
+                      )}
+                    </td>
                     <td className="py-3 px-3">
                       <p className="font-semibold text-gray-800">{l.projectName}</p>
                       <p className="text-[10px] text-amber-700 font-bold">{l.requiredPlotSize} • {l.facingPreference}</p>
                     </td>
                     <td className="py-3 px-3">
-                      <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 text-emerald-800">
+                      <span className={`px-2 py-0.5 rounded text-[10px] font-semibold ${
+                        l.source === 'Referral' 
+                          ? 'bg-amber-100 text-amber-900 border border-amber-300/80 font-bold' 
+                          : 'bg-emerald-100 text-emerald-800'
+                      }`}>
                         {l.source}
                       </span>
                     </td>

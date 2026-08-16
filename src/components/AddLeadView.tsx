@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Lead, LEAD_STATUS_LIST } from '../types';
+import { Lead, LEAD_STATUS_LIST, ReferralItem } from '../types';
+import { initialReferrals } from '../mockData';
 import { 
   ArrowLeft, 
   Save, 
@@ -15,7 +16,10 @@ import {
   Compass, 
   DollarSign,
   Image as ImageIcon,
-  Calendar
+  Calendar,
+  Share2,
+  CheckCircle2,
+  X
 } from 'lucide-react';
 
 interface AddLeadViewProps {
@@ -23,13 +27,15 @@ interface AddLeadViewProps {
   onAddLead: (lead: Lead) => void;
   editingLead?: Lead | null;
   onUpdateLead?: (lead: Lead) => void;
+  referrals?: ReferralItem[];
 }
 
 export const AddLeadView: React.FC<AddLeadViewProps> = ({ 
   onBack, 
   onAddLead, 
   editingLead, 
-  onUpdateLead 
+  onUpdateLead,
+  referrals = initialReferrals
 }) => {
   const [formData, setFormData] = useState({
     name: editingLead?.name || '',
@@ -44,11 +50,60 @@ export const AddLeadView: React.FC<AddLeadViewProps> = ({
     budgetLimit: editingLead?.budgetLimit || '৳ 1.5 Crore',
     assignedSalesman: editingLead?.assignedSalesman || 'Siddique Rahman',
     source: editingLead?.source || ('Facebook' as Lead['source']),
+    referralId: editingLead?.referralId || '',
+    referralName: editingLead?.referralName || '',
+    referralPhone: editingLead?.referralPhone || '',
+    referralType: editingLead?.referralType || '',
+    customReferralName: '',
     status: editingLead?.status || 'New Lead',
     note: editingLead?.note || '',
   });
 
+  const [isCustomReferral, setIsCustomReferral] = useState(
+    Boolean(editingLead?.referralName && !referrals.some(r => r.id === editingLead?.referralId))
+  );
+
   const [notification, setNotification] = useState<string | null>(null);
+
+  const selectedReferralObj = referrals.find(r => r.id === formData.referralId);
+
+  const handleReferralChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    if (value === 'CUSTOM') {
+      setIsCustomReferral(true);
+      setFormData(prev => ({
+        ...prev,
+        referralId: 'custom',
+        referralName: prev.customReferralName || '',
+        referralPhone: '',
+        referralType: 'External Partner',
+        source: prev.source === 'Facebook' ? 'Referral' : prev.source
+      }));
+    } else if (value === '') {
+      setIsCustomReferral(false);
+      setFormData(prev => ({
+        ...prev,
+        referralId: '',
+        referralName: '',
+        referralPhone: '',
+        referralType: '',
+        customReferralName: ''
+      }));
+    } else {
+      setIsCustomReferral(false);
+      const found = referrals.find(r => r.id === value);
+      if (found) {
+        setFormData(prev => ({
+          ...prev,
+          referralId: found.id,
+          referralName: found.name,
+          referralPhone: found.phone,
+          referralType: found.referralType,
+          source: 'Referral'
+        }));
+      }
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,6 +111,10 @@ export const AddLeadView: React.FC<AddLeadViewProps> = ({
       alert('Please fill in Client Name and Phone Number');
       return;
     }
+
+    const finalReferralName = isCustomReferral 
+      ? formData.customReferralName.trim() 
+      : formData.referralName;
 
     if (editingLead && onUpdateLead) {
       const updatedLead: Lead = {
@@ -72,6 +131,10 @@ export const AddLeadView: React.FC<AddLeadViewProps> = ({
         budgetLimit: formData.budgetLimit,
         assignedSalesman: formData.assignedSalesman,
         source: formData.source,
+        referralId: formData.referralId || undefined,
+        referralName: finalReferralName || undefined,
+        referralPhone: formData.referralPhone || undefined,
+        referralType: formData.referralType || undefined,
         status: formData.status as Lead['status'],
         note: formData.note,
       };
@@ -102,6 +165,10 @@ export const AddLeadView: React.FC<AddLeadViewProps> = ({
       status: formData.status as Lead['status'],
       assignedSalesman: formData.assignedSalesman,
       source: formData.source,
+      referralId: formData.referralId || undefined,
+      referralName: finalReferralName || undefined,
+      referralPhone: formData.referralPhone || undefined,
+      referralType: formData.referralType || undefined,
       lastCallDate: new Date().toISOString().split('T')[0],
       callCount: 1,
       messageCount: 0,
@@ -290,7 +357,10 @@ export const AddLeadView: React.FC<AddLeadViewProps> = ({
             <label className="block text-xs font-semibold text-gray-700 mb-1">Lead Source</label>
             <select
               value={formData.source}
-              onChange={(e) => setFormData({ ...formData, source: e.target.value as Lead['source'] })}
+              onChange={(e) => {
+                const newSource = e.target.value as Lead['source'];
+                setFormData({ ...formData, source: newSource });
+              }}
               className="w-full px-3 py-2 text-xs text-gray-800 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all shadow-2xs"
             >
               <option value="Facebook">Facebook Campaign</option>
@@ -298,7 +368,98 @@ export const AddLeadView: React.FC<AddLeadViewProps> = ({
               <option value="Youtube">Youtube Video Ad</option>
               <option value="Portal">Property Portal Inbound</option>
               <option value="Email">Email Outreach</option>
+              <option value="Referral">Referral Partner / Agent</option>
+              <option value="Direct">Direct Walk-in</option>
             </select>
+          </div>
+
+          {/* REFERRAL SELECT OPTION */}
+          <div className="md:col-span-2 bg-amber-50/40 p-4 rounded-xl border border-amber-200/70 space-y-3">
+            <div className="flex items-center justify-between">
+              <label className="flex items-center gap-2 text-xs font-bold text-amber-950">
+                <Share2 size={15} className="text-amber-600" />
+                <span>Referral Partner / Agent (Select Option)</span>
+                <span className="text-[10px] font-normal text-amber-700 bg-amber-100/70 px-2 py-0.5 rounded-full">
+                  Affiliate & Referral Network
+                </span>
+              </label>
+              {(formData.referralId || formData.referralName) && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsCustomReferral(false);
+                    setFormData(prev => ({
+                      ...prev,
+                      referralId: '',
+                      referralName: '',
+                      referralPhone: '',
+                      referralType: '',
+                      customReferralName: ''
+                    }));
+                  }}
+                  className="text-[11px] font-semibold text-amber-800 hover:text-red-600 flex items-center gap-1 cursor-pointer transition-colors"
+                >
+                  <X size={12} />
+                  <span>Remove Referral</span>
+                </button>
+              )}
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <select
+                  value={isCustomReferral ? 'CUSTOM' : (formData.referralId || '')}
+                  onChange={handleReferralChange}
+                  className="w-full px-3 py-2 text-xs text-gray-800 bg-white border border-amber-300/80 rounded-md focus:outline-none focus:border-amber-600 focus:ring-1 focus:ring-amber-500 transition-all shadow-2xs font-medium"
+                >
+                  <option value="">-- No Referral (Direct / Self) --</option>
+                  <optgroup label="Registered Referral Partners & Agents">
+                    {referrals.map((ref) => (
+                      <option key={ref.id} value={ref.id}>
+                        {ref.name} — {ref.referralType} ({ref.phone}) [{ref.branch}]
+                      </option>
+                    ))}
+                  </optgroup>
+                  <option value="CUSTOM">+ Other / Custom Referral Partner</option>
+                </select>
+              </div>
+
+              {isCustomReferral ? (
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Enter referrer name / agent details"
+                    value={formData.customReferralName || formData.referralName}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setFormData(prev => ({
+                        ...prev,
+                        customReferralName: val,
+                        referralName: val,
+                        referralType: 'External Partner',
+                        source: prev.source === 'Facebook' ? 'Referral' : prev.source
+                      }));
+                    }}
+                    className="w-full px-3 py-2 text-xs text-gray-800 bg-white border border-amber-300 rounded-md focus:outline-none focus:border-amber-600 focus:ring-1 focus:ring-amber-500 transition-all shadow-2xs placeholder-gray-400"
+                  />
+                </div>
+              ) : selectedReferralObj ? (
+                <div className="flex items-center gap-3 bg-white px-3 py-1.5 rounded-md border border-amber-200 text-xs shadow-2xs">
+                  <div className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+                  <div className="truncate">
+                    <span className="font-bold text-gray-900">{selectedReferralObj.name}</span>
+                    <span className="text-gray-500 text-[11px] ml-1.5">({selectedReferralObj.referralType} • {selectedReferralObj.branch})</span>
+                  </div>
+                  <span className="ml-auto text-[10px] font-bold text-amber-700 bg-amber-100/60 px-1.5 py-0.5 rounded shrink-0">
+                    ৳{selectedReferralObj.commission.toLocaleString()}
+                  </span>
+                </div>
+              ) : (
+                <div className="flex items-center text-xs text-gray-500 italic bg-white/60 px-3 py-2 rounded-md border border-dashed border-gray-200">
+                  Select a registered partner from dropdown or click "+ Other"
+                </div>
+              )}
+            </div>
           </div>
 
           <div>
@@ -360,4 +521,5 @@ export const AddLeadView: React.FC<AddLeadViewProps> = ({
     </div>
   );
 };
+
 

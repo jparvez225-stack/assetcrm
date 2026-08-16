@@ -98,6 +98,10 @@ export default function App() {
             currentNav === 'inventory-buyers-stakeholders' ? 'Inventory Management - All Buyers' :
             currentNav === 'inventory-flats-plot-stock' ? 'Inventory Management - All Assets' :
             currentNav === 'accounts-all-projects' ? 'Accounts Management - All Projects' :
+            currentNav === 'accounts-land-purchase' ? 'Accounts Management - Land Purchase Ledger' :
+            currentNav === 'accounts-project-expenses' ? 'Accounts Management - Project Expenses & Fees' :
+            currentNav === 'accounts-agent-commission' ? 'Accounts Management - Agent Commission Ledgers' :
+            currentNav === 'accounts-collections' ? 'Accounts Management - Income & Collections' :
             currentNav === 'referral' ? 'Referral Management' :
             currentNav === 'notification' ? 'Notification Center' :
             'Lead Report & Analytics'
@@ -124,6 +128,7 @@ export default function App() {
           {currentNav === 'add-lead' && (
             <AddLeadView 
               editingLead={editingLead}
+              referrals={referrals}
               onBack={() => {
                 setEditingLead(null);
                 setCurrentNav('lead');
@@ -209,8 +214,19 @@ export default function App() {
             <InventoryFlatsPlotStockView />
           )}
 
-          {currentNav === 'accounts-all-projects' && (
+          {(currentNav === 'accounts-all-projects' ||
+            currentNav === 'accounts-land-purchase' ||
+            currentNav === 'accounts-project-expenses' ||
+            currentNav === 'accounts-agent-commission' ||
+            currentNav === 'accounts-collections') && (
             <AccountsAllProjectsView 
+              activeTabProp={
+                currentNav === 'accounts-land-purchase' ? 'land' :
+                currentNav === 'accounts-project-expenses' ? 'expenses' :
+                currentNav === 'accounts-agent-commission' ? 'commission' :
+                currentNav === 'accounts-collections' ? 'collections' :
+                'all'
+              }
               autoOpenBookModal={bookingPrefill.isOpen}
               initialBookingData={{
                 projectName: bookingPrefill.projectName,
