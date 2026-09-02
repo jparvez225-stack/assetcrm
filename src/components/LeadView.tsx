@@ -26,7 +26,8 @@ import {
   CheckSquare,
   Square,
   X,
-  Check
+  Check,
+  Clock
 } from 'lucide-react';
 
 interface LeadViewProps {
@@ -129,88 +130,100 @@ export const LeadView: React.FC<LeadViewProps> = ({
 
       {/* Top 5 Metric Cards matching exact reference design */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
-        {/* Card 1: Leads */}
+        {/* Card 1: Assigned */}
         <div className="bg-white rounded-2xl p-4 border border-blue-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all">
           <div className="flex items-center gap-2 mb-3 z-10">
             <div className="p-2 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+              <UserCheck size={18} />
+            </div>
+            <span className="font-extrabold text-sm text-gray-900 tracking-wide">Assigned</span>
+          </div>
+          <div className="grid grid-cols-3 gap-1.5 z-10">
+            <div className="bg-blue-50/50 rounded-xl p-2 text-left border border-blue-100/70">
+              <span className="block text-[8.5px] font-extrabold uppercase tracking-wider text-blue-600 truncate" title="ASSIGNED">ASSIGNED</span>
+              <span className="text-base sm:text-lg font-extrabold text-gray-900 tracking-tight">6,420</span>
+            </div>
+            <div className="bg-blue-50/50 rounded-xl p-2 text-left border border-blue-100/70">
+              <span className="block text-[8.5px] font-extrabold uppercase tracking-wider text-blue-600 truncate" title="CONTACTED">CONTACTED</span>
+              <span className="text-base sm:text-lg font-extrabold text-gray-900 tracking-tight">4,850</span>
+            </div>
+            <div className="bg-blue-50/50 rounded-xl p-2 text-left border border-blue-100/70">
+              <span className="block text-[8.5px] font-extrabold uppercase tracking-wider text-blue-600 truncate" title="PENDING">PENDING</span>
+              <span className="text-base sm:text-lg font-extrabold text-gray-900 tracking-tight">1,570</span>
+            </div>
+          </div>
+          <UserCheck size={85} className="absolute -right-4 -bottom-4 text-blue-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
+        </div>
+
+        {/* Card 2: Leads */}
+        <div className="bg-white rounded-2xl p-4 border border-emerald-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all">
+          <div className="flex items-center gap-2 mb-3 z-10">
+            <div className="p-2 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
               <Zap size={18} />
             </div>
             <span className="font-extrabold text-sm text-gray-900 tracking-wide">Leads</span>
           </div>
-          <div className="grid grid-cols-2 gap-2 z-10">
-            <div className="bg-blue-50/50 rounded-xl p-2.5 text-left border border-blue-100/70">
-              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-blue-600">TOTAL</span>
-              <span className="text-xl font-extrabold text-gray-900 tracking-tight">8565</span>
+          <div className="grid grid-cols-3 gap-1.5 z-10">
+            <div className="bg-emerald-50/50 rounded-xl p-2 text-left border border-emerald-100/70">
+              <span className="block text-[8.5px] font-extrabold uppercase tracking-wider text-emerald-600 truncate" title="TOTAL LEADS">TOTAL LEADS</span>
+              <span className="text-base sm:text-lg font-extrabold text-gray-900 tracking-tight">8,565</span>
             </div>
-            <div className="bg-blue-50/50 rounded-xl p-2.5 text-left border border-blue-100/70">
-              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-blue-600">TODAY</span>
-              <span className="text-xl font-extrabold text-gray-900 tracking-tight">0</span>
+            <div className="bg-emerald-50/50 rounded-xl p-2 text-left border border-emerald-100/70">
+              <span className="block text-[8.5px] font-extrabold uppercase tracking-wider text-emerald-600 truncate" title="CONTACTED">CONTACTED</span>
+              <span className="text-base sm:text-lg font-extrabold text-gray-900 tracking-tight">6,890</span>
+            </div>
+            <div className="bg-emerald-50/50 rounded-xl p-2 text-left border border-emerald-100/70">
+              <span className="block text-[8.5px] font-extrabold uppercase tracking-wider text-emerald-600 truncate" title="PENDING">PENDING</span>
+              <span className="text-base sm:text-lg font-extrabold text-gray-900 tracking-tight">1,675</span>
             </div>
           </div>
-          <Zap size={85} className="absolute -right-4 -bottom-4 text-blue-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
+          <Zap size={85} className="absolute -right-4 -bottom-4 text-emerald-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
         </div>
 
-        {/* Card 2: Bookings */}
-        <div className="bg-white rounded-2xl p-4 border border-purple-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all">
-          <div className="flex items-center gap-2 mb-3 z-10">
-            <div className="p-2 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
-              <UserCheck size={18} />
-            </div>
-            <span className="font-extrabold text-sm text-gray-900 tracking-wide">Bookings</span>
-          </div>
-          <div className="grid grid-cols-2 gap-2 z-10">
-            <div className="bg-purple-50/50 rounded-xl p-2.5 text-left border border-purple-100/70">
-              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-purple-600">TOTAL</span>
-              <span className="text-xl font-extrabold text-gray-900 tracking-tight">271</span>
-            </div>
-            <div className="bg-purple-50/50 rounded-xl p-2.5 text-left border border-purple-100/70">
-              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-purple-600">TODAY</span>
-              <span className="text-xl font-extrabold text-gray-900 tracking-tight">7</span>
-            </div>
-          </div>
-          <UserCheck size={85} className="absolute -right-4 -bottom-4 text-purple-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
-        </div>
-
-        {/* Card 3: Follow Up & Interested */}
+        {/* Card 3: Follow Up */}
         <div className="bg-white rounded-2xl p-4 border border-orange-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all">
           <div className="flex items-center gap-2 mb-3 z-10">
             <div className="p-2 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center">
-              <Share2 size={18} />
+              <Clock size={18} />
             </div>
-            <span className="font-extrabold text-sm text-gray-900 tracking-wide truncate">Follow Up & Interested</span>
+            <span className="font-extrabold text-sm text-gray-900 tracking-wide truncate">Follow Up</span>
           </div>
-          <div className="grid grid-cols-2 gap-2 z-10">
-            <div className="bg-orange-50/50 rounded-xl p-2.5 text-left border border-orange-100/70">
-              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-orange-600">TOTAL</span>
-              <span className="text-xl font-extrabold text-gray-900 tracking-tight">993</span>
+          <div className="grid grid-cols-3 gap-1.5 z-10">
+            <div className="bg-orange-50/50 rounded-xl p-2 text-left border border-orange-100/70">
+              <span className="block text-[8.5px] font-extrabold uppercase tracking-wider text-orange-600 truncate" title="TOTAL FOLLOW UP">TOTAL FOLLOW UP</span>
+              <span className="text-base sm:text-lg font-extrabold text-gray-900 tracking-tight">993</span>
             </div>
-            <div className="bg-orange-50/50 rounded-xl p-2.5 text-left border border-orange-100/70">
-              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-orange-600">TODAY</span>
-              <span className="text-xl font-extrabold text-gray-900 tracking-tight">19</span>
+            <div className="bg-orange-50/50 rounded-xl p-2 text-left border border-orange-100/70">
+              <span className="block text-[8.5px] font-extrabold uppercase tracking-wider text-orange-600 truncate" title="TODAY FOLLOWUP">TODAY FOLLOWUP</span>
+              <span className="text-base sm:text-lg font-extrabold text-gray-900 tracking-tight">42</span>
+            </div>
+            <div className="bg-orange-50/50 rounded-xl p-2 text-left border border-orange-100/70">
+              <span className="block text-[8.5px] font-extrabold uppercase tracking-wider text-orange-600 truncate" title="NEXT FOLLOW UP">NEXT FOLLOW UP</span>
+              <span className="text-base sm:text-lg font-extrabold text-gray-900 tracking-tight">118</span>
             </div>
           </div>
-          <Share2 size={85} className="absolute -right-4 -bottom-4 text-orange-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
+          <Clock size={85} className="absolute -right-4 -bottom-4 text-orange-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
         </div>
 
-        {/* Card 4: Lost Leads */}
-        <div className="bg-white rounded-2xl p-4 border border-indigo-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all">
+        {/* Card 4: Booking */}
+        <div className="bg-white rounded-2xl p-4 border border-purple-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all">
           <div className="flex items-center gap-2 mb-3 z-10">
-            <div className="p-2 rounded-xl bg-indigo-50 text-indigo-700 flex items-center justify-center">
-              <AlertCircle size={18} />
+            <div className="p-2 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
+              <Building size={18} />
             </div>
-            <span className="font-extrabold text-sm text-gray-900 tracking-wide">Lost Leads</span>
+            <span className="font-extrabold text-sm text-gray-900 tracking-wide">Booking</span>
           </div>
           <div className="grid grid-cols-2 gap-2 z-10">
-            <div className="bg-indigo-50/50 rounded-xl p-2.5 text-left border border-indigo-100/70">
-              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-indigo-700">TOTAL</span>
-              <span className="text-xl font-extrabold text-gray-900 tracking-tight">1658</span>
+            <div className="bg-purple-50/50 rounded-xl p-2.5 text-left border border-purple-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-purple-600 truncate" title="TOTAL BOOKING">TOTAL BOOKING</span>
+              <span className="text-xl font-extrabold text-gray-900 tracking-tight">271</span>
             </div>
-            <div className="bg-indigo-50/50 rounded-xl p-2.5 text-left border border-indigo-100/70">
-              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-indigo-700">TODAY</span>
-              <span className="text-xl font-extrabold text-gray-900 tracking-tight">0</span>
+            <div className="bg-purple-50/50 rounded-xl p-2.5 text-left border border-purple-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-purple-600 truncate" title="TOTAL SOLD">TOTAL SOLD</span>
+              <span className="text-xl font-extrabold text-gray-900 tracking-tight">198</span>
             </div>
           </div>
-          <AlertCircle size={85} className="absolute -right-4 -bottom-4 text-indigo-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
+          <Building size={85} className="absolute -right-4 -bottom-4 text-purple-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
         </div>
 
         {/* Card 5: Status */}
@@ -221,10 +234,14 @@ export const LeadView: React.FC<LeadViewProps> = ({
             </div>
             <span className="font-extrabold text-sm text-gray-900 tracking-wide">Status</span>
           </div>
-          <div className="z-10">
+          <div className="grid grid-cols-2 gap-2 z-10">
             <div className="bg-cyan-50/50 rounded-xl p-2.5 text-left border border-cyan-100/70">
-              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-cyan-600">CONVERSION</span>
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-cyan-600 truncate" title="CONVERSION">CONVERSION</span>
               <span className="text-xl font-extrabold text-gray-900 tracking-tight">3.16%</span>
+            </div>
+            <div className="bg-cyan-50/50 rounded-xl p-2.5 text-left border border-cyan-100/70">
+              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-cyan-600 truncate" title="CALL RATIO">CALL RATIO</span>
+              <span className="text-xl font-extrabold text-gray-900 tracking-tight">78.4%</span>
             </div>
           </div>
           <Star size={85} className="absolute -right-4 -bottom-4 text-cyan-400/10 pointer-events-none group-hover:scale-110 transition-transform" />
