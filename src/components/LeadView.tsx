@@ -130,13 +130,13 @@ export const LeadView: React.FC<LeadViewProps> = ({
 
       {/* Top 5 Metric Cards matching exact reference design */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
-        {/* Card 1: Assigned */}
+        {/* Card 1: Today Assigned */}
         <div className="bg-white rounded-2xl p-4 border border-blue-100 shadow-2xs flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all">
           <div className="flex items-center gap-2 mb-3 z-10">
             <div className="p-2 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
               <UserCheck size={18} />
             </div>
-            <span className="font-extrabold text-sm text-gray-900 tracking-wide">Assigned</span>
+            <span className="font-extrabold text-sm text-gray-900 tracking-wide">Today Assigned</span>
           </div>
           <div className="grid grid-cols-3 gap-1.5 z-10">
             <div className="bg-blue-50/50 rounded-xl p-2 text-left border border-blue-100/70">
