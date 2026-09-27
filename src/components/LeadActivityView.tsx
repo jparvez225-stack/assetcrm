@@ -54,15 +54,15 @@ export const LeadActivityView: React.FC<LeadActivityViewProps> = ({
           </div>
           <div className="grid grid-cols-3 gap-1.5 z-10">
             <div className="bg-blue-50/50 rounded-xl p-2 text-left border border-blue-100/70">
-              <span className="block text-[8.5px] font-extrabold uppercase tracking-wider text-blue-600 truncate" title="ASSIGNED">ASSIGNED</span>
+              <span className="block text-[9px] font-bold text-blue-600 truncate" title="Assigned">Assigned</span>
               <span className="text-base sm:text-lg font-extrabold text-gray-900 tracking-tight">6,420</span>
             </div>
             <div className="bg-blue-50/50 rounded-xl p-2 text-left border border-blue-100/70">
-              <span className="block text-[8.5px] font-extrabold uppercase tracking-wider text-blue-600 truncate" title="CONTACTED">CONTACTED</span>
+              <span className="block text-[9px] font-bold text-blue-600 truncate" title="Contacted">Contacted</span>
               <span className="text-base sm:text-lg font-extrabold text-gray-900 tracking-tight">4,850</span>
             </div>
             <div className="bg-blue-50/50 rounded-xl p-2 text-left border border-blue-100/70">
-              <span className="block text-[8.5px] font-extrabold uppercase tracking-wider text-blue-600 truncate" title="PENDING">PENDING</span>
+              <span className="block text-[9px] font-bold text-blue-600 truncate" title="Pending">Pending</span>
               <span className="text-base sm:text-lg font-extrabold text-gray-900 tracking-tight">1,570</span>
             </div>
           </div>
@@ -79,15 +79,15 @@ export const LeadActivityView: React.FC<LeadActivityViewProps> = ({
           </div>
           <div className="grid grid-cols-3 gap-1.5 z-10">
             <div className="bg-emerald-50/50 rounded-xl p-2 text-left border border-emerald-100/70">
-              <span className="block text-[8.5px] font-extrabold uppercase tracking-wider text-emerald-600 truncate" title="TOTAL LEADS">TOTAL LEADS</span>
+              <span className="block text-[9px] font-bold text-emerald-600 truncate" title="Total Leads">Total Leads</span>
               <span className="text-base sm:text-lg font-extrabold text-gray-900 tracking-tight">8,565</span>
             </div>
             <div className="bg-emerald-50/50 rounded-xl p-2 text-left border border-emerald-100/70">
-              <span className="block text-[8.5px] font-extrabold uppercase tracking-wider text-emerald-600 truncate" title="CONTACTED">CONTACTED</span>
+              <span className="block text-[9px] font-bold text-emerald-600 truncate" title="Contacted">Contacted</span>
               <span className="text-base sm:text-lg font-extrabold text-gray-900 tracking-tight">6,890</span>
             </div>
             <div className="bg-emerald-50/50 rounded-xl p-2 text-left border border-emerald-100/70">
-              <span className="block text-[8.5px] font-extrabold uppercase tracking-wider text-emerald-600 truncate" title="PENDING">PENDING</span>
+              <span className="block text-[9px] font-bold text-emerald-600 truncate" title="Pending">Pending</span>
               <span className="text-base sm:text-lg font-extrabold text-gray-900 tracking-tight">1,675</span>
             </div>
           </div>
@@ -104,15 +104,15 @@ export const LeadActivityView: React.FC<LeadActivityViewProps> = ({
           </div>
           <div className="grid grid-cols-3 gap-1.5 z-10">
             <div className="bg-orange-50/50 rounded-xl p-2 text-left border border-orange-100/70">
-              <span className="block text-[8.5px] font-extrabold uppercase tracking-wider text-orange-600 truncate" title="TOTAL FOLLOW UP">TOTAL FOLLOW UP</span>
+              <span className="block text-[9px] font-bold text-orange-600 truncate" title="Total Follow Up">Total Follow Up</span>
               <span className="text-base sm:text-lg font-extrabold text-gray-900 tracking-tight">993</span>
             </div>
             <div className="bg-orange-50/50 rounded-xl p-2 text-left border border-orange-100/70">
-              <span className="block text-[8.5px] font-extrabold uppercase tracking-wider text-orange-600 truncate" title="TODAY FOLLOWUP">TODAY FOLLOWUP</span>
+              <span className="block text-[9px] font-bold text-orange-600 truncate" title="Today Followup">Today Followup</span>
               <span className="text-base sm:text-lg font-extrabold text-gray-900 tracking-tight">42</span>
             </div>
             <div className="bg-orange-50/50 rounded-xl p-2 text-left border border-orange-100/70">
-              <span className="block text-[8.5px] font-extrabold uppercase tracking-wider text-orange-600 truncate" title="NEXT FOLLOW UP">NEXT FOLLOW UP</span>
+              <span className="block text-[9px] font-bold text-orange-600 truncate" title="Next Follow Up">Next Follow Up</span>
               <span className="text-base sm:text-lg font-extrabold text-gray-900 tracking-tight">118</span>
             </div>
           </div>
@@ -129,11 +129,11 @@ export const LeadActivityView: React.FC<LeadActivityViewProps> = ({
           </div>
           <div className="grid grid-cols-2 gap-2 z-10">
             <div className="bg-purple-50/50 rounded-xl p-2.5 text-left border border-purple-100/70">
-              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-purple-600 truncate" title="TOTAL BOOKING">TOTAL BOOKING</span>
+              <span className="block text-[10px] font-bold text-purple-600 truncate" title="Total Booking">Total Booking</span>
               <span className="text-xl font-extrabold text-gray-900 tracking-tight">271</span>
             </div>
             <div className="bg-purple-50/50 rounded-xl p-2.5 text-left border border-purple-100/70">
-              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-purple-600 truncate" title="TOTAL SOLD">TOTAL SOLD</span>
+              <span className="block text-[10px] font-bold text-purple-600 truncate" title="Total Sold">Total Sold</span>
               <span className="text-xl font-extrabold text-gray-900 tracking-tight">198</span>
             </div>
           </div>
@@ -150,11 +150,11 @@ export const LeadActivityView: React.FC<LeadActivityViewProps> = ({
           </div>
           <div className="grid grid-cols-2 gap-2 z-10">
             <div className="bg-cyan-50/50 rounded-xl p-2.5 text-left border border-cyan-100/70">
-              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-cyan-600 truncate" title="CONVERSION">CONVERSION</span>
+              <span className="block text-[10px] font-bold text-cyan-600 truncate" title="Conversion">Conversion</span>
               <span className="text-xl font-extrabold text-gray-900 tracking-tight">3.16%</span>
             </div>
             <div className="bg-cyan-50/50 rounded-xl p-2.5 text-left border border-cyan-100/70">
-              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-cyan-600 truncate" title="CALL RATIO">CALL RATIO</span>
+              <span className="block text-[10px] font-bold text-cyan-600 truncate" title="Call Ratio">Call Ratio</span>
               <span className="text-xl font-extrabold text-gray-900 tracking-tight">78.4%</span>
             </div>
           </div>

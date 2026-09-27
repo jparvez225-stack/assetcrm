@@ -28,6 +28,14 @@ interface AddLeadViewProps {
   editingLead?: Lead | null;
   onUpdateLead?: (lead: Lead) => void;
   referrals?: ReferralItem[];
+  onScheduleVisit?: (visitData: {
+    leadId: string;
+    preferredVisitDate: string;
+    preferredVisitTime: string;
+    pickupLocation: string;
+    guestCount: number;
+    notes: string;
+  }) => void;
 }
 
 export const AddLeadView: React.FC<AddLeadViewProps> = ({ 
@@ -35,7 +43,8 @@ export const AddLeadView: React.FC<AddLeadViewProps> = ({
   onAddLead, 
   editingLead, 
   onUpdateLead,
-  referrals = initialReferrals
+  referrals = initialReferrals,
+  onScheduleVisit
 }) => {
   const [formData, setFormData] = useState({
     name: editingLead?.name || '',
@@ -57,6 +66,12 @@ export const AddLeadView: React.FC<AddLeadViewProps> = ({
     customReferralName: '',
     status: editingLead?.status || 'New Lead',
     note: editingLead?.note || '',
+    // Site Visit preferences
+    enableVisitBooking: Boolean(editingLead?.preferredVisitDate || editingLead?.status === 'Site Visit Scheduled'),
+    preferredVisitDate: editingLead?.preferredVisitDate || '',
+    preferredVisitTime: editingLead?.preferredVisitTime || '10:30 AM',
+    visitPickupLocation: editingLead?.visitPickupLocation || 'Promise HQ (Banani Road 11)',
+    visitorCount: editingLead?.visitorCount || 2,
   });
 
   const [isCustomReferral, setIsCustomReferral] = useState(
@@ -137,8 +152,25 @@ export const AddLeadView: React.FC<AddLeadViewProps> = ({
         referralType: formData.referralType || undefined,
         status: formData.status as Lead['status'],
         note: formData.note,
+        preferredVisitDate: formData.preferredVisitDate || undefined,
+        preferredVisitTime: formData.preferredVisitDate ? formData.preferredVisitTime : undefined,
+        visitPickupLocation: formData.preferredVisitDate ? formData.visitPickupLocation : undefined,
+        visitorCount: formData.preferredVisitDate ? formData.visitorCount : undefined,
+        visitRequestStatus: formData.preferredVisitDate ? (editingLead.visitRequestStatus || 'Pending Review') : undefined,
       };
       onUpdateLead(updatedLead);
+
+      if (formData.preferredVisitDate && onScheduleVisit) {
+        onScheduleVisit({
+          leadId: editingLead.id,
+          preferredVisitDate: formData.preferredVisitDate,
+          preferredVisitTime: formData.preferredVisitTime,
+          pickupLocation: formData.visitPickupLocation,
+          guestCount: formData.visitorCount,
+          notes: formData.note
+        });
+      }
+
       setNotification('Lead details updated successfully!');
       setTimeout(() => {
         onBack();
@@ -146,8 +178,9 @@ export const AddLeadView: React.FC<AddLeadViewProps> = ({
       return;
     }
 
+    const newLeadId = `L${Date.now().toString().slice(-3)}`;
     const newLead: Lead = {
-      id: `L${Date.now().toString().slice(-3)}`,
+      id: newLeadId,
       sl: '07',
       date: new Date().toLocaleDateString('en-GB').replace(/\//g, '.'),
       name: formData.name,
@@ -173,9 +206,26 @@ export const AddLeadView: React.FC<AddLeadViewProps> = ({
       callCount: 1,
       messageCount: 0,
       note: formData.note || 'New property lead created',
+      preferredVisitDate: formData.preferredVisitDate || undefined,
+      preferredVisitTime: formData.preferredVisitDate ? formData.preferredVisitTime : undefined,
+      visitPickupLocation: formData.preferredVisitDate ? formData.visitPickupLocation : undefined,
+      visitorCount: formData.preferredVisitDate ? formData.visitorCount : undefined,
+      visitRequestStatus: formData.preferredVisitDate ? 'Pending Review' : undefined,
+      visitRequestedAt: formData.preferredVisitDate ? new Date().toISOString() : undefined,
     };
 
     onAddLead(newLead);
+
+    if (formData.preferredVisitDate && onScheduleVisit) {
+      onScheduleVisit({
+        leadId: newLeadId,
+        preferredVisitDate: formData.preferredVisitDate,
+        preferredVisitTime: formData.preferredVisitTime,
+        pickupLocation: formData.visitPickupLocation,
+        guestCount: formData.visitorCount,
+        notes: formData.note
+      });
+    }
     setNotification('New Lead created successfully!');
     setTimeout(() => {
       onBack();
@@ -342,7 +392,14 @@ export const AddLeadView: React.FC<AddLeadViewProps> = ({
             <label className="block text-xs font-semibold text-gray-700 mb-1">Status</label>
             <select
               value={formData.status}
-              onChange={(e) => setFormData({ ...formData, status: e.target.value as Lead['status'] })}
+              onChange={(e) => {
+                const newStatus = e.target.value as Lead['status'];
+                setFormData({ 
+                  ...formData, 
+                  status: newStatus,
+                  enableVisitBooking: newStatus === 'Site Visit Scheduled' ? true : formData.enableVisitBooking
+                });
+              }}
               className="w-full px-3 py-2 text-xs text-gray-800 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all shadow-2xs font-medium"
             >
               {LEAD_STATUS_LIST.map((st) => (
@@ -351,6 +408,132 @@ export const AddLeadView: React.FC<AddLeadViewProps> = ({
                 </option>
               ))}
             </select>
+          </div>
+
+          {/* SITE VISIT SCHEDULING CARD (User Request: Lead to Visitor Date Input) */}
+          <div className="md:col-span-2 bg-gradient-to-r from-amber-50/70 to-orange-50/50 p-4 rounded-xl border border-amber-200/90 shadow-2xs space-y-3">
+            <div className="flex items-center justify-between">
+              <label className="flex items-center gap-2 text-xs font-bold text-amber-950 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={formData.enableVisitBooking || formData.status === 'Site Visit Scheduled'}
+                  onChange={(e) => {
+                    const checked = e.target.checked;
+                    setFormData(prev => ({
+                      ...prev,
+                      enableVisitBooking: checked,
+                      status: checked && prev.status === 'New Lead' ? 'Site Visit Scheduled' : prev.status,
+                      preferredVisitDate: checked && !prev.preferredVisitDate ? new Date(Date.now() + 86400000).toISOString().split('T')[0] : prev.preferredVisitDate
+                    }));
+                  }}
+                  className="w-4 h-4 rounded text-amber-600 focus:ring-amber-500 accent-amber-600 cursor-pointer"
+                />
+                <Calendar size={15} className="text-amber-700" />
+                <span>Site Visit Scheduling (লিডের সাইট ভিজিট নির্ধারণ)</span>
+                <span className="text-[10px] font-bold text-amber-800 bg-amber-100 px-2 py-0.5 rounded-full border border-amber-300/80">
+                  Visitor Desk Sync
+                </span>
+              </label>
+
+              {formData.enableVisitBooking && (
+                <span className="text-[11px] text-amber-800 font-medium hidden sm:inline">
+                  Will be forwarded to Visitor Transport Desk for slot check
+                </span>
+              )}
+            </div>
+
+            {(formData.enableVisitBooking || formData.status === 'Site Visit Scheduled') && (
+              <div className="pt-2 border-t border-amber-200/60 grid grid-cols-1 sm:grid-cols-3 gap-3 animate-fade-in text-xs">
+                <div>
+                  <label className="block text-xs font-bold text-gray-800 mb-1">
+                    Preferred Visit Date (ভিজিটের তারিখ) <span className="text-rose-500">*</span>
+                  </label>
+                  <input
+                    type="date"
+                    value={formData.preferredVisitDate}
+                    onChange={(e) => setFormData({ ...formData, preferredVisitDate: e.target.value })}
+                    className="w-full px-3 py-2 bg-white border border-amber-300 rounded-md text-xs font-semibold text-gray-900 focus:outline-none focus:border-amber-600 focus:ring-1 focus:ring-amber-500"
+                    placeholder="YYYY-MM-DD"
+                  />
+                  <div className="flex items-center gap-1.5 mt-1.5">
+                    <button
+                      type="button"
+                      onClick={() => setFormData({ ...formData, preferredVisitDate: new Date().toISOString().split('T')[0] })}
+                      className="text-[10px] font-bold px-2 py-0.5 rounded bg-white hover:bg-amber-100 text-gray-700 border border-amber-200 cursor-pointer"
+                    >
+                      Today
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setFormData({ ...formData, preferredVisitDate: new Date(Date.now() + 86400000).toISOString().split('T')[0] })}
+                      className="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-200/70 hover:bg-amber-300 text-amber-950 border border-amber-300 cursor-pointer"
+                    >
+                      Tomorrow
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-gray-800 mb-1">
+                    Preferred Time Slot (পছন্দের সময়)
+                  </label>
+                  <select
+                    value={formData.preferredVisitTime}
+                    onChange={(e) => setFormData({ ...formData, preferredVisitTime: e.target.value })}
+                    className="w-full px-3 py-2 bg-white border border-amber-300 rounded-md text-xs text-gray-800 focus:outline-none focus:border-amber-600 focus:ring-1 focus:ring-amber-500"
+                  >
+                    <option value="09:30 AM">09:30 AM (Morning Slot 1)</option>
+                    <option value="10:30 AM">10:30 AM (Morning Slot 2)</option>
+                    <option value="11:30 AM">11:30 AM (Pre-Noon)</option>
+                    <option value="02:00 PM">02:00 PM (Afternoon Slot 1)</option>
+                    <option value="03:30 PM">03:30 PM (Afternoon Slot 2)</option>
+                    <option value="04:30 PM">04:30 PM (Sunset Tour)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-gray-800 mb-1">
+                    Estimated Guests / Visitors
+                  </label>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setFormData({ ...formData, visitorCount: Math.max(1, formData.visitorCount - 1) })}
+                      className="w-8 h-8 rounded border border-amber-300 bg-white hover:bg-amber-100 flex items-center justify-center font-bold text-gray-700"
+                    >
+                      -
+                    </button>
+                    <span className="w-10 text-center font-bold text-sm text-gray-900">
+                      {formData.visitorCount}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setFormData({ ...formData, visitorCount: Math.min(10, formData.visitorCount + 1) })}
+                      className="w-8 h-8 rounded border border-amber-300 bg-white hover:bg-amber-100 flex items-center justify-center font-bold text-gray-700"
+                    >
+                      +
+                    </button>
+                    <span className="text-[10px] text-gray-500 font-medium">Guests</span>
+                  </div>
+                </div>
+
+                <div className="sm:col-span-3">
+                  <label className="block text-xs font-bold text-gray-800 mb-1">
+                    Pickup Location (পিক-আপ পয়েন্ট)
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.visitPickupLocation}
+                    onChange={(e) => setFormData({ ...formData, visitPickupLocation: e.target.value })}
+                    placeholder="Promise HQ (Banani Road 11) or Client Address..."
+                    className="w-full px-3 py-2 bg-white border border-amber-300 rounded-md text-xs text-gray-800 focus:outline-none focus:border-amber-600 focus:ring-1 focus:ring-amber-500"
+                  />
+                  <p className="text-[10px] text-gray-500 mt-1">
+                    Notice: The visitor coordinator will verify slot availability and confirm vehicle allocation. Upon confirmation, notifications and client SMS will be sent automatically.
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
 
           <div>

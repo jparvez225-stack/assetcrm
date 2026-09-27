@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavItem, Lead, ReferralItem, CallLog, LeadCategoryItem, NotificationItem } from './types';
+import { NavItem, Lead, ReferralItem, CallLog, LeadCategoryItem, NotificationItem, VisitRequest, AccompanyingGuest } from './types';
 import { 
   mockSalesmen, 
   initialLeads, 
@@ -7,7 +7,8 @@ import {
   initialCallLogs, 
   mockCategories, 
   initialNotifications, 
-  mockReportRows 
+  mockReportRows,
+  initialVisitRequests 
 } from './mockData';
 import { Sidebar } from './components/Sidebar';
 import { Header } from './components/Header';
@@ -27,14 +28,17 @@ import { AccountsAllProjectsView } from './components/AccountsAllProjectsView';
 import { ProjectHistoryView } from './components/ProjectHistoryView';
 import { InventoryBuyersStakeholdersView } from './components/InventoryBuyersStakeholdersView';
 import { InventoryFlatsPlotStockView } from './components/InventoryFlatsPlotStockView';
+import { VisitManagementView } from './components/VisitManagementView';
+import { PublicWebsiteView } from './components/website/PublicWebsiteView';
 
 export default function App() {
-  const [currentNav, setCurrentNav] = useState<NavItem>('inventory-all-projects');
+  const [currentNav, setCurrentNav] = useState<NavItem>('visit-management');
   const [leads, setLeads] = useState<Lead[]>(initialLeads);
   const [referrals, setReferrals] = useState<ReferralItem[]>(initialReferrals);
   const [callLogs, setCallLogs] = useState<CallLog[]>(initialCallLogs);
   const [categories, setCategories] = useState<LeadCategoryItem[]>(mockCategories);
   const [notifications, setNotifications] = useState<NotificationItem[]>(initialNotifications);
+  const [visitRequests, setVisitRequests] = useState<VisitRequest[]>(initialVisitRequests);
   const [selectedLead, setSelectedLead] = useState<Lead | undefined>(initialLeads[0]);
   const [editingLead, setEditingLead] = useState<Lead | null>(null);
   const [selectedProjectIdForHistory, setSelectedProjectIdForHistory] = useState<string>('proj_1');
@@ -50,6 +54,174 @@ export default function App() {
 
   const handleUpdateLead = (updatedLead: Lead) => {
     setLeads(prev => prev.map(l => l.id === updatedLead.id ? updatedLead : l));
+  };
+
+  const handleScheduleVisitFromLead = (visitData: {
+    leadId: string;
+    clientName?: string;
+    clientPhone?: string;
+    clientEmail?: string;
+    assignedSalesman?: string;
+    preferredVisitDate: string;
+    preferredVisitTime: string;
+    pickupLocation: string;
+    guestCount: number;
+    notes: string;
+    targetProject?: string;
+    unitSpec?: string;
+    guests?: AccompanyingGuest[];
+  }) => {
+    const targetLead = leads.find(l => l.id === visitData.leadId);
+    if (!targetLead) return;
+
+    const chosenName = visitData.clientName || targetLead.name;
+    const chosenPhone = visitData.clientPhone || targetLead.phone;
+    const chosenEmail = visitData.clientEmail || targetLead.email;
+    const chosenSalesman = visitData.assignedSalesman || targetLead.assignedSalesman || 'Sales Team';
+    const chosenProject = visitData.targetProject || targetLead.projectName;
+    const chosenUnitSpec = visitData.unitSpec || `${targetLead.requiredPlotSize || '5 Katha'} • ${targetLead.facingPreference || 'South Facing'}`;
+
+    // 1. Promote / Update lead state to Visitor
+    setLeads(prev => prev.map(l => {
+      if (l.id === visitData.leadId) {
+        return {
+          ...l,
+          name: chosenName,
+          phone: chosenPhone,
+          email: chosenEmail,
+          assignedSalesman: chosenSalesman,
+          status: 'Visitor',
+          projectName: chosenProject,
+          preferredVisitDate: visitData.preferredVisitDate,
+          preferredVisitTime: visitData.preferredVisitTime,
+          visitRequestStatus: 'Pending Review',
+          guestCount: visitData.guestCount,
+          pickupLocation: visitData.pickupLocation,
+          visitNotes: visitData.notes
+        };
+      }
+      return l;
+    }));
+
+    // 2. Add or update VisitRequest in central request desk
+    const newReq: VisitRequest = {
+      id: `req-${Date.now().toString().slice(-4)}`,
+      leadId: targetLead.id,
+      leadName: chosenName,
+      leadPhone: chosenPhone,
+      leadEmail: chosenEmail,
+      clientName: chosenName,
+      clientPhone: chosenPhone,
+      clientEmail: chosenEmail,
+      projectName: chosenProject,
+      requiredPlotSize: targetLead.requiredPlotSize,
+      facingPreference: targetLead.facingPreference,
+      unitSpec: chosenUnitSpec,
+      preferredVisitDate: visitData.preferredVisitDate,
+      preferredVisitTime: visitData.preferredVisitTime,
+      pickupLocation: visitData.pickupLocation,
+      guestCount: visitData.guestCount,
+      guests: visitData.guests,
+      assignedSalesman: chosenSalesman,
+      status: 'Pending Review',
+      notes: visitData.notes,
+      source: targetLead.source,
+      requestedAt: new Date().toISOString()
+    };
+    setVisitRequests(prev => [newReq, ...prev.filter(r => r.leadId !== targetLead.id)]);
+
+    // 3. Dispatch Notification to Visitor Management Desk
+    const newNotification: NotificationItem = {
+      id: `notif-${Date.now()}`,
+      title: `🚗 New Site Visit Request: ${chosenName}`,
+      message: `Lead ${chosenName} (${chosenPhone}) has requested a site visit to ${chosenProject} on ${visitData.preferredVisitDate} at ${visitData.preferredVisitTime}. Guests: ${visitData.guestCount}. Pickup: ${visitData.pickupLocation}.`,
+      timeAgo: 'Just now',
+      isRead: false,
+      type: 'visit-request',
+      linkNav: 'visit-management',
+      metadata: {
+        leadId: targetLead.id,
+        leadName: chosenName,
+        visitDate: visitData.preferredVisitDate
+      }
+    };
+    setNotifications(prev => [newNotification, ...prev]);
+  };
+
+  const handleConfirmVisitRequest = (confirmedData: {
+    requestId: string;
+    leadId: string;
+    bookingId: string;
+    visitDate: string;
+    reportingTime: string;
+    vehicleNo: string;
+    driverName: string;
+    projectRepresentative: string;
+    pickupLocation: string;
+    notes: string;
+  }) => {
+    // 1. Update request status
+    setVisitRequests(prev => prev.map(r => {
+      if (r.id === confirmedData.requestId || r.leadId === confirmedData.leadId) {
+        return {
+          ...r,
+          status: 'Confirmed',
+          confirmedBookingId: confirmedData.bookingId,
+          assignedVehicle: confirmedData.vehicleNo,
+          assignedDriver: confirmedData.driverName,
+          assignedHost: confirmedData.projectRepresentative,
+          confirmedAt: new Date().toISOString()
+        };
+      }
+      return r;
+    }));
+
+    // 2. Update lead status in Lead database
+    const targetLead = leads.find(l => l.id === confirmedData.leadId);
+    setLeads(prev => prev.map(l => {
+      if (l.id === confirmedData.leadId) {
+        return {
+          ...l,
+          status: 'Visitor',
+          visitRequestStatus: 'Confirmed',
+          confirmedBookingId: confirmedData.bookingId,
+          assignedVehicle: confirmedData.vehicleNo,
+          assignedDriver: confirmedData.driverName,
+          preferredVisitDate: confirmedData.visitDate,
+          preferredVisitTime: confirmedData.reportingTime,
+          pickupLocation: confirmedData.pickupLocation
+        };
+      }
+      return l;
+    }));
+
+    // 3. Dispatch Notifications: (a) To Sales Officer / Lead Handler, (b) To Lead Client (SMS Alert simulation)
+    const clientName = targetLead?.name || 'Valued Lead';
+    const clientPhone = targetLead?.phone || '';
+    const projectName = targetLead?.projectName || 'Project Site';
+    const officerName = targetLead?.assignedSalesman || 'Assigned Officer';
+
+    const notifOfficer: NotificationItem = {
+      id: `notif-${Date.now()}-officer`,
+      title: `🎉 Visit Booking Confirmed: ${confirmedData.bookingId}`,
+      message: `Transport Desk confirmed site visit for Lead "${clientName}". Vehicle: ${confirmedData.vehicleNo} | Driver: ${confirmedData.driverName} | Date: ${confirmedData.visitDate} (${confirmedData.reportingTime}). Handled by ${officerName}.`,
+      timeAgo: 'Just now',
+      isRead: false,
+      type: 'visit',
+      linkTo: 'visit-management'
+    };
+
+    const notifClientSms: NotificationItem = {
+      id: `notif-${Date.now()}-sms`,
+      title: `📲 SMS Pass Dispatched to Client (${clientName})`,
+      message: `SMS Sent to ${clientPhone}: "Dear ${clientName}, your site visit to ${projectName} is confirmed on ${confirmedData.visitDate} at ${confirmedData.reportingTime}. Car: ${confirmedData.vehicleNo}, Driver: ${confirmedData.driverName}. Thank you!"`,
+      timeAgo: 'Just now',
+      isRead: false,
+      type: 'system',
+      linkTo: 'visit-management'
+    };
+
+    setNotifications(prev => [notifOfficer, notifClientSms, ...prev]);
   };
 
   const handleAddReferral = (newRef: ReferralItem) => {
@@ -72,6 +244,62 @@ export default function App() {
     setLeads(prev => prev.map(l => l.id === leadId ? { ...l, assignedSalesman: salesman } : l));
   };
 
+  const handleNewWebsiteLead = (leadData: {
+    fullName: string;
+    phone: string;
+    email: string;
+    topic: string;
+    message: string;
+    referenceCode?: string;
+  }) => {
+    const newLead: Lead = {
+      id: `lead-web-${Date.now()}`,
+      sl: `PAL-${Math.floor(1000 + Math.random() * 9000)}`,
+      date: new Date().toISOString().split('T')[0],
+      name: leadData.fullName,
+      phone: leadData.phone,
+      email: leadData.email,
+      occupation: 'Valued Client',
+      nid: 'Online Verified',
+      address: 'Web Inquiry / Online Consultation',
+      projectName: leadData.topic,
+      requiredPlotSize: '5 Katha',
+      facingPreference: 'South',
+      budgetLimit: '৳ 1.50 Cr',
+      projectType: 'Luxury Villa',
+      prefTime: 'Morning',
+      status: 'New Lead',
+      assignedSalesman: 'Sales Team',
+      source: 'Portal',
+      lastCallDate: 'Pending Call',
+      callCount: 0,
+      messageCount: 0,
+      note: `${leadData.message ? leadData.message + ' • ' : ''}Website Inquiry for ${leadData.topic}${leadData.referenceCode ? ' [Ref: ' + leadData.referenceCode + ']' : ''}`,
+    };
+
+    setLeads(prev => [newLead, ...prev]);
+
+    const newNotif: NotificationItem = {
+      id: `notif-${Date.now()}`,
+      title: `🌐 New Website Lead: ${leadData.fullName}`,
+      message: `Client ${leadData.fullName} (${leadData.phone}) submitted an inquiry for "${leadData.topic}". Reference: ${leadData.referenceCode || 'Online'}`,
+      timeAgo: 'Just now',
+      isRead: false,
+      type: 'system',
+      linkNav: 'lead',
+    };
+    setNotifications(prev => [newNotif, ...prev]);
+  };
+
+  if (currentNav === 'public-website') {
+    return (
+      <PublicWebsiteView 
+        onBackToAdmin={() => setCurrentNav('dashboard')}
+        onNewWebsiteLead={handleNewWebsiteLead}
+      />
+    );
+  }
+
   return (
     <div className="flex h-screen bg-gray-50/60 overflow-hidden font-sans antialiased text-gray-800">
       {/* Sidebar Navigation */}
@@ -87,6 +315,7 @@ export default function App() {
           title={
             currentNav === 'dashboard' ? 'Dashboard Overview' :
             currentNav === 'lead' ? 'Lead Management' :
+            currentNav === 'visit-management' ? 'Visitor Management' :
             currentNav === 'add-lead' ? 'Add New Lead' :
             currentNav === 'lead-activity' ? 'Lead Activity' :
             currentNav === 'call-history' ? 'Lead Activity & Call Logs' :
@@ -108,7 +337,12 @@ export default function App() {
           }
           subtitle="Promise Assets Limited - Real Estate CRM"
           showBack={currentNav !== 'dashboard'}
+          onViewWebsite={() => setCurrentNav('public-website')}
           onBack={() => {
+            const ev = new CustomEvent('crm-back-pressed', { cancelable: true });
+            window.dispatchEvent(ev);
+            if (ev.defaultPrevented) return;
+
             if (currentNav === 'call-history') {
               setCurrentNav('lead-activity');
             } else if (currentNav === 'add-lead') {
@@ -119,10 +353,18 @@ export default function App() {
           }}
         />
 
-        {/* View Switcher with 32px padding */}
+        {/* View Switcher */}
         <main className="flex-1 overflow-y-auto px-8 py-6">
           {currentNav === 'dashboard' && (
             <DashboardView onNavigate={(nav) => setCurrentNav(nav)} />
+          )}
+
+          {currentNav === 'visit-management' && (
+            <VisitManagementView 
+              visitRequests={visitRequests}
+              onConfirmVisitRequest={handleConfirmVisitRequest}
+              onNavigateToLeads={() => setCurrentNav('lead')}
+            />
           )}
 
           {currentNav === 'add-lead' && (
@@ -145,6 +387,7 @@ export default function App() {
               onSelectLead={(lead) => setSelectedLead(lead)}
               onEditLead={(lead) => setEditingLead(lead)}
               onAssignSalesman={handleAssignSalesman}
+              onScheduleVisit={handleScheduleVisitFromLead}
             />
           )}
 
@@ -162,6 +405,7 @@ export default function App() {
               callLogs={callLogs}
               onBack={() => setCurrentNav('lead-activity')}
               onAddCallLog={handleAddCallLog}
+              onScheduleVisit={handleScheduleVisitFromLead}
             />
           )}
 
@@ -248,6 +492,7 @@ export default function App() {
             <NotificationView 
               notifications={notifications}
               onMarkAllRead={handleMarkAllNotificationsRead}
+              onNavigate={(nav) => setCurrentNav(nav)}
             />
           )}
 

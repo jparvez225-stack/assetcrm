@@ -6,7 +6,8 @@ import {
   Building2,
   WalletCards,
   ChevronDown,
-  ChevronRight
+  ChevronRight,
+  Globe
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -22,6 +23,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentNav, onNavigate }) => {
   const crmSubItems: { id: NavItem; label: string; badge?: string }[] = [
     { id: 'lead', label: 'Leads' },
     { id: 'lead-activity', label: 'Lead Activities' },
+    { id: 'visit-management', label: 'Visitor Management', badge: '6' },
     { id: 'lead-category', label: 'Lead Categories' },
     { id: 'lead-source', label: 'Lead Sources' },
     { id: 'salesman-performance', label: 'Salesman Performance' },
@@ -54,8 +56,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentNav, onNavigate }) => {
 
       {/* Grouped Sidebar Navigation */}
       <div className="py-3 px-2 flex-1 overflow-y-auto space-y-3">
-        {/* Main Dashboard */}
-        <div>
+        {/* Main Dashboard & Website Portal */}
+        <div className="space-y-1">
           <button
             onClick={() => onNavigate('dashboard')}
             className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-md font-semibold transition-all ${
@@ -67,12 +69,31 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentNav, onNavigate }) => {
             <LayoutDashboard size={16} className={currentNav === 'dashboard' ? 'text-amber-600' : 'text-gray-500'} />
             <span>Dashboard</span>
           </button>
+
+          <button
+            onClick={() => onNavigate('public-website')}
+            className={`w-full flex items-center justify-between px-3 py-2 rounded-md font-semibold transition-all cursor-pointer ${
+              currentNav === 'public-website'
+                ? 'bg-gradient-to-r from-amber-500 to-amber-600 text-white font-bold shadow-sm'
+                : 'text-amber-900 bg-amber-50/70 hover:bg-amber-100/80 border border-amber-200/70'
+            }`}
+          >
+            <div className="flex items-center gap-2">
+              <Globe size={16} className={currentNav === 'public-website' ? 'text-white' : 'text-amber-600'} />
+              <span>Live Website</span>
+            </div>
+            <span className={`text-[10px] px-1.5 py-0.5 rounded font-bold uppercase tracking-wider ${
+              currentNav === 'public-website' ? 'bg-black/30 text-white' : 'bg-amber-200 text-amber-900'
+            }`}>
+              Portal
+            </span>
+          </button>
         </div>
 
         {/* CRM Group */}
         <div>
-          <div className="px-3 pb-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
-            <span>CRM MANAGEMENT</span>
+          <div className="px-3 pb-1 text-[10px] font-bold text-gray-400 tracking-wider">
+            <span>CRM Management</span>
           </div>
           
           <div className="space-y-0.5">
@@ -119,8 +140,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentNav, onNavigate }) => {
 
         {/* INVENTORY MANAGEMENT Group */}
         <div>
-          <div className="px-3 pb-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
-            <span>INVENTORY MANAGEMENT</span>
+          <div className="px-3 pb-1 text-[10px] font-bold text-gray-400 tracking-wider">
+            <span>Inventory Management</span>
           </div>
           
           <div className="space-y-0.5">
@@ -176,8 +197,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentNav, onNavigate }) => {
 
         {/* ACCOUNTS MANAGEMENT Group */}
         <div>
-          <div className="px-3 pb-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
-            <span>ACCOUNTS MANAGEMENT</span>
+          <div className="px-3 pb-1 text-[10px] font-bold text-gray-400 tracking-wider">
+            <span>Accounts Management</span>
           </div>
           
           <div className="space-y-0.5">

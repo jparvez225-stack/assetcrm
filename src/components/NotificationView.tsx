@@ -5,23 +5,33 @@ import { Bell, CheckCircle2, FileText, MailCheck, MailWarning } from 'lucide-rea
 interface NotificationViewProps {
   notifications: NotificationItem[];
   onMarkAllRead: () => void;
+  onNavigate?: (nav: any) => void;
 }
 
 export const NotificationView: React.FC<NotificationViewProps> = ({ 
   notifications, 
-  onMarkAllRead 
+  onMarkAllRead,
+  onNavigate 
 }) => {
   const [filter, setFilter] = useState<'all' | 'unread'>('all');
-  const [items, setItems] = useState<NotificationItem[]>(notifications);
+  const [readOverrides, setReadOverrides] = useState<Record<string, boolean>>({});
 
   const toggleRead = (id: string) => {
-    setItems(prev => prev.map(n => n.id === id ? { ...n, isRead: !n.isRead } : n));
+    setReadOverrides(prev => ({
+      ...prev,
+      [id]: prev[id] !== undefined ? !prev[id] : false
+    }));
   };
 
-  const filteredItems = items.filter(n => filter === 'all' ? true : !n.isRead);
+  const displayItems = notifications.map(n => ({
+    ...n,
+    isRead: readOverrides[n.id] !== undefined ? readOverrides[n.id] : n.isRead
+  }));
 
-  const totalCount = 500;
-  const unreadCount = 200;
+  const filteredItems = displayItems.filter(n => filter === 'all' ? true : !n.isRead);
+
+  const totalCount = notifications.length > 10 ? 500 : notifications.length;
+  const unreadCount = displayItems.filter(n => !n.isRead).length;
   const readCount = totalCount - unreadCount;
   const currentPageCount = filteredItems.length;
 
@@ -31,7 +41,9 @@ export const NotificationView: React.FC<NotificationViewProps> = ({
         <button 
           onClick={() => {
             onMarkAllRead();
-            setItems(prev => prev.map(n => ({ ...n, isRead: true })));
+            const allTrue: Record<string, boolean> = {};
+            notifications.forEach(n => { allTrue[n.id] = true; });
+            setReadOverrides(allTrue);
           }}
           className="px-3.5 py-1.5 text-xs font-bold text-white rounded-xl shadow-2xs hover:opacity-90 transition-opacity flex items-center gap-1.5"
           style={{ backgroundColor: '#c7a259' }}
@@ -171,7 +183,14 @@ export const NotificationView: React.FC<NotificationViewProps> = ({
               >
                 {n.isRead ? 'Mark Unread' : 'Mark Read'}
               </button>
-              <button className="px-3 py-1 text-[11px] font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-md shadow-2xs">
+              <button 
+                onClick={() => {
+                  if (onNavigate && n.linkTo) {
+                    onNavigate(n.linkTo);
+                  }
+                }}
+                className="px-3 py-1 text-[11px] font-bold text-white bg-amber-600 hover:bg-amber-700 rounded-md shadow-2xs cursor-pointer transition-colors"
+              >
                 View
               </button>
             </div>

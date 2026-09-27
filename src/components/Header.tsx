@@ -4,7 +4,8 @@ import {
   Mail, 
   Search, 
   ArrowLeft,
-  ChevronDown
+  ChevronDown,
+  Globe
 } from 'lucide-react';
 
 interface HeaderProps {
@@ -12,13 +13,15 @@ interface HeaderProps {
   subtitle?: string;
   onBack?: () => void;
   showBack?: boolean;
+  onViewWebsite?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({ 
   title, 
   subtitle, 
   onBack, 
-  showBack = false 
+  showBack = false,
+  onViewWebsite
 }) => {
   return (
     <header className="bg-white border-b border-gray-100 px-6 py-4 flex items-center justify-between sticky top-0 z-10">
@@ -48,6 +51,19 @@ export const Header: React.FC<HeaderProps> = ({
             className="w-full pl-9 pr-4 py-2 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-amber-500 transition-colors"
           />
         </div>
+
+        {/* View Website CTA button */}
+        {onViewWebsite && (
+          <button
+            type="button"
+            onClick={onViewWebsite}
+            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold text-xs tracking-wide shadow-xs active:scale-95 transition-all cursor-pointer"
+            title="Open Live Public Website"
+          >
+            <Globe size={14} />
+            <span>Live Website</span>
+          </button>
+        )}
 
         {/* Action icons */}
         <div className="flex items-center gap-2">

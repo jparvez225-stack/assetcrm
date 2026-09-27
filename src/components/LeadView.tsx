@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Lead, NavItem, LEAD_STATUS_LIST, LeadStatus } from '../types';
+import { Lead, NavItem, LEAD_STATUS_LIST, LeadStatus, AccompanyingGuest } from '../types';
 import { mockSalesmen } from '../mockData';
+import { ScheduleVisitModal } from './ScheduleVisitModal';
 import { 
   Users, 
   Search, 
@@ -27,7 +28,8 @@ import {
   Square,
   X,
   Check,
-  Clock
+  Clock,
+  Car
 } from 'lucide-react';
 
 interface LeadViewProps {
@@ -36,6 +38,21 @@ interface LeadViewProps {
   onSelectLead: (lead: Lead) => void;
   onEditLead: (lead: Lead | null) => void;
   onAssignSalesman: (leadId: string, salesman: string) => void;
+  onScheduleVisit?: (visitData: {
+    leadId: string;
+    clientName?: string;
+    clientPhone?: string;
+    clientEmail?: string;
+    assignedSalesman?: string;
+    preferredVisitDate: string;
+    preferredVisitTime: string;
+    pickupLocation: string;
+    guestCount: number;
+    notes: string;
+    targetProject?: string;
+    unitSpec?: string;
+    guests?: AccompanyingGuest[];
+  }) => void;
 }
 
 export const LeadView: React.FC<LeadViewProps> = ({ 
@@ -43,7 +60,8 @@ export const LeadView: React.FC<LeadViewProps> = ({
   onNavigate, 
   onSelectLead,
   onEditLead,
-  onAssignSalesman 
+  onAssignSalesman,
+  onScheduleVisit
 }) => {
   const [activeTab, setActiveTab] = useState<'All' | 'Facebook' | 'WhatsApp' | 'Youtube' | 'Portal' | 'Referral'>('All');
   const [searchTerm, setSearchTerm] = useState('');
@@ -57,6 +75,9 @@ export const LeadView: React.FC<LeadViewProps> = ({
   const [singleAssignLeadId, setSingleAssignLeadId] = useState<string | null>(null);
   const [selectedSalesmanName, setSelectedSalesmanName] = useState(mockSalesmen[0]?.name || 'Md. Rahim Sarder');
   const [successToast, setSuccessToast] = useState<string | null>(null);
+
+  // Schedule Visit Modal State
+  const [schedulingVisitLead, setSchedulingVisitLead] = useState<Lead | null>(null);
 
   const filteredLeads = leads.filter(l => {
     const matchesTab = activeTab === 'All' || l.source === activeTab;
@@ -140,15 +161,15 @@ export const LeadView: React.FC<LeadViewProps> = ({
           </div>
           <div className="grid grid-cols-3 gap-1.5 z-10">
             <div className="bg-blue-50/50 rounded-xl p-2 text-left border border-blue-100/70">
-              <span className="block text-[8.5px] font-extrabold uppercase tracking-wider text-blue-600 truncate" title="ASSIGNED">ASSIGNED</span>
+              <span className="block text-[9px] font-bold text-blue-600 truncate" title="Assigned">Assigned</span>
               <span className="text-base sm:text-lg font-extrabold text-gray-900 tracking-tight">6,420</span>
             </div>
             <div className="bg-blue-50/50 rounded-xl p-2 text-left border border-blue-100/70">
-              <span className="block text-[8.5px] font-extrabold uppercase tracking-wider text-blue-600 truncate" title="CONTACTED">CONTACTED</span>
+              <span className="block text-[9px] font-bold text-blue-600 truncate" title="Contacted">Contacted</span>
               <span className="text-base sm:text-lg font-extrabold text-gray-900 tracking-tight">4,850</span>
             </div>
             <div className="bg-blue-50/50 rounded-xl p-2 text-left border border-blue-100/70">
-              <span className="block text-[8.5px] font-extrabold uppercase tracking-wider text-blue-600 truncate" title="PENDING">PENDING</span>
+              <span className="block text-[9px] font-bold text-blue-600 truncate" title="Pending">Pending</span>
               <span className="text-base sm:text-lg font-extrabold text-gray-900 tracking-tight">1,570</span>
             </div>
           </div>
@@ -165,15 +186,15 @@ export const LeadView: React.FC<LeadViewProps> = ({
           </div>
           <div className="grid grid-cols-3 gap-1.5 z-10">
             <div className="bg-emerald-50/50 rounded-xl p-2 text-left border border-emerald-100/70">
-              <span className="block text-[8.5px] font-extrabold uppercase tracking-wider text-emerald-600 truncate" title="TOTAL LEADS">TOTAL LEADS</span>
+              <span className="block text-[9px] font-bold text-emerald-600 truncate" title="Total Leads">Total Leads</span>
               <span className="text-base sm:text-lg font-extrabold text-gray-900 tracking-tight">8,565</span>
             </div>
             <div className="bg-emerald-50/50 rounded-xl p-2 text-left border border-emerald-100/70">
-              <span className="block text-[8.5px] font-extrabold uppercase tracking-wider text-emerald-600 truncate" title="CONTACTED">CONTACTED</span>
+              <span className="block text-[9px] font-bold text-emerald-600 truncate" title="Contacted">Contacted</span>
               <span className="text-base sm:text-lg font-extrabold text-gray-900 tracking-tight">6,890</span>
             </div>
             <div className="bg-emerald-50/50 rounded-xl p-2 text-left border border-emerald-100/70">
-              <span className="block text-[8.5px] font-extrabold uppercase tracking-wider text-emerald-600 truncate" title="PENDING">PENDING</span>
+              <span className="block text-[9px] font-bold text-emerald-600 truncate" title="Pending">Pending</span>
               <span className="text-base sm:text-lg font-extrabold text-gray-900 tracking-tight">1,675</span>
             </div>
           </div>
@@ -190,15 +211,15 @@ export const LeadView: React.FC<LeadViewProps> = ({
           </div>
           <div className="grid grid-cols-3 gap-1.5 z-10">
             <div className="bg-orange-50/50 rounded-xl p-2 text-left border border-orange-100/70">
-              <span className="block text-[8.5px] font-extrabold uppercase tracking-wider text-orange-600 truncate" title="TOTAL FOLLOW UP">TOTAL FOLLOW UP</span>
+              <span className="block text-[9px] font-bold text-orange-600 truncate" title="Total Follow Up">Total Follow Up</span>
               <span className="text-base sm:text-lg font-extrabold text-gray-900 tracking-tight">993</span>
             </div>
             <div className="bg-orange-50/50 rounded-xl p-2 text-left border border-orange-100/70">
-              <span className="block text-[8.5px] font-extrabold uppercase tracking-wider text-orange-600 truncate" title="TODAY FOLLOWUP">TODAY FOLLOWUP</span>
+              <span className="block text-[9px] font-bold text-orange-600 truncate" title="Today Followup">Today Followup</span>
               <span className="text-base sm:text-lg font-extrabold text-gray-900 tracking-tight">42</span>
             </div>
             <div className="bg-orange-50/50 rounded-xl p-2 text-left border border-orange-100/70">
-              <span className="block text-[8.5px] font-extrabold uppercase tracking-wider text-orange-600 truncate" title="NEXT FOLLOW UP">NEXT FOLLOW UP</span>
+              <span className="block text-[9px] font-bold text-orange-600 truncate" title="Next Follow Up">Next Follow Up</span>
               <span className="text-base sm:text-lg font-extrabold text-gray-900 tracking-tight">118</span>
             </div>
           </div>
@@ -215,11 +236,11 @@ export const LeadView: React.FC<LeadViewProps> = ({
           </div>
           <div className="grid grid-cols-2 gap-2 z-10">
             <div className="bg-purple-50/50 rounded-xl p-2.5 text-left border border-purple-100/70">
-              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-purple-600 truncate" title="TOTAL BOOKING">TOTAL BOOKING</span>
+              <span className="block text-[10px] font-bold text-purple-600 truncate" title="Total Booking">Total Booking</span>
               <span className="text-xl font-extrabold text-gray-900 tracking-tight">271</span>
             </div>
             <div className="bg-purple-50/50 rounded-xl p-2.5 text-left border border-purple-100/70">
-              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-purple-600 truncate" title="TOTAL SOLD">TOTAL SOLD</span>
+              <span className="block text-[10px] font-bold text-purple-600 truncate" title="Total Sold">Total Sold</span>
               <span className="text-xl font-extrabold text-gray-900 tracking-tight">198</span>
             </div>
           </div>
@@ -236,11 +257,11 @@ export const LeadView: React.FC<LeadViewProps> = ({
           </div>
           <div className="grid grid-cols-2 gap-2 z-10">
             <div className="bg-cyan-50/50 rounded-xl p-2.5 text-left border border-cyan-100/70">
-              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-cyan-600 truncate" title="CONVERSION">CONVERSION</span>
+              <span className="block text-[10px] font-bold text-cyan-600 truncate" title="Conversion">Conversion</span>
               <span className="text-xl font-extrabold text-gray-900 tracking-tight">3.16%</span>
             </div>
             <div className="bg-cyan-50/50 rounded-xl p-2.5 text-left border border-cyan-100/70">
-              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-cyan-600 truncate" title="CALL RATIO">CALL RATIO</span>
+              <span className="block text-[10px] font-bold text-cyan-600 truncate" title="Call Ratio">Call Ratio</span>
               <span className="text-xl font-extrabold text-gray-900 tracking-tight">78.4%</span>
             </div>
           </div>
@@ -458,6 +479,16 @@ export const LeadView: React.FC<LeadViewProps> = ({
                                 <Edit3 size={13} className="text-gray-600" />
                                 <span>Edit</span>
                               </button>
+                              <button
+                                onClick={() => {
+                                  setActiveActionRow(null);
+                                  setSchedulingVisitLead(l);
+                                }}
+                                className="w-full px-3 py-1.5 flex items-center gap-2 hover:bg-purple-50 text-purple-900 font-medium border-t border-gray-100"
+                              >
+                                <Calendar size={13} className="text-purple-600" />
+                                <span>{l.preferredVisitDate ? 'Update Visit Schedule' : 'Schedule Site Visit'}</span>
+                              </button>
                             </div>
                           </>
                         )}
@@ -515,17 +546,51 @@ export const LeadView: React.FC<LeadViewProps> = ({
                       </div>
                     </td>
                     <td className="py-3 px-3 text-center">
-                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold inline-block whitespace-nowrap ${
-                        (l.status === 'Closed Won' || l.status === 'Payment Completed' || l.status === 'Agreement Signed' || l.status === 'Booking Confirmed' || l.status === 'Booking') ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' :
-                        l.status === 'Closed Lost' ? 'bg-rose-100 text-rose-800 border border-rose-300' :
-                        (l.status === 'Site Visit Scheduled' || l.status === 'Site Visit Completed' || l.status === 'Negotiation') ? 'bg-purple-100 text-purple-800 border border-purple-300' :
-                        (l.status === 'Interested' || l.status === 'Highly Interested' || l.status === 'Brochure & Price Shared') ? 'bg-blue-100 text-blue-800 border border-blue-300' :
-                        (l.status === 'Follow-up Scheduled' || l.status === 'Callback Requested' || l.status === 'First Contact' || l.status === 'Contacted') ? 'bg-amber-100 text-amber-800 border border-amber-300' :
-                        (l.status === 'New Lead' || l.status === 'Assigned') ? 'bg-sky-100 text-sky-800 border border-sky-300' :
-                        'bg-orange-100 text-orange-800 border border-orange-300'
-                      }`}>
-                        {l.status}
-                      </span>
+                      <div className="flex flex-col items-center gap-1">
+                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold inline-block whitespace-nowrap ${
+                          (l.status === 'Closed Won' || l.status === 'Payment Completed' || l.status === 'Agreement Signed' || l.status === 'Booking Confirmed' || l.status === 'Booking') ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' :
+                          l.status === 'Closed Lost' ? 'bg-rose-100 text-rose-800 border border-rose-300' :
+                          (l.status === 'Site Visit Scheduled' || l.status === 'Site Visit Completed' || l.status === 'Negotiation') ? 'bg-purple-100 text-purple-800 border border-purple-300' :
+                          (l.status === 'Interested' || l.status === 'Highly Interested' || l.status === 'Brochure & Price Shared') ? 'bg-blue-100 text-blue-800 border border-blue-300' :
+                          (l.status === 'Follow-up Scheduled' || l.status === 'Callback Requested' || l.status === 'First Contact' || l.status === 'Contacted') ? 'bg-amber-100 text-amber-800 border border-amber-300' :
+                          (l.status === 'New Lead' || l.status === 'Assigned') ? 'bg-sky-100 text-sky-800 border border-sky-300' :
+                          'bg-orange-100 text-orange-800 border border-orange-300'
+                        }`}>
+                          {l.status}
+                        </span>
+
+                        {/* Visit schedule indicators */}
+                        {l.preferredVisitDate ? (
+                          l.visitRequestStatus === 'Confirmed' ? (
+                            <div 
+                              className="inline-flex items-center gap-1 text-[9px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 cursor-pointer hover:bg-emerald-100 transition-colors"
+                              title={`Confirmed for ${l.preferredVisitDate} at ${l.preferredVisitTime || '10:30 AM'} | Booking: ${l.confirmedBookingId || 'Active'}`}
+                              onClick={() => setSchedulingVisitLead(l)}
+                            >
+                              <Check size={10} className="text-emerald-600 stroke-[3]" />
+                              <span>Visit: {l.preferredVisitDate}</span>
+                            </div>
+                          ) : (
+                            <div 
+                              className="inline-flex items-center gap-1 text-[9px] font-bold text-amber-900 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 cursor-pointer hover:bg-amber-100 transition-colors animate-pulse"
+                              title={`Requested visit on ${l.preferredVisitDate} (${l.preferredVisitTime || '10:30 AM'}) - Pending desk slot confirmation`}
+                              onClick={() => setSchedulingVisitLead(l)}
+                            >
+                              <Clock size={10} className="text-amber-600 stroke-[2.5]" />
+                              <span>Req: {l.preferredVisitDate}</span>
+                            </div>
+                          )
+                        ) : (
+                          <button
+                            onClick={() => setSchedulingVisitLead(l)}
+                            className="inline-flex items-center gap-1 text-[9px] font-bold text-purple-700 hover:text-purple-950 hover:bg-purple-50 px-1.5 py-0.5 rounded border border-transparent hover:border-purple-200 transition-all cursor-pointer opacity-70 hover:opacity-100"
+                            title="Schedule a site visit for this lead"
+                          >
+                            <Calendar size={10} />
+                            <span>+ Visit Date</span>
+                          </button>
+                        )}
+                      </div>
                     </td>
                     <td className="py-3 px-3 text-gray-500 max-w-xs truncate" title={l.note}>
                       {l.note}
@@ -649,6 +714,23 @@ export const LeadView: React.FC<LeadViewProps> = ({
             </div>
           </div>
         </div>
+      )}
+
+      {/* Schedule Visit Modal for Leads */}
+      {schedulingVisitLead && (
+        <ScheduleVisitModal
+          lead={schedulingVisitLead}
+          isOpen={Boolean(schedulingVisitLead)}
+          onClose={() => setSchedulingVisitLead(null)}
+          onSubmit={(visitData) => {
+            if (onScheduleVisit) {
+              onScheduleVisit(visitData);
+            }
+            setSchedulingVisitLead(null);
+            setSuccessToast(`Site visit request submitted for ${schedulingVisitLead.name} on ${visitData.preferredVisitDate}. Sent to Visitor Management Desk.`);
+            setTimeout(() => setSuccessToast(null), 5000);
+          }}
+        />
       )}
     </div>
   );

@@ -1,4 +1,4 @@
-import { Lead, Salesman, ReferralItem, CallLog, LeadCategoryItem, NotificationItem, ReportRow, LeadSourceItem } from './types';
+import { Lead, Salesman, ReferralItem, CallLog, LeadCategoryItem, NotificationItem, ReportRow, LeadSourceItem, VisitRequest } from './types';
 
 export const mockSalesmen: Salesman[] = [
   {
@@ -159,13 +159,19 @@ export const initialLeads: Lead[] = [
     budgetLimit: '৳ 4.0 Crore',
     projectType: 'Luxury Villa',
     prefTime: 'Afternoon',
-    status: 'Follow-up Scheduled',
+    status: 'Site Visit Scheduled',
     assignedSalesman: 'Siddique Rahman',
     source: 'Youtube',
     lastCallDate: '2026-02-20',
     callCount: 3,
     messageCount: 3,
-    note: 'Waiting for bank loan approval from HSBC'
+    note: 'VIP Expatriate client: Requested site visit for 10 Katha plot with family.',
+    preferredVisitDate: '2026-09-16',
+    preferredVisitTime: '10:30 AM',
+    visitPickupLocation: 'Banani Road 11 (Head Office)',
+    visitorCount: 2,
+    visitRequestStatus: 'Pending Review',
+    visitRequestedAt: '2026-09-11 14:30'
   },
   {
     id: 'L05',
@@ -475,6 +481,20 @@ export const mockCategories: LeadCategoryItem[] = [
 
 export const initialNotifications: NotificationItem[] = [
   {
+    id: 'n-vr1',
+    title: '🔔 New Visit Request (Site Visit Requested)',
+    message: 'Lead Abdul Karim (01700066699) requested site visit for Purbachal Sector 4 Villa on 16 Sep 2026 (10:30 AM). Please check slots & allocate vehicle.',
+    timeAgo: '10 minutes ago',
+    isRead: false,
+    type: 'visit-request',
+    linkNav: 'visit-management',
+    metadata: {
+      leadId: 'L04',
+      leadName: 'Abdul Karim',
+      visitDate: '2026-09-16'
+    }
+  },
+  {
     id: 'n1',
     title: 'Lead Follow-up Reminder',
     message: 'Follow up with Md. Rahim Mia regarding his Purbachal 5 Katha plot inquiry',
@@ -584,3 +604,45 @@ export const mockLeadSources: LeadSourceItem[] = [
   { id: 'src-8', sl: 8, name: 'Website', leadsCount: 1, currentWeek: 0, lastWeek: 0, performancePercent: 0, status: 'Active' },
   { id: 'src-9', sl: 9, name: 'WhatsApp', leadsCount: 40, currentWeek: 10, lastWeek: 4, performancePercent: 150.0, status: 'Active' },
 ];
+
+export const initialVisitRequests: VisitRequest[] = [
+  {
+    id: 'vr-01',
+    leadId: 'L04',
+    leadName: 'Abdul Karim',
+    leadPhone: '01700066699',
+    leadEmail: 'jccdhaka@gmail.com',
+    projectName: 'Purbachal Sector 4 Villa Project',
+    requiredPlotSize: '10 Katha',
+    facingPreference: 'South',
+    assignedSalesman: 'Siddique Rahman',
+    preferredVisitDate: '2026-09-16',
+    preferredVisitTime: '10:30 AM',
+    pickupLocation: 'Banani Road 11 (Head Office)',
+    guestCount: 2,
+    source: 'Youtube',
+    notes: 'Expatriate investor in Dhaka till next week. Interested in corner plot demarcation.',
+    requestDate: '2026-09-11',
+    status: 'Pending Review'
+  },
+  {
+    id: 'vr-02',
+    leadId: 'L03',
+    leadName: 'Karim Khandokar',
+    leadPhone: '01700066699',
+    leadEmail: 'jccdhaka@gmail.com',
+    projectName: 'Gulshan Avenue Commercial Plaza',
+    requiredPlotSize: '1800 sqft',
+    facingPreference: 'Corner',
+    assignedSalesman: 'Md. Rahim Sarder',
+    preferredVisitDate: '2026-09-15',
+    preferredVisitTime: '02:00 PM',
+    pickupLocation: 'Promise HQ (Banani)',
+    guestCount: 3,
+    source: 'WhatsApp',
+    notes: 'Commercial chamber space evaluation. Requested high-floor unit layout inspection.',
+    requestDate: '2026-09-10',
+    status: 'Pending Review'
+  }
+];
+

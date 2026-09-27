@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { CallLog, Lead, LEAD_STATUS_LIST, LeadStatus } from '../types';
+import { CallLog, Lead, LEAD_STATUS_LIST, LeadStatus, AccompanyingGuest } from '../types';
+import { ScheduleVisitModal } from './ScheduleVisitModal';
 import { 
   ArrowLeft, 
   Plus, 
@@ -20,7 +21,9 @@ import {
   CheckCircle2,
   MapPin,
   Tag,
-  Filter
+  Filter,
+  Car,
+  X
 } from 'lucide-react';
 
 interface CallHistoryViewProps {
@@ -28,20 +31,39 @@ interface CallHistoryViewProps {
   callLogs: CallLog[];
   onBack: () => void;
   onAddCallLog: (log: CallLog) => void;
+  onScheduleVisit?: (visitData: {
+    leadId: string;
+    clientName?: string;
+    clientPhone?: string;
+    clientEmail?: string;
+    assignedSalesman?: string;
+    preferredVisitDate: string;
+    preferredVisitTime: string;
+    pickupLocation: string;
+    guestCount: number;
+    notes: string;
+    targetProject?: string;
+    unitSpec?: string;
+    guests?: AccompanyingGuest[];
+  }) => void;
 }
 
 export const CallHistoryView: React.FC<CallHistoryViewProps> = ({ 
   selectedLead, 
   callLogs, 
   onBack, 
-  onAddCallLog 
+  onAddCallLog,
+  onScheduleVisit
 }) => {
   const [nextDate, setNextDate] = useState('2026-08-10');
   const [interactionChannel, setInteractionChannel] = useState<'Phone Call' | 'WhatsApp' | 'Site Visit' | 'Office Meeting' | 'Email'>('Phone Call');
   const [callResult, setCallResult] = useState<LeadStatus>(selectedLead?.status || 'Contacted');
+  const [currentLeadStatus, setCurrentLeadStatus] = useState<LeadStatus>(selectedLead?.status || 'Contacted');
   const [budgetLimit, setBudgetLimit] = useState(selectedLead?.budgetLimit || '৳ 1.5 Crore');
   const [notes, setNotes] = useState('');
   const [timelineFilter, setTimelineFilter] = useState<string>('All');
+  const [isScheduleVisitModalOpen, setIsScheduleVisitModalOpen] = useState(false);
+  const [successNotice, setSuccessNotice] = useState<string | null>(null);
 
   // Timer logic for call duration
   const [isTimerRunning, setIsTimerRunning] = useState(false);
@@ -229,6 +251,100 @@ export const CallHistoryView: React.FC<CallHistoryViewProps> = ({
     setIsTimerRunning(false);
   };
 
+  const handleStatusChange = (newStatus: LeadStatus) => {
+    setCallResult(newStatus);
+  };
+
+  const handleScheduleVisitSubmit = (visitData: {
+    leadId: string;
+    clientName?: string;
+    clientPhone?: string;
+    clientEmail?: string;
+    assignedSalesman?: string;
+    preferredVisitDate: string;
+    preferredVisitTime: string;
+    pickupLocation: string;
+    guestCount: number;
+    notes: string;
+    targetProject?: string;
+    unitSpec?: string;
+    guests?: AccompanyingGuest[];
+  }) => {
+    if (onScheduleVisit) {
+      onScheduleVisit(visitData);
+    }
+
+    const guestCount = visitData.guestCount || (1 + (visitData.guests?.length || 0));
+    const guestListSummary = visitData.guests && visitData.guests.length > 0
+      ? `Accompanying Guests (${visitData.guests.length}): ` + visitData.guests.map((g, i) => `${i + 1}. ${g.name || 'Guest'} (${g.phone || 'N/A'})`).join(', ')
+      : 'Solo Visitor';
+
+    const compiledVisitNotes = `Site Visit Request: Scheduled for ${visitData.preferredVisitDate} at ${visitData.preferredVisitTime}. Target Project: ${visitData.targetProject || projectName}. Unit/Plot: ${visitData.unitSpec || '5 Katha'}. Pickup Point: ${visitData.pickupLocation}. Total Passengers: ${guestCount} Person(s). ${guestListSummary}. ${visitData.notes ? `Remarks: ${visitData.notes}` : ''}`;
+
+    setCallResult('Site Visit Request');
+    setCurrentLeadStatus('Site Visit Request');
+    setInteractionChannel('Site Visit');
+    setNextDate(visitData.preferredVisitDate);
+    setNotes(compiledVisitNotes);
+
+    // Auto-create log entry in the timeline
+    const newLog: CallLog = {
+      id: `cl_${Date.now()}`,
+      leadId: leadId,
+      leadName: leadName,
+      projectName: visitData.targetProject || projectName,
+      phone: phone,
+      email: email,
+      type: 'Site Visit Request',
+      channel: 'Site Visit',
+      date: new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }),
+      time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+      duration: '00:10:00',
+      executiveName: salesmanName,
+      notes: compiledVisitNotes,
+      nextFollowUpDate: visitData.preferredVisitDate,
+      callResult: 'Site Visit Request'
+    };
+    onAddCallLog(newLog);
+
+    if (selectedLead) {
+      selectedLead.status = 'Site Visit Request';
+      selectedLead.preferredVisitDate = visitData.preferredVisitDate;
+      selectedLead.preferredVisitTime = visitData.preferredVisitTime;
+      selectedLead.pickupLocation = visitData.pickupLocation;
+      selectedLead.guestCount = guestCount;
+      selectedLead.projectName = visitData.targetProject || selectedLead.projectName;
+    }
+
+    setSuccessNotice(`Site visit request registered for ${visitData.preferredVisitDate} at ${visitData.preferredVisitTime}! Forwarded to Visitor Management.`);
+    setTimeout(() => setSuccessNotice(null), 8000);
+    setIsScheduleVisitModalOpen(false);
+  };
+
+  const effectiveLead: Lead = selectedLead ? {
+    ...selectedLead,
+    status: currentLeadStatus
+  } : {
+    id: leadId,
+    sl: '1',
+    date: '2026-08-01',
+    name: leadName,
+    phone: phone,
+    email: email,
+    profession: 'Corporate Professional',
+    organization: 'Promise Partner',
+    address: address,
+    projectName: projectName,
+    budgetLimit: budgetLimit,
+    requiredPlotSize: '5 Katha',
+    facingPreference: 'South Facing',
+    source: 'Digital Campaign',
+    priority: 'High',
+    status: currentLeadStatus,
+    assignedSalesman: salesmanName,
+    leadCategory: 'Hot Lead'
+  };
+
   const getChannelIcon = (channel?: string, type?: string) => {
     if (channel === 'WhatsApp') return <MessageCircle size={14} className="text-emerald-600" />;
     if (channel === 'Site Visit' || (type && type.includes('Site Visit'))) return <MapPin size={14} className="text-purple-600" />;
@@ -244,7 +360,7 @@ export const CallHistoryView: React.FC<CallHistoryViewProps> = ({
       return 'bg-emerald-100 text-emerald-800 border-emerald-300';
     }
     if (status === 'Closed Lost') return 'bg-rose-100 text-rose-800 border-rose-300';
-    if (['Site Visit Scheduled', 'Site Visit Completed', 'Negotiation'].includes(status)) {
+    if (['Site Visit Request', 'Site Visit Scheduled', 'Site Visit Completed', 'Negotiation'].includes(status)) {
       return 'bg-purple-100 text-purple-800 border-purple-300';
     }
     if (['Interested', 'Highly Interested', 'Brochure & Price Shared'].includes(status)) {
@@ -258,14 +374,30 @@ export const CallHistoryView: React.FC<CallHistoryViewProps> = ({
 
   return (
     <div className="space-y-5 max-w-full font-sans">
+      {/* Success Notification Banner */}
+      {successNotice && (
+        <div className="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center justify-between gap-3 text-xs text-emerald-900 shadow-2xs animate-fadeIn">
+          <div className="flex items-center gap-2">
+            <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
+            <span className="font-bold">{successNotice}</span>
+          </div>
+          <button
+            onClick={() => setSuccessNotice(null)}
+            className="text-emerald-700 hover:text-emerald-900 p-1 rounded-md hover:bg-emerald-100/60 transition-colors"
+          >
+            <X size={14} />
+          </button>
+        </div>
+      )}
+
       {/* Top Client Card Layout */}
       <div className="bg-white rounded-xl border border-gray-200/80 p-5 shadow-2xs space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-gray-100 pb-3">
           <div>
             <h2 className="text-xl font-extrabold text-gray-900 flex items-center gap-2">
               <span>{leadName}</span>
-              <span className={`px-2.5 py-0.5 rounded-full text-xs font-extrabold border ${getStatusBadgeClass(selectedLead?.status || 'New Lead')}`}>
-                {selectedLead?.status || 'New Lead'}
+              <span className={`px-2.5 py-0.5 rounded-full text-xs font-extrabold border ${getStatusBadgeClass(currentLeadStatus)}`}>
+                {currentLeadStatus}
               </span>
             </h2>
             <p className="text-xs text-gray-500 mt-0.5">Assigned Executive: <strong className="text-gray-800">{salesmanName}</strong></p>
@@ -477,6 +609,18 @@ export const CallHistoryView: React.FC<CallHistoryViewProps> = ({
                 <span>Email Client</span>
               </button>
             </div>
+
+            <button 
+              type="button"
+              onClick={() => {
+                setCallResult('Site Visit Request');
+                setIsScheduleVisitModalOpen(true);
+              }}
+              className="w-full py-2.5 px-3 text-xs font-bold text-purple-900 bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-2xs cursor-pointer"
+            >
+              <Calendar size={14} className="text-purple-600" />
+              <span>Schedule Site Visit</span>
+            </button>
           </div>
 
           {/* + Add Activity Log Form Widget */}
@@ -509,8 +653,8 @@ export const CallHistoryView: React.FC<CallHistoryViewProps> = ({
                 <label className="block text-[11px] font-bold text-gray-700 mb-1">Updated Lead Status</label>
                 <select
                   value={callResult}
-                  onChange={(e) => setCallResult(e.target.value as LeadStatus)}
-                  className="w-full px-3 py-1.5 text-xs bg-white border border-gray-200 rounded-md text-gray-800 focus:outline-none focus:border-amber-500 font-medium"
+                  onChange={(e) => handleStatusChange(e.target.value as LeadStatus)}
+                  className="w-full px-3 py-1.5 text-xs bg-white border border-gray-200 rounded-md text-gray-800 focus:outline-none focus:border-amber-500 font-medium cursor-pointer"
                 >
                   {LEAD_STATUS_LIST.map(st => (
                     <option key={st} value={st}>{st}</option>
@@ -586,6 +730,14 @@ export const CallHistoryView: React.FC<CallHistoryViewProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Schedule Site Visit Modal Popup */}
+      <ScheduleVisitModal
+        lead={effectiveLead}
+        isOpen={isScheduleVisitModalOpen}
+        onClose={() => setIsScheduleVisitModalOpen(false)}
+        onSubmit={handleScheduleVisitSubmit}
+      />
     </div>
   );
 };

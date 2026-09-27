@@ -1,1 +1,47 @@
 @import "tailwindcss";
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Glass Liquid Styles for Website */
+.glass-liquid-card-light {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
+}
+
+.glass-liquid-dock-light {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.98);
+  box-shadow: 0 16px 45px -8px rgba(0, 0, 0, 0.1);
+}
+
+.glass-liquid-pill-light {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+}
+
+.hero-text-shadow {
+  text-shadow: 0 3px 24px rgba(0, 0, 0, 0.75), 0 1px 4px rgba(0, 0, 0, 0.9);
+}
+
+.hero-subtle-shadow {
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+.dot-pattern-gold {
+  background-image: radial-gradient(rgba(202, 160, 80, 0.28) 1.2px, transparent 1.2px);
+  background-size: 22px 22px;
+}

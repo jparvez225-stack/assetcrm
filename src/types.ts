@@ -1,8 +1,10 @@
 export type NavItem = 
   | 'dashboard'
+  | 'public-website'
   | 'lead'
   | 'add-lead'
   | 'lead-activity'
+  | 'visit-management'
   | 'call-history'
   | 'lead-category'
   | 'lead-source'
@@ -20,6 +22,29 @@ export type NavItem =
   | 'accounts-project-expenses'
   | 'accounts-agent-commission'
   | 'accounts-collections';
+
+export interface SiteVisitBooking {
+  id: string;
+  bookingId: string;
+  bookingDate: string;
+  visitDate: string;
+  reportingTime: string;
+  project: string;
+  salesTeam: 'Affiliate Network' | 'Direct Alpha' | 'Retail Horizon' | 'NRI & HNI Desk' | 'Corporate Sales';
+  salesPerson: string;
+  customerName: string;
+  customerPhone: string;
+  channel: 'Affiliate' | 'Digital' | 'Offline' | 'Direct';
+  status: 'Confirmed' | 'Completed' | 'Cancelled' | 'In Transit' | 'Pending';
+  hasVehicleConflict?: boolean;
+  conflictDetails?: string;
+  driverName?: string;
+  driverPhone?: string;
+  vehicleNo?: string;
+  pickupLocation?: string;
+  notes?: string;
+  attendeesCount?: number;
+}
 
 export interface FlatPlotStockItem {
   id: string;
@@ -213,6 +238,7 @@ export type LeadStatus =
   | 'Brochure & Price Shared'
   | 'Interested'
   | 'Highly Interested'
+  | 'Site Visit Request'
   | 'Site Visit Scheduled'
   | 'Site Visit Completed'
   | 'Negotiation'
@@ -238,6 +264,7 @@ export const LEAD_STATUS_LIST: LeadStatus[] = [
   'Brochure & Price Shared',
   'Interested',
   'Highly Interested',
+  'Site Visit Request',
   'Site Visit Scheduled',
   'Site Visit Completed',
   'Negotiation',
@@ -281,6 +308,57 @@ export interface Lead {
   messageCount: number;
   note: string;
   lostReason?: 'Budget' | 'Unresponsive' | 'Competitor' | 'Location Issue';
+  // Visit Request & Booking Attributes
+  preferredVisitDate?: string;
+  preferredVisitTime?: string;
+  visitPickupLocation?: string;
+  visitorCount?: number;
+  visitRequestStatus?: 'Pending Review' | 'Confirmed' | 'Completed' | 'Cancelled';
+  confirmedBookingId?: string;
+  assignedVehicle?: string;
+  assignedDriver?: string;
+  assignedHost?: string;
+  visitRequestedAt?: string;
+}
+
+export interface AccompanyingGuest {
+  id: string;
+  name: string;
+  phone: string;
+  address: string;
+}
+
+export interface VisitRequest {
+  id: string;
+  leadId: string;
+  leadName: string;
+  leadPhone: string;
+  leadEmail?: string;
+  clientName?: string;
+  clientPhone?: string;
+  clientEmail?: string;
+  projectName: string;
+  requiredPlotSize?: string;
+  facingPreference?: string;
+  unitSpec?: string;
+  assignedSalesman: string;
+  preferredVisitDate: string; // e.g. '2026-09-16'
+  preferredVisitTime: string; // e.g. '10:30 AM'
+  pickupLocation: string; // e.g. 'Promise HQ (Banani)' or custom
+  guestCount: number;
+  guests?: AccompanyingGuest[];
+  source: string;
+  referrerName?: string;
+  notes?: string;
+  requestDate?: string; // date when request was filed, e.g. '2026-09-12'
+  requestedAt?: string;
+  status: 'Pending Review' | 'Confirmed' | 'Completed' | 'Cancelled';
+  confirmedBookingId?: string;
+  assignedVehicle?: string;
+  assignedDriver?: string;
+  assignedHost?: string;
+  confirmedTime?: string;
+  confirmedDate?: string;
 }
 
 export interface Salesman {
@@ -362,7 +440,16 @@ export interface NotificationItem {
   message: string;
   timeAgo: string;
   isRead: boolean;
-  type: 'lead-reminder' | 'approval' | 'support' | 'deal';
+  type: 'lead-reminder' | 'approval' | 'support' | 'deal' | 'visit-request' | 'visit-confirmed' | 'visit' | 'system';
+  linkNav?: NavItem;
+  linkTo?: NavItem | string;
+  metadata?: {
+    leadId?: string;
+    leadName?: string;
+    bookingId?: string;
+    visitDate?: string;
+    vehicleNo?: string;
+  };
 }
 
 export interface ReportRow {
